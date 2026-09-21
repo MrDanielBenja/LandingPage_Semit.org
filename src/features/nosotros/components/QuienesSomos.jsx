@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 import { IMGS, LOCAL } from '../../../shared/lib/images'
 
 const PILARES = [
-  { e: '🎓', t: 'Educación', d: 'Teología y Biblia con docentes certificados y misioneros activos en campo.', img: LOCAL.educacion },
-  { e: '📦', t: 'Envío', d: '275 misioneros enviados a Latinoamérica y el mundo.', img: LOCAL.envio },
-  { e: '❤️', t: 'Cuidado', d: 'Acompañamos obreros, iglesias y familias en el campo.', img: LOCAL.cuidado },
+  { e: '🎓', t: 'Educación', d: 'Teología y Biblia con docentes certificados y misioneros activos en campo.', img: LOCAL.nosotrosA },
+  { e: '📦', t: 'Envío', d: '275 misioneros enviados a Latinoamérica y el mundo.', img: LOCAL.nosotrosB },
+  { e: '❤️', t: 'Cuidado', d: 'Acompañamos obreros, iglesias y familias en el campo.', img: LOCAL.nosotrosC },
 ]
 
 export function QuienesSomos() {

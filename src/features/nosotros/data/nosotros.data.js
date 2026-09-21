@@ -1,4 +1,4 @@
-import { IMGS } from '../../../shared/lib/images'
+import { IMGS, TEAM_IMGS } from '../../../shared/lib/images'
 
 export const FUNCS = [
   { t: 'Movilización y Envío', d: 'Movilización, Capacitación, Entrenamiento, Envío y Cuidado de Obreros, Líderes, Ministros e Iglesias que contribuirán en la expansión del Evangelio.', e: '🌍', img: IMGS.mision },
@@ -21,19 +21,19 @@ export const DECLARACION_FE = [
 ]
 
 export const TEAM = [
-  { n: 'Jonatan Q.', p: 'PER', img: 'https://i.pravatar.cc/400?img=12', rol: 'Director · Teología', q: 'Formar ministros fieles es mi llamado: te enseño para que enseñes.' },
-  { n: 'David R.', p: 'USA', img: 'https://i.pravatar.cc/400?img=13', rol: 'Misiones Transculturales', q: 'El campo me enseñó más que los libros; ahora te toca a ti vivirlo.' },
-  { n: 'Wilber Q.', p: 'PER', img: 'https://i.pravatar.cc/400?img=53', rol: 'Docente Biblia', q: 'La Palabra es práctica: la estudiamos y la obedecemos juntos.' },
-  { n: 'Sophia Ann A.', p: 'USA', img: 'https://i.pravatar.cc/400?img=47', rol: 'Capellanía · Cuidado', q: 'Cuidamos tu corazón mientras Dios afirma tu llamado.' },
-  { n: 'David Q.', p: 'PER', img: 'https://i.pravatar.cc/400?img=59', rol: 'Bi-vocacional · Carpintería', q: 'Con tus manos también se predica: oficio y ministerio van juntos.' },
-  { n: 'Juana B.', p: 'ARG', img: 'https://i.pravatar.cc/400?img=32', rol: 'Docente Ministerios', q: 'Servir con alegría se entrena: aquí lo practicamos cada semana.' },
-  { n: 'Samuel Q.', p: 'PER', img: 'https://i.pravatar.cc/400?img=15', rol: 'Evangelismo · Campo', q: 'Salimos a las calles y comunidades: la teoría se vuelve misión.' },
-  { n: 'Abigail R.', p: 'USA', img: 'https://i.pravatar.cc/400?img=44', rol: 'Adoración · Alabanza', q: 'Adoramos antes de salir: un misionero lleno del Espíritu.' },
-  { n: 'Enoc Q.', p: 'PER', img: 'https://i.pravatar.cc/400?img=68', rol: 'Logística BCB', q: 'Todo viaje misionero empieza con orden y oración.' },
-  { n: 'Alejandro C.', p: 'REP DOM', img: 'https://i.pravatar.cc/400?img=60', rol: 'Plantación de Iglesias', q: 'Del Caribe a Cusco: levantar iglesias que envían.' },
-  { n: 'Shiomara C.', p: 'PER', img: 'https://i.pravatar.cc/400?img=26', rol: 'Educación Cristiana', q: 'Enseñar a otros a enseñar: así se multiplica la obra.' },
-  { n: 'Ruben C.', p: 'PER', img: 'https://i.pravatar.cc/400?img=70', rol: 'Bi-vocacional · Gastronomía', q: 'Cocinar también es servir: excelencia para la gloria de Dios.' },
-  { n: 'Elías Q.', p: 'PER', img: 'https://i.pravatar.cc/400?img=33', rol: 'Jóvenes · Movilización', q: 'Tu generación es enviada: descubre tu ruta en el BCB.' },
+  { n: 'Jonatan Q.', p: 'PER', img: TEAM_IMGS[0], rol: 'Director · Teología', q: 'Formar ministros fieles es mi llamado: te enseño para que enseñes.' },
+  { n: 'David R.', p: 'USA', img: TEAM_IMGS[1], rol: 'Misiones Transculturales', q: 'El campo me enseñó más que los libros; ahora te toca a ti vivirlo.' },
+  { n: 'Wilber Q.', p: 'PER', img: TEAM_IMGS[2], rol: 'Docente Biblia', q: 'La Palabra es práctica: la estudiamos y la obedecemos juntos.' },
+  { n: 'Sophia Ann A.', p: 'USA', img: TEAM_IMGS[3], rol: 'Capellanía · Cuidado', q: 'Cuidamos tu corazón mientras Dios afirma tu llamado.' },
+  { n: 'David Q.', p: 'PER', img: TEAM_IMGS[4], rol: 'Bi-vocacional · Carpintería', q: 'Con tus manos también se predica: oficio y ministerio van juntos.' },
+  { n: 'Juana B.', p: 'ARG', img: TEAM_IMGS[5], rol: 'Docente Ministerios', q: 'Servir con alegría se entrena: aquí lo practicamos cada semana.' },
+  { n: 'Samuel Q.', p: 'PER', img: TEAM_IMGS[6], rol: 'Evangelismo · Campo', q: 'Salimos a las calles y comunidades: la teoría se vuelve misión.' },
+  { n: 'Abigail R.', p: 'USA', img: TEAM_IMGS[0], rol: 'Adoración · Alabanza', q: 'Adoramos antes de salir: un misionero lleno del Espíritu.' },
+  { n: 'Enoc Q.', p: 'PER', img: TEAM_IMGS[1], rol: 'Logística BCB', q: 'Todo viaje misionero empieza con orden y oración.' },
+  { n: 'Alejandro C.', p: 'REP DOM', img: TEAM_IMGS[2], rol: 'Plantación de Iglesias', q: 'Del Caribe a Cusco: levantar iglesias que envían.' },
+  { n: 'Shiomara C.', p: 'PER', img: TEAM_IMGS[3], rol: 'Educación Cristiana', q: 'Enseñar a otros a enseñar: así se multiplica la obra.' },
+  { n: 'Ruben C.', p: 'PER', img: TEAM_IMGS[4], rol: 'Bi-vocacional · Gastronomía', q: 'Cocinar también es servir: excelencia para la gloria de Dios.' },
+  { n: 'Elías Q.', p: 'PER', img: TEAM_IMGS[5], rol: 'Jóvenes · Movilización', q: 'Tu generación es enviada: descubre tu ruta en el BCB.' },
 ]
 
 export const FLAG = { PER: '🇵🇪', USA: '🇺🇸', ARG: '🇦🇷', 'REP DOM': '🇩🇴' }

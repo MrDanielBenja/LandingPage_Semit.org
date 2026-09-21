@@ -12,7 +12,7 @@ export function HeroContacto({ onCanal }) {
         <span className="pill pill-glass">💬 Respuesta en ~2h · Lun–Sáb</span>
         <h1>Hablemos de<br />tu llamado.</h1>
         <p>Escríbenos, llámanos o visítanos. Todo llega directo a nuestro WhatsApp.</p>
-        <div className="nos-stats-float">
+        <div className="nos-stats-float cols-3">
           <a className="stat4 stat-link" target="_blank" rel="noreferrer" href={waLink('Hola SEMIT, quiero información.')}><b>💚 {SITE.phone}</b><span>WhatsApp en línea →</span></a>
           <button className="stat4 stat-link" onClick={() => { onCanal('sede'); goLayout() }}><b>📍 Sede Cusco</b><span>Huayllapampa, San Jerónimo →</span></button>
           <button className="stat4 stat-link" onClick={() => { onCanal('form'); goLayout() }}><b>✉️ Escríbenos</b><span>{SITE.email} →</span></button>

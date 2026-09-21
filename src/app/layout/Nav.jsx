@@ -17,12 +17,13 @@ export function Nav() {
       </div>
       <div style={{ display: 'flex', gap: 8 }}>
         <button className="theme-btn" onClick={toggle} aria-label="cambiar tema">{theme === 'dark' ? '☀️' : '🌙'}</button>
-        <Link to="/contacto" className="btn btn-blue" style={{ padding: '9px 20px' }}>Inscríbete</Link>
+        <a href="https://demo.casa-peniel.com/" target="_blank" rel="noreferrer" className="btn btn-blue" style={{ padding: '9px 20px' }}>Portal de estudiante</a>
         <button className="burger" onClick={() => setM(!m)}>☰</button>
       </div>
     </div>
       <div className={`mnav ${m ? 'show' : ''}`}>
         {NAV_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+        <a href="https://demo.casa-peniel.com/" target="_blank" rel="noreferrer">Portal de estudiante</a>
       </div>
     </div>
   )

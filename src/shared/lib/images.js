@@ -1,27 +1,81 @@
-export const U = (id, w = 800) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`
+const A = (p) => `assets/${p}`
 
 export const LOCAL = {
-  inicio1: 'assets/inicio-1.jpg',
-  inicio2: 'assets/inicio-2.jpg',
-  inicio3: 'assets/inicio-3.jpg',
-  inicio4: 'assets/inicio-4.jpg',
-  cuidado: 'assets/nos-cuidado.jpg',
-  educacion: 'assets/nos-educacion.jpg',
-  envio: 'assets/nos-envio.jpg',
+  inicio1: A('inicio/semit-7.jpg'),
+  inicio2: A('inicio/semit-13.jpg'),
+  inicio3: A('inicio/semit-14.jpg'),
+  inicio4: A('inicio/semit-16.jpg'),
+  nosotrosHero: A('nosotros/semit-1.jpg'),
+  nosotrosA: A('nosotros/semit-6.jpg'),
+  nosotrosB: A('nosotros/semit-8.jpg'),
+  nosotrosC: A('nosotros/semit-9.jpg'),
+  nivelesHero: A('niveles/semit-3.jpg'),
+  nivelesA: A('niveles/semit-11.jpg'),
+  nivelesB: A('niveles/semit-5.jpg'),
+  cursosHero: A('cursos/semit-15.jpg'),
+  cursosA: A('cursos/semit-19.jpg'),
+  cursosB: A('cursos/semit-21.jpg'),
+  eventosHero: A('eventos/semit-4.jpg'),
+  eventosA: A('eventos/semit-10.jpg'),
+  eventosB: A('eventos/semit-22.jpg'),
+  eventosC: A('eventos/semit-23.jpg'),
+  contactoHero: A('contacto/semit-12.jpg'),
+  contactoA: A('contacto/semit-20.jpg'),
+  contactoB: A('contacto/semit-24.jpg'),
 }
 
 export const IMGS = {
-  cusco: U('photo-1526392060635-9d6019884377', 1200),
-  biblia: U('photo-1504052434569-70ad5836ab65', 900),
-  biblioteca: U('photo-1481627834876-b7833e8f5570', 900),
-  iglesia: U('photo-1438032005730-c779502df39b', 900),
-  estudiantes: U('photo-1523240795612-9a054b0db644', 900),
-  selva: U('photo-1440342359743-84fcb8c21f21', 900),
-  andes: U('photo-1464822759023-fed622ff2c3b', 900),
-  mision: U('photo-1488521787991-ed7bbaae773c', 900),
-  clases: U('photo-1503676260728-1c00da094a0b', 900),
-  libros: U('photo-1524995997946-a1c2e315a42f', 900),
-  aula: U('photo-1524178232363-1fb2b075b655', 1200),
-  manos: U('photo-1511632765486-a01980e01a18', 1200),
-  mapa: U('photo-1524661135-423995f22d0b', 1200),
+  aula: LOCAL.cursosHero,
+  biblia: LOCAL.cursosA,
+  biblioteca: LOCAL.nivelesA,
+  iglesia: LOCAL.nosotrosHero,
+  estudiantes: LOCAL.inicio2,
+  selva: LOCAL.eventosA,
+  andes: LOCAL.eventosB,
+  mision: LOCAL.nosotrosA,
+  clases: LOCAL.cursosB,
+  libros: LOCAL.nivelesHero,
+  cusco: LOCAL.inicio1,
+  manos: LOCAL.contactoHero,
+  mapa: LOCAL.contactoA,
 }
+
+export const CURSO_IMGS = [
+  LOCAL.cursosHero,
+  LOCAL.cursosA,
+  LOCAL.cursosB,
+  LOCAL.nosotrosA,
+  LOCAL.nosotrosB,
+  LOCAL.nosotrosC,
+  LOCAL.nivelesA,
+  LOCAL.nivelesB,
+]
+
+export const EVENTO_IMGS = [
+  LOCAL.eventosHero,
+  LOCAL.eventosA,
+  LOCAL.eventosB,
+  LOCAL.eventosC,
+  LOCAL.inicio1,
+  LOCAL.inicio2,
+]
+
+export const NIVEL_IMGS = [
+  LOCAL.nivelesHero,
+  LOCAL.nivelesA,
+  LOCAL.nivelesB,
+  LOCAL.cursosA,
+  LOCAL.cursosB,
+]
+
+export const TEAM_IMGS = [
+  LOCAL.nosotrosHero,
+  LOCAL.nosotrosA,
+  LOCAL.nosotrosB,
+  LOCAL.nosotrosC,
+  LOCAL.inicio1,
+  LOCAL.inicio2,
+  LOCAL.inicio3,
+]
+
+export const pick = (arr, k) => arr[k % arr.length]

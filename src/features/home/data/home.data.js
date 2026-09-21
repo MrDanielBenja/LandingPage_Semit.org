@@ -1,4 +1,4 @@
-import { IMGS, LOCAL } from '../../../shared/lib/images'
+import { LOCAL, TEAM_IMGS } from '../../../shared/lib/images'
 
 export const SLIDES = [
   { t: 'Teología que se vive.', s: 'Biblia sólida, misión real y oficio práctico.', img: LOCAL.inicio1 },
@@ -7,7 +7,7 @@ export const SLIDES = [
 ]
 
 export const TESTIMONIOS = [
-  { n: 'María — Cusco', t: 'BCB me cambió más que años de teoría. Campo real en Amazonía.', img: 'https://i.pravatar.cc/100?img=47' },
-  { n: 'Josué — Ecuador', t: 'Profes misioneros de verdad. Claro y con corazón.', img: 'https://i.pravatar.cc/100?img=12' },
-  { n: 'Ana — Argentina', t: 'Empecé un lunes virtual y no paré. Súper claro todo.', img: 'https://i.pravatar.cc/100?img=32' },
+  { n: 'María — Cusco', t: 'BCB me cambió más que años de teoría. Campo real en Amazonía.', img: TEAM_IMGS[0] },
+  { n: 'Josué — Ecuador', t: 'Profes misioneros de verdad. Claro y con corazón.', img: TEAM_IMGS[1] },
+  { n: 'Ana — Argentina', t: 'Empecé un lunes virtual y no paré. Súper claro todo.', img: TEAM_IMGS[2] },
 ]

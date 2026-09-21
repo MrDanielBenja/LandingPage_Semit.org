@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { SITE } from '../../../shared/config/site'
+import { LOCAL } from '../../../shared/lib/images'
 import { waLink, openWa } from '../../../core/services/whatsapp'
 import { ASUNTOS, HORARIO } from '../data/contacto.data'
 
@@ -107,7 +108,7 @@ export function PanelSede() {
   return (
     <div className="cx-card panel-pop">
       <div className="sede-hero">
-        <img src="https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=900&q=80" alt="Sede Cusco" loading="lazy" />
+        <img src={LOCAL.contactoB} alt="Sede Cusco" loading="lazy" />
         <span className="sede-badge">📍 SEDE CUSCO · ABIERTA</span>
       </div>
       <h3>SEMIT · Huayllapampa</h3><p className="cx-sub">San Jerónimo — Cusco, Perú · aulas, hospedaje y talleres bi-vocacionales.</p>

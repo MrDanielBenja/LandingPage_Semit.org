@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { IMGS } from '../../../shared/lib/images'
+
+const AULA_URL = 'https://demo.casa-peniel.com/'
 
 const ORDER = ['presencial', 'semi', 'virtual']
 
@@ -50,16 +53,22 @@ export function Modalidades() {
         ))}
       </div>
       <div key={mod} className="mod-duo">
-        {cur.hijos.map((h, k) => (
-          <div key={h.t} className="mod-card" style={{ animationDelay: `${k * 100}ms` }}>
+        {cur.hijos.map((h, k) => {
+          const toBcb = cur.id === 'presencial' && h.t === 'Intensivo'
+          const toAula = cur.id === 'virtual'
+          const inner = (<>
             <div className="mod-card-media"><img src={h.img} alt={h.t} loading="lazy" /><span className="mod-big">{h.e}</span></div>
             <div className="mod-card-txt">
               <span className="k">{cur.t} · 0{k + 1}</span>
               <h3>{h.t}</h3>
               <p>{h.d}</p>
+              {(toBcb || toAula) && <span className="mod-go">{toBcb ? 'Ver BCB Transcultural →' : 'Abrir aula virtual →'}</span>}
             </div>
-          </div>
-        ))}
+          </>)
+          if (toBcb) return <Link key={h.t} to="/eventos#bcb" className="mod-card mod-link" style={{ animationDelay: `${k * 100}ms` }}>{inner}</Link>
+          if (toAula) return <a key={h.t} href={AULA_URL} target="_blank" rel="noreferrer" className="mod-card mod-link" style={{ animationDelay: `${k * 100}ms` }}>{inner}</a>
+          return <div key={h.t} className="mod-card" style={{ animationDelay: `${k * 100}ms` }}>{inner}</div>
+        })}
       </div>
       <div className="dots">{ORDER.map(o => <button key={o} aria-label={o} className={`dot ${mod === o ? 'on' : ''}`} onClick={() => setMod(o)} />)}</div>
     </div>

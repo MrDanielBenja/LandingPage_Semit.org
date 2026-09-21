@@ -93,7 +93,7 @@ export function NivelesPage() {
           </div>
         )}
 
-        <div className="cu-toolbar rv">
+        <div className="cu-toolbar cu-toolbar-lg rv">
           <div className="cu-search nv-search">
             <span>🔍</span>
             <input value={q} onChange={e => setQ(e.target.value)} placeholder={`Buscar en ${subInfo.label.toLowerCase()}…`} />

@@ -1,14 +1,14 @@
-import { U } from '../../../shared/lib/images'
+import { EVENTO_IMGS, LOCAL } from '../../../shared/lib/images'
 
 export const EV_CATS = ['Todos', 'Viajes Misioneros', 'Conferencias', 'Capacitaciones', 'Campamentos']
 export const EV_MODS = ['Todos', 'Presencial', 'Híbrido', 'Virtual']
 
 export const EV_CAT_INFO = {
-  Todos: { e: '🌎', d: 'Toda la agenda SEMIT', img: U('photo-1524178232363-1fb2b075b655', 400) },
-  'Viajes Misioneros': { e: '✈️', d: 'Campo real dentro y fuera del Perú', img: U('photo-1440342359743-84fcb8c21f21', 400) },
-  Conferencias: { e: '🎤', d: 'Voces que encienden tu llamado', img: U('photo-1438032005730-c779502df39b', 400) },
-  Capacitaciones: { e: '🛠️', d: 'Talleres prácticos de un día', img: U('photo-1503676260728-1c00da094a0b', 400) },
-  Campamentos: { e: '🏕️', d: 'Días inolvidables con tu generación', img: U('photo-1464822759023-fed622ff2c3b', 400) },
+  Todos: { e: '🌎', d: 'Toda la agenda SEMIT', img: LOCAL.eventosHero },
+  'Viajes Misioneros': { e: '✈️', d: 'Campo real dentro y fuera del Perú', img: LOCAL.eventosA },
+  Conferencias: { e: '🎤', d: 'Voces que encienden tu llamado', img: LOCAL.nosotrosHero },
+  Capacitaciones: { e: '🛠️', d: 'Talleres prácticos de un día', img: LOCAL.cursosB },
+  Campamentos: { e: '🏕️', d: 'Días inolvidables con tu generación', img: LOCAL.eventosB },
 }
 
 export const EVENTOS = [
@@ -17,7 +17,7 @@ export const EVENTOS = [
     d: 'Selva, ríos y comunidades nativas. 15 días con equipo dirigido por misioneros de campo.',
     fecha: '2026-10-17', hora: '05:00', lugar: 'Amazonía · salida Cusco', mod: 'Presencial',
     p: 450, cupos: 30, inscritos: 18, rating: 5.0,
-    tag: '3 rutas', img: U('photo-1440342359743-84fcb8c21f21', 800),
+    tag: '3 rutas', img: EVENTO_IMGS[0],
     programa: ['Día 1-3: preparación y envío en Cusco', 'Día 4-12: servicio en comunidades', 'Día 13-15: testimonio y retorno'],
   },
   {
@@ -25,7 +25,7 @@ export const EVENTOS = [
     d: 'Taller de un día: del texto al sermón. Trae tu Biblia y sal predicando.',
     fecha: '2026-10-03', hora: '09:00', lugar: 'SEMIT Cusco · Huayllapampa', mod: 'Híbrido',
     p: 0, cupos: 80, inscritos: 52, rating: 4.9,
-    tag: 'Gratis', img: U('photo-1504052434569-70ad5836ab65', 800),
+    tag: 'Gratis', img: EVENTO_IMGS[1],
     programa: ['Mañana: observa e interpreta', 'Tarde: bosqueja y aplica', 'Cierre: predica 5 minutos'],
   },
   {
@@ -33,7 +33,7 @@ export const EVENTOS = [
     d: 'Dos noches de alabanza, palabra y llamado con invitados de Latinoamérica.',
     fecha: '2026-11-07', hora: '18:30', lugar: 'SEMIT Cusco · auditorio', mod: 'Presencial',
     p: 25, cupos: 300, inscritos: 214, rating: 5.0,
-    tag: 'No te lo pierdas', img: U('photo-1438032005730-c779502df39b', 800),
+    tag: 'No te lo pierdas', img: EVENTO_IMGS[2],
     programa: ['Noche 1: avivamiento personal', 'Noche 2: llamado y envío', 'Concierto de alabanza + feria'],
   },
   {
@@ -41,7 +41,7 @@ export const EVENTOS = [
     d: '3 días fuera de la ciudad: fogatas, talleres, deporte y tiempo con Dios.',
     fecha: '2026-11-20', hora: '08:00', lugar: 'Campamento SEMIT · Valle', mod: 'Presencial',
     p: 90, cupos: 120, inscritos: 77, rating: 4.9,
-    tag: 'Cupos limitados', img: U('photo-1464822759023-fed622ff2c3b', 800),
+    tag: 'Cupos limitados', img: EVENTO_IMGS[3],
     programa: ['Día 1: llegada y fogata', 'Día 2: talleres + deporte', 'Día 3: pacto y retorno'],
   },
   {
@@ -49,7 +49,7 @@ export const EVENTOS = [
     d: 'Descubre tu don, actívalo sirviendo y sal con un plan de servicio.',
     fecha: '2026-12-05', hora: '09:00', lugar: 'Virtual en vivo', mod: 'Virtual',
     p: 0, cupos: 200, inscritos: 131, rating: 4.8,
-    tag: 'Gratis', img: U('photo-1488521787991-ed7bbaae773c', 800),
+    tag: 'Gratis', img: EVENTO_IMGS[4],
     programa: ['Test de dones guiado', 'Cómo servir en tu iglesia', 'Plan personal de 30 días'],
   },
   {
@@ -57,7 +57,7 @@ export const EVENTOS = [
     d: 'Fin de semana para toda la familia: juegos, talleres para padres e hijos.',
     fecha: '2027-01-09', hora: '08:00', lugar: 'Campamento SEMIT · Valle', mod: 'Presencial',
     p: 120, cupos: 90, inscritos: 41, rating: 4.9,
-    tag: 'Familiar', img: U('photo-1511632765486-a01980e01a18', 800),
+    tag: 'Familiar', img: EVENTO_IMGS[5],
     programa: ['Sábado: juegos y talleres', 'Domingo: culto familiar', 'Pacto familiar + foto'],
   },
   {
@@ -65,7 +65,7 @@ export const EVENTOS = [
     d: 'Costa, sierra y frontera misionera. 18 días transculturales con tu equipo.',
     fecha: '2027-01-15', hora: '05:00', lugar: 'Salida Cusco → Norte → Ecuador', mod: 'Presencial',
     p: 520, cupos: 25, inscritos: 11, rating: 5.0,
-    tag: '3 rutas', img: U('photo-1526392060635-9d6019884377', 800),
+    tag: '3 rutas', img: EVENTO_IMGS[1],
     programa: ['Semana 1: norte peruano', 'Semana 2: frontera Ecuador', 'Cierre: informe y envío'],
   },
   {
@@ -73,7 +73,7 @@ export const EVENTOS = [
     d: 'Estrategia global, testimonios de campo y feria de agencias misioneras.',
     fecha: '2027-02-05', hora: '18:30', lugar: 'SEMIT Cusco · auditorio', mod: 'Híbrido',
     p: 30, cupos: 250, inscritos: 96, rating: 4.9,
-    tag: 'Transmisión en vivo', img: U('photo-1523240795612-9a054b0db644', 800),
+    tag: 'Transmisión en vivo', img: EVENTO_IMGS[2],
     programa: ['Plenarias misioneras', 'Panel: obreros en campo', 'Feria + noche de envío'],
   },
   {
@@ -81,7 +81,7 @@ export const EVENTOS = [
     d: 'Cono sur transcultural urbano. 20 días de servicio y plantación.',
     fecha: '2027-02-20', hora: '05:00', lugar: 'Salida Cusco → Chile → Argentina', mod: 'Presencial',
     p: 680, cupos: 20, inscritos: 7, rating: 5.0,
-    tag: '3 rutas', img: U('photo-1488521787991-ed7bbaae773c', 800),
+    tag: '3 rutas', img: EVENTO_IMGS[0],
     programa: ['Etapa Chile: ciudad y campus', 'Etapa Argentina: barrios e iglesias', 'Retorno con informe'],
   },
   {
@@ -89,30 +89,30 @@ export const EVENTOS = [
     d: 'Medio día en calles y plazas de Cusco: teoría corta y práctica real.',
     fecha: '2027-03-06', hora: '09:00', lugar: 'Plaza San Jerónimo · Cusco', mod: 'Presencial',
     p: 0, cupos: 100, inscritos: 38, rating: 4.9,
-    tag: 'Gratis', img: U('photo-1503676260728-1c00da094a0b', 800),
+    tag: 'Gratis', img: EVENTO_IMGS[4],
     programa: ['Taller: comparte en 3 minutos', 'Salida en parejas', 'Testimonios y celebración'],
   },
 ]
 
 export const BCB_AREAS = [
-  { e: '📖', t: 'Misiones', d: 'Llamado, estrategia y campo transcultural.', img: U('photo-1488521787991-ed7bbaae773c', 600) },
-  { e: '✝️', t: 'Biblia', d: 'Panorama y estudio inductivo aplicado.', img: U('photo-1504052434569-70ad5836ab65', 600) },
-  { e: '⛪', t: 'Teología', d: 'Doctrina sólida para enseñar a otros.', img: U('photo-1438032005730-c779502df39b', 600) },
-  { e: '🛠️', t: 'Bi-vocacional', d: 'Oficio técnico para sostener tu ministerio.', img: U('photo-1503676260728-1c00da094a0b', 600) },
+  { e: '📖', t: 'Misiones', d: 'Llamado, estrategia y campo transcultural.', img: LOCAL.nosotrosA },
+  { e: '✝️', t: 'Biblia', d: 'Panorama y estudio inductivo aplicado.', img: LOCAL.cursosA },
+  { e: '⛪', t: 'Teología', d: 'Doctrina sólida para enseñar a otros.', img: LOCAL.nosotrosHero },
+  { e: '🛠️', t: 'Bi-vocacional', d: 'Oficio técnico para sostener tu ministerio.', img: LOCAL.cursosB },
 ]
 
 export const BCB_OFICIOS = [
-  { e: '🪚', t: 'Carpintería', d: 'Melamina y madera.', img: U('photo-1504148455328-c376907d081c', 600) },
-  { e: '🍳', t: 'Gastronomía', d: 'Alta cocina práctica.', img: U('photo-1556910103-1c02745aae4d', 600) },
-  { e: '💈', t: 'Peluquería', d: 'Profesional y rentable.', img: U('photo-1585747860715-2ba37e788b70', 600) },
-  { e: '🔥', t: 'Soldadura', d: 'Estructuras metálicas.', img: U('photo-1504328345606-18bbc8c9d7d1', 600) },
+  { e: '🪚', t: 'Carpintería', d: 'Melamina y madera.', img: LOCAL.cursosB },
+  { e: '🍳', t: 'Gastronomía', d: 'Alta cocina práctica.', img: LOCAL.inicio3 },
+  { e: '💈', t: 'Peluquería', d: 'Profesional y rentable.', img: LOCAL.nosotrosB },
+  { e: '🔥', t: 'Soldadura', d: 'Estructuras metálicas.', img: LOCAL.cursosHero },
 ]
 
 export const BCB_INCLUYE = [
-  { e: '🏠', t: 'Hospedaje', d: 'En lugar tranquilo.', img: U('photo-1524178232363-1fb2b075b655', 600) },
-  { e: '🍲', t: 'Alimentación', d: 'Adecuada y balanceada.', img: U('photo-1504674900247-0877df9cc836', 600) },
-  { e: '📚', t: 'Materiales y libros', d: 'Todo lo necesario.', img: U('photo-1524995997946-a1c2e315a42f', 600) },
-  { e: '✈️', t: 'Viajes misioneros', d: 'Salidas semanales.', img: U('photo-1440342359743-84fcb8c21f21', 600) },
+  { e: '🏠', t: 'Hospedaje', d: 'En lugar tranquilo.', img: LOCAL.nosotrosC },
+  { e: '🍲', t: 'Alimentación', d: 'Adecuada y balanceada.', img: LOCAL.inicio4 },
+  { e: '📚', t: 'Materiales y libros', d: 'Todo lo necesario.', img: LOCAL.nivelesHero },
+  { e: '✈️', t: 'Viajes misioneros', d: 'Salidas semanales.', img: LOCAL.eventosA },
 ]
 
 export const BCB_COSTOS = [
@@ -124,7 +124,7 @@ export const BCB_COSTOS = [
 ]
 
 export const BCB_CAMPOS = [
-  { t: 'Amazonía Peruana', d: 'Selva, ríos y comunidades nativas.', img: U('photo-1440342359743-84fcb8c21f21', 900) },
-  { t: 'Norte Perú + Ecuador', d: 'Costa, sierra y frontera misionera.', img: U('photo-1464822759023-fed622ff2c3b', 900) },
-  { t: 'Chile + Argentina', d: 'Cono sur transcultural urbano.', img: U('photo-1488521787991-ed7bbaae773c', 900) },
+  { t: 'Amazonía Peruana', d: 'Selva, ríos y comunidades nativas.', img: LOCAL.eventosA },
+  { t: 'Norte Perú + Ecuador', d: 'Costa, sierra y frontera misionera.', img: LOCAL.eventosB },
+  { t: 'Chile + Argentina', d: 'Cono sur transcultural urbano.', img: LOCAL.eventosC },
 ]
