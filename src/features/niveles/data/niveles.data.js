@@ -23,6 +23,37 @@ export const MAESTRIAS = [
 ]
 
 export const NIVEL_MODS = ['Todos', 'Virtual', 'Híbrido', 'Presencial']
+export const NIVEL_MODS_EN = ['All', 'Online', 'Hybrid', 'On-site']
+
+export const RAMAS_EN = [
+  { id: 'pre', label: 'Undergraduate', e: '🎓', d: 'Start from zero: certificate, diploma, and bachelor’s.', img: NIVEL_IMGS[0] },
+  { id: 'post', label: 'Graduate', e: '🏛️', d: 'Go deeper in your calling: licentiate and master’s.', img: NIVEL_IMGS[1] },
+]
+
+export const SUBS_EN = {
+  pre: [
+    { id: 'certificado', label: 'Specialized Certificate', e: '📜', d: '4–6 months · biblical base + trade', img: NIVEL_IMGS[2] },
+    { id: 'diplomado', label: 'Diploma', e: '📚', d: '1 year · theology and ministry', img: NIVEL_IMGS[3] },
+    { id: 'bachillerato', label: 'Bachelor’s', e: '🎓', d: '3 years · complete formation', img: NIVEL_IMGS[4] },
+  ],
+  post: [
+    { id: 'licenciatura', label: 'Licentiate', e: '⚖️', d: '1 post-bachelor year · research and teach', img: NIVEL_IMGS[1] },
+    { id: 'maestria', label: 'Master’s', e: '👑', d: '2 years · arts or divinity', img: NIVEL_IMGS[0] },
+  ],
+}
+
+export const MAESTRIAS_EN = [
+  { id: 'artes', label: 'Arts', e: '🎨', d: 'M.A. · Leadership and worship', img: NIVEL_IMGS[2] },
+  { id: 'divinidades', label: 'Divinity', e: '✝️', d: 'M.Div. · Pastoral and missions', img: NIVEL_IMGS[3] },
+]
+
+export const RUTA_EN = [
+  { id: 'certificado', t: 'Certificate', e: '📜', img: NIVEL_IMGS[2] },
+  { id: 'diplomado', t: 'Diploma', e: '📚', img: NIVEL_IMGS[3] },
+  { id: 'bachillerato', t: 'Bachelor’s', e: '🎓', img: NIVEL_IMGS[4] },
+  { id: 'licenciatura', t: 'Licentiate', e: '⚖️', img: NIVEL_IMGS[1] },
+  { id: 'maestria', t: 'Master’s', e: '👑', img: NIVEL_IMGS[0] },
+]
 
 export const RUTA = [
   { id: 'certificado', t: 'Certificado', e: '📜', img: NIVEL_IMGS[2] },

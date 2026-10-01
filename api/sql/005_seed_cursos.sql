@@ -1,0 +1,151 @@
+CREATE TABLE IF NOT EXISTS cursos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  slug VARCHAR(160) UNIQUE NOT NULL,
+  nombre VARCHAR(255) NOT NULL,
+  area VARCHAR(60) NOT NULL,
+  descripcion TEXT NOT NULL,
+  precio INT NOT NULL DEFAULT 30,
+  precio_regular INT NOT NULL DEFAULT 40,
+  modalidad VARCHAR(60) NOT NULL DEFAULT 'Virtual',
+  nivel VARCHAR(60) NOT NULL DEFAULT 'Fundamentos',
+  semanas INT NOT NULL DEFAULT 4,
+  lecciones INT NOT NULL DEFAULT 12,
+  rating DECIMAL(3,1) NOT NULL DEFAULT 4.9,
+  inscritos INT NOT NULL DEFAULT 0,
+  tag VARCHAR(160) DEFAULT '',
+  imagen_url TEXT,
+  activo TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS temario (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  curso_id INT NOT NULL,
+  orden INT NOT NULL DEFAULT 1,
+  titulo TEXT NOT NULL,
+  CONSTRAINT fk_temario_curso FOREIGN KEY (curso_id) REFERENCES cursos(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS admin_users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(60) UNIQUE NOT NULL,
+  pass_hash TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS admin_sessions (
+  token VARCHAR(128) PRIMARY KEY,
+  username VARCHAR(60) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('jesus-y-mahoma','Jesús y Mahoma','Ministerio','Para comunicar la verdad de Cristo a quienes han crecido en el mundo árabe e islámico, no basta con buenas intenciones; se requiere conocer a fondo sus textos, su historia y las diferencias de fondo entre sus figuras centrales. 
+Basado en la investigación del Dr. Mark A. Gabriel quien se formó y enseñó en el corazón académico de El Cairo antes de conocer a Cristo.',30,40,'Virtual','Avanzado',4,2,4.9,10,'Avanzado','api/v1/covers/jesus-y-mahoma.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1:' FROM cursos WHERE slug='jesus-y-mahoma';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2' FROM cursos WHERE slug='jesus-y-mahoma';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('alcanzando-al-mundo-musulman','Alcanzando al mundo musulmán','Ministerio','Formación bíblica, teológica y misionera al ritmo de tu vida.',30,40,'Virtual','Avanzado',4,8,4.9,13,'Avanzado','api/v1/covers/alcanzando-al-mundo-musulman.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: Jesús es por los musulmanes' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2: Construyendo puentes' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'3' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Lección 3' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Lección 4' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Leccion 5' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Leccion 6' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,8,'Los Musulmanes y la Biblia' FROM cursos WHERE slug='alcanzando-al-mundo-musulman';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('mateo-discipulado-fe-y-obediencia','MATEO, Discipulado, Fe y Obediencia','Biblia','Formación bíblica, teológica y misionera al ritmo de tu vida.',30,40,'Virtual','Fundamentos',4,12,4.9,14,'Portal','api/v1/covers/mateo-discipulado-fe-y-obediencia.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: Introducción a Mateo y la genealogía de Jesús' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'Lección 3' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Islam Popular' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'6- Islam Popular' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Lección 4' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Leccion 5' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,8,'Lección 6' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,9,'Lección 7' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,10,'Lección 8' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,11,'Lección 9' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,12,'LECCION 10' FROM cursos WHERE slug='mateo-discipulado-fe-y-obediencia';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('angeologia-un-estudio-de-teologia-sistematica','ANGEOLOGÍA, Un estudio de Teología Sistemática','Ministerio','La Angeología es la rama de la Teología Sistemática que estudia la naturaleza, origen, atributos, ministerio, organización y actividad de los seres angelicales según la revelación bíblica. Este curso avanzado ofrece un análisis exhaustivo y académico de la doctrina de los ángeles dentro del marco de la teología cristiana histórica, evangélica y bíblica.
+A través de un enfoque exegético, teológico e histórico, el estudiante examinará la enseñanza de las Escrituras acerca de los ángeles santos, los ángeles caídos, Satanás y los demonios, evaluando las principales interpretaciones desarrolladas a lo largo de la historia de la Iglesia. Asimismo, se analizará la participación de los seres angelicales en el plan redentor de Dios, su relación con la humanidad y su función en los acontecimientos escatológicos.
+El curso busca proporcionar una comprensión sólida, equilibrada y bíblicamente fundamentada de la doctrina angelológica, capacitando al estudiante para discernir críticamente las diversas corrientes teológicas contemporáneas, así como los conceptos populares que frecuentemente distorsionan la enseñanza bíblica sobre el mundo espiritual.
+El estudio integrará herramientas de investigación teológica, análisis textual de los idiomas bíblicos cuando sea pertinente, evaluación de fuentes históricas y reflexión ministerial, permitiendo al estudiante desarrollar una perspectiva integral sobre la naturaleza y actividad de los seres espirituales dentro de la cosmovisión cristiana.',30,40,'Virtual','Intermedio',4,7,4.9,11,'Intermedio','api/v1/covers/angeologia-un-estudio-de-teologia-sistematica.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: Una introducción a al Angeología' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2: Los ángeles, su naturaleza y características' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'Lección 3: los ángeles, su organización' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Lección 4: Los ángeles, su ministerio' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Lección 5: La prueba de los ángeles: triunfo y tragedia' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Lección 6' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Lección 7' FROM cursos WHERE slug='angeologia-un-estudio-de-teologia-sistematica';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('amos-analisis-y-teologia-progresiva','AMÓS, Análisis y Teología Progresiva','Biblia','El presente curso ofrece un estudio avanzado, exegético, histórico-teológico y hermenéutico del libro de Libro de Amós, considerado una de las obras proféticas más influyentes del corpus profético del Antiguo Testamento. El programa examina críticamente el mensaje de Amós dentro de su contexto histórico, político, económico, social y religioso del antiguo Israel del siglo VIII a.C., durante los reinados de Jeroboam II en Israel y Uzías en Judá.
+
+El curso está diseñado para estudiantes de nivel universitario, seminario teológico, formación ministerial avanzada e investigadores bíblicos que deseen profundizar en la literatura profética desde una perspectiva académica interdisciplinaria. Se integrarán enfoques de exégesis hebrea, crítica literaria, crítica histórica, teología bíblica, análisis socio-retórico y hermenéutica contemporánea.
+
+A lo largo del curso se estudiarán las principales estructuras literarias del libro, los oráculos contra las naciones, las denuncias sociales, la teología del pacto, la justicia divina, el juicio escatológico y la esperanza restauradora presente en los capítulos finales. Asimismo, se evaluará la relevancia contemporánea del mensaje de Amós en relación con la ética social, la corrupción religiosa, la pobreza estructural y la responsabilidad profética de la Iglesia y la sociedad.
+
+El curso fomentará la investigación académica rigurosa, la lectura crítica de textos bíblicos en diálogo con fuentes antiguas y modernas, y la aplicación teológica contextualizada para el pensamiento cristiano contemporáneo.',30,40,'Virtual','Avanzado',4,5,4.9,1,'Avanzado','api/v1/covers/amos-analisis-y-teologia-progresiva.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Intro' FROM cursos WHERE slug='amos-analisis-y-teologia-progresiva';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Nueva lección' FROM cursos WHERE slug='amos-analisis-y-teologia-progresiva';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'asda' FROM cursos WHERE slug='amos-analisis-y-teologia-progresiva';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Nueva lección' FROM cursos WHERE slug='amos-analisis-y-teologia-progresiva';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Nueva lección' FROM cursos WHERE slug='amos-analisis-y-teologia-progresiva';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('antropologia-y-hamartiologia-biblica','Antropología y Hamartiología Bíblica','Teología','ANTROPOLOGÍA Y HAMARTIOLOGÍA BÍBLICA, es un curso de Teología Sistemática.
+Explora en profundidad la naturaleza del ser humano y la realidad del pecado desde una perspectiva bíblica sólida y rigurosa. Este curso te llevará a comprender quién es el hombre según Dios, su propósito, su condición caída y la necesidad de redención.
+A través de un enfoque exhaustivo y analítico, estudiarás temas clave como la creación a imagen de Dios, la caída, la corrupción del corazón humano y las implicaciones del pecado en todas las áreas de la vida. Pero no se queda en la teoría: cada enseñanza está diseñada para aterrizar en lo práctico, ayudándote a evaluar tu vida, tomar decisiones con discernimiento y vivir con mayor coherencia espiritual.
+Ideal para quienes desean profundizar en la teología sistemática con un enfoque claro, bíblico y aplicable.
+¡Comprende tu condición! ¡Renueva tu perspectiva! ¡Vive con propósito!',30,40,'Virtual','Intermedio',4,12,4.9,16,'Intermedio','api/v1/covers/antropologia-y-hamartiologia-biblica.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: El hombre, una introducción' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2: El hombre: su origen' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'Lección 3: El hombre: hecho a imagen de Dios' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Lección 4: La imagen de Dios en el hombre: implicaciones prácticas' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Lección 5: Implicaciones prácticas de la imagen de Dios en el hombre II' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Lección 6: El hombre: Su composición I' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Lección 7: El hombre: Su composición II' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,8,'Lección 8: El pecado: lo que la Biblia enseña - I' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,9,'Lección 9: El pecado: Lo que la Biblia enseña - II' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,10,'Lección 10: La Gran tragedia humana, Sus consecuencias I' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,11,'Lección 11: La Gran tragedia humana, Sus consecuencias II' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,12,'Lección 12: El hombre: su destino' FROM cursos WHERE slug='antropologia-y-hamartiologia-biblica';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('el-islam-introduccion-y-enfoque','EL ISLAM, Introducción y enfoque','Ministerio','Este curso, es un estudio introductorio del Islam, incluye sus creencias, prácticas y su estado actual como religión mundial. Ofrece directrices prácticas para el testimonio cristiano efectivo a los musulmanes. Se da especial énfasis a la oración intercesora y a la función del Espíritu Santo en el proceso de conversión y discipulado',30,40,'Virtual','Avanzado',4,10,4.9,13,'Avanzado','api/v1/covers/el-islam-introduccion-y-enfoque.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: Mahoma' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2: El Corán' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'Lección 3: Clave uno: Avances y poder-del desierto al centro de atención' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Lección 4: Clave dos: el Islam de dentro hacia afuera' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Lección 5: Clave tres: La faz cambiante del Islam' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Lección 6: Clave cuatro: Religión popular- el pueblo del Islam' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Leccion 7' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,8,'Leccion' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,9,'Lección' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,10,'Nueva lección' FROM cursos WHERE slug='el-islam-introduccion-y-enfoque';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('corintios-analisis-y-teologia-progresiva-en-las-epistolas','CORINTIOS, Análisis y Teología Progresiva en las Epístolas','Biblia','EPÍSTOLAS DE PABLO A LOS CORINTIOS
+Descubre la riqueza espiritual y práctica de 1° y 2° de Corintios, en un curso diseñado para transformar tu manera de pensar y vivir la fe.
+El curso nos introduce a una iglesia llena de desafíos reales: divisiones, inmadurez espiritual, conflictos morales y dudas doctrinales. A través de un análisis profundo, aprenderás cómo Pablo responde con sabiduría y firmeza, enseñando sobre la unidad, el amor, los dones espirituales y el verdadero significado de seguir a Cristo en medio de una sociedad compleja.
+Las cartas son intensas y con carga personal del apóstol que nos enseñan a vivir con integridad, aun en medio de la debilidad.
+Este curso no solo es teológico y analítico, sino también profundamente práctico.',30,40,'Virtual','Avanzado',4,13,4.9,17,'Avanzado','api/v1/covers/corintios-analisis-y-teologia-progresiva-en-las-epistolas.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: La ciudad y la iglesia' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2: La Iglesia y las cartas' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'Lección 3: La sabiduría de Dios y la conducta cristiana' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Lección 4: El fundamento de la conducta cristiana I' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Lección 5: El fundamento de la conducta cristiana II' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Lección 6: Abusos de la libertad cristiana I' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Lección 7: Abusos de la libertad cristiana II' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,8,'Lección 8: La libertad cristiana y las disputas' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,9,'Lección 9: Libertad y Moralidad Cristianas' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,10,'Lección 10 : Los límites de la libertad cristiana - I' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,11,'Lección 11: Los límites de la libertad cristiana - II' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,12,'Lección : Los dones espirituales en la adoración cristiana' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,13,'Lección : La resurrección y el servicio cristiano' FROM cursos WHERE slug='corintios-analisis-y-teologia-progresiva-en-las-epistolas';
+INSERT INTO cursos (slug,nombre,area,descripcion,precio,precio_regular,modalidad,nivel,semanas,lecciones,rating,inscritos,tag,imagen_url) VALUES ('analisis-a-la-musica-eclesiastica','Análisis a la Música Eclesiástica','Ministerio','El curso de ANÁLISIS A LA MÚSICA ECLESIASTICA, no es un curso de teoría musical o historia de la música. Es un curso de reflexión y análisis bíblico, teológico, pedagógico y psicológico, a cerca de la música que escuchas o ejecutas, en tu vida personal y ministerial. Se hace énfasis no solo en el texto, sino en todo el mensaje y contenido que se transmite a través de la música. Es un curso que puede ayudar a todo creyente y músico en su devoción y servicio de adoración a Dios.',30,40,'Virtual','Intermedio',4,12,4.9,17,'Intermedio','api/v1/covers/analisis-a-la-musica-eclesiastica.jpg') ON DUPLICATE KEY UPDATE nombre=VALUES(nombre),area=VALUES(area),descripcion=VALUES(descripcion),precio=VALUES(precio),nivel=VALUES(nivel),semanas=VALUES(semanas),lecciones=VALUES(lecciones),rating=VALUES(rating),inscritos=VALUES(inscritos),tag=VALUES(tag),imagen_url=VALUES(imagen_url);
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,1,'Lección 1: La Música es comunicación' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,2,'Lección 2: La Música: secular, religiosa y cristiana' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,3,'Lección 3: La música, comunicación inspirada' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,4,'Lección 4: Cómo nos llegó la música a la Iglesia' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,5,'Lección 5: La música cristiana: medio de koinonía y gratitud' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,6,'Lección 6: El objetivo de la música cristiana: un camino a la comunión con Dios' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,7,'Lección 7: Camino a la Comunión: 1° paso, la acción de gracias' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,8,'Lección 8: Camino a la comunión: 2° paso, Confesión y arrepentimiento' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,9,'Lección 9: Camino a la comunión: 3° paso, la alabanza' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,10,'Lección 10: Camino a la Comunión:4° paso, la adoración' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,11,'Lección 11: Alcanzando la Comunión: la meta de nuestro caminar' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';
+INSERT INTO temario (curso_id,orden,titulo) SELECT id,12,'Lección 12' FROM cursos WHERE slug='analisis-a-la-musica-eclesiastica';

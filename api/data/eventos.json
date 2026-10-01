@@ -1,0 +1,614 @@
+{
+ "hero": {
+  "pill_es": "🎉 Agenda {a} · {n} experiencias",
+  "pill_en": "🎉 {a} Calendar · {n} experiences",
+  "h1a_es": "Próximos",
+  "h1a_en": "Upcoming",
+  "h1b_es": "eventos.",
+  "h1b_en": "events.",
+  "p_es": "No te pierdas ninguna de nuestras experiencias preparadas para ti: viajes, conferencias, talleres y campamentos.",
+  "p_en": "Don’t miss any of our experiences prepared for you: trips, conferences, workshops, and camps.",
+  "s1_es": "viajes misioneros",
+  "s1_en": "mission trips",
+  "s2_es": "conferencias",
+  "s2_en": "conferences",
+  "s3_es": "capacitaciones",
+  "s3_en": "training workshops",
+  "s4_es": "campamentos",
+  "s4_en": "camps",
+  "img": "assets/inicio/semit-16.jpg",
+  "bg": ""
+ },
+ "sec1": {
+  "n": "01",
+  "pill_es": "🔥 No te lo pierdas",
+  "pill_en": "🔥 Don’t miss it",
+  "title_es": "Lo más próximo",
+  "title_en": "What’s next",
+  "sub_es": "Nuestro siguiente encuentro, con cuenta regresiva en vivo.",
+  "sub_en": "Our next gathering, with a live countdown."
+ },
+ "sec2": {
+  "n": "02",
+  "pill_es": "🗓️ Agenda completa",
+  "pill_en": "🗓️ Full calendar",
+  "title_es": "Explora todo",
+  "title_en": "Explore everything",
+  "sub_es": "Filtra por tipo, toca un día del calendario o busca por palabra.",
+  "sub_en": "Filter by type, tap a calendar day, or search by word."
+ },
+ "sec3": {
+  "n": "03",
+  "pill_es": "🔥 Intensivo Ene–Feb",
+  "pill_en": "🔥 Intensive Jan–Feb",
+  "title_es": "BCB Transcultural",
+  "title_en": "BCB Transcultural",
+  "sub_es": "Nuestro programa estrella: un mes en base + campo transcultural + oficio.",
+  "sub_en": "Our flagship program: one month on base + transcultural field + trade."
+ },
+ "cats": [
+  {
+   "id": "Todos",
+   "e": "🌎",
+   "d_es": "Toda la agenda SEMIT",
+   "d_en": "Toda la agenda SEMIT",
+   "img": "assets/eventos/semit-4.jpg"
+  },
+  {
+   "id": "Viajes Misioneros",
+   "e": "✈️",
+   "d_es": "Campo real dentro y fuera del Perú",
+   "d_en": "Campo real dentro y fuera del Perú",
+   "img": "assets/eventos/semit-10.jpg"
+  },
+  {
+   "id": "Conferencias",
+   "e": "🎤",
+   "d_es": "Voces que encienden tu llamado",
+   "d_en": "Voces que encienden tu llamado",
+   "img": "assets/nosotros/semit-1.jpg"
+  },
+  {
+   "id": "Capacitaciones",
+   "e": "🛠️",
+   "d_es": "Talleres prácticos de un día",
+   "d_en": "Talleres prácticos de un día",
+   "img": "assets/cursos/semit-21.jpg"
+  },
+  {
+   "id": "Campamentos",
+   "e": "🏕️",
+   "d_es": "Días inolvidables con tu generación",
+   "d_en": "Días inolvidables con tu generación",
+   "img": "assets/eventos/semit-22.jpg"
+  }
+ ],
+ "eventos": [
+  {
+   "n": "Viaje Misionero · Amazonía Peruana",
+   "cat": "Viajes Misioneros",
+   "d_es": "Selva, ríos y comunidades nativas. 15 días con equipo dirigido por misioneros de campo.",
+   "d_en": "Selva, ríos y comunidades nativas. 15 días con equipo dirigido por misioneros de campo.",
+   "fecha": "2026-10-17",
+   "hora": "05:00",
+   "lugar": "Amazonía · salida Cusco",
+   "mod": "Presencial",
+   "p": 450,
+   "cupos": 30,
+   "inscritos": 18,
+   "rating": 5,
+   "tag": "3 rutas",
+   "img": "assets/eventos/semit-4.jpg",
+   "programa_es": [
+    "Día 1-3: preparación y envío en Cusco",
+    "Día 4-12: servicio en comunidades",
+    "Día 13-15: testimonio y retorno"
+   ],
+   "programa_en": [
+    "Día 1-3: preparación y envío en Cusco",
+    "Día 4-12: servicio en comunidades",
+    "Día 13-15: testimonio y retorno"
+   ]
+  },
+  {
+   "n": "Capacitación · Predicación Expositiva",
+   "cat": "Capacitaciones",
+   "d_es": "Taller de un día: del texto al sermón. Trae tu Biblia y sal predicando.",
+   "d_en": "Taller de un día: del texto al sermón. Trae tu Biblia y sal predicando.",
+   "fecha": "2026-10-03",
+   "hora": "09:00",
+   "lugar": "SEMIT Cusco · Huayllapampa",
+   "mod": "Híbrido",
+   "p": 0,
+   "cupos": 80,
+   "inscritos": 52,
+   "rating": 4.9,
+   "tag": "Gratis",
+   "img": "assets/eventos/semit-10.jpg",
+   "programa_es": [
+    "Mañana: observa e interpreta",
+    "Tarde: bosqueja y aplica",
+    "Cierre: predica 5 minutos"
+   ],
+   "programa_en": [
+    "Mañana: observa e interpreta",
+    "Tarde: bosqueja y aplica",
+    "Cierre: predica 5 minutos"
+   ]
+  },
+  {
+   "n": "Conferencia · Aviva Cusco 2026",
+   "cat": "Conferencias",
+   "d_es": "Dos noches de alabanza, palabra y llamado con invitados de Latinoamérica.",
+   "d_en": "Dos noches de alabanza, palabra y llamado con invitados de Latinoamérica.",
+   "fecha": "2026-11-07",
+   "hora": "18:30",
+   "lugar": "SEMIT Cusco · auditorio",
+   "mod": "Presencial",
+   "p": 25,
+   "cupos": 300,
+   "inscritos": 214,
+   "rating": 5,
+   "tag": "No te lo pierdas",
+   "img": "assets/eventos/semit-22.jpg",
+   "programa_es": [
+    "Noche 1: avivamiento personal",
+    "Noche 2: llamado y envío",
+    "Concierto de alabanza + feria"
+   ],
+   "programa_en": [
+    "Noche 1: avivamiento personal",
+    "Noche 2: llamado y envío",
+    "Concierto de alabanza + feria"
+   ]
+  },
+  {
+   "n": "Campamento · Jóvenes Llamados",
+   "cat": "Campamentos",
+   "d_es": "3 días fuera de la ciudad: fogatas, talleres, deporte y tiempo con Dios.",
+   "d_en": "3 días fuera de la ciudad: fogatas, talleres, deporte y tiempo con Dios.",
+   "fecha": "2026-11-20",
+   "hora": "08:00",
+   "lugar": "Campamento SEMIT · Valle",
+   "mod": "Presencial",
+   "p": 90,
+   "cupos": 120,
+   "inscritos": 77,
+   "rating": 4.9,
+   "tag": "Cupos limitados",
+   "img": "assets/eventos/semit-23.jpg",
+   "programa_es": [
+    "Día 1: llegada y fogata",
+    "Día 2: talleres + deporte",
+    "Día 3: pacto y retorno"
+   ],
+   "programa_en": [
+    "Día 1: llegada y fogata",
+    "Día 2: talleres + deporte",
+    "Día 3: pacto y retorno"
+   ]
+  },
+  {
+   "n": "Capacitación · Dones y Ministerio",
+   "cat": "Capacitaciones",
+   "d_es": "Descubre tu don, actívalo sirviendo y sal con un plan de servicio.",
+   "d_en": "Descubre tu don, actívalo sirviendo y sal con un plan de servicio.",
+   "fecha": "2026-12-05",
+   "hora": "09:00",
+   "lugar": "Virtual en vivo",
+   "mod": "Virtual",
+   "p": 0,
+   "cupos": 200,
+   "inscritos": 131,
+   "rating": 4.8,
+   "tag": "Gratis",
+   "img": "assets/inicio/semit-7.jpg",
+   "programa_es": [
+    "Test de dones guiado",
+    "Cómo servir en tu iglesia",
+    "Plan personal de 30 días"
+   ],
+   "programa_en": [
+    "Test de dones guiado",
+    "Cómo servir en tu iglesia",
+    "Plan personal de 30 días"
+   ]
+  },
+  {
+   "n": "Campamento · Familia sobre la Roca",
+   "cat": "Campamentos",
+   "d_es": "Fin de semana para toda la familia: juegos, talleres para padres e hijos.",
+   "d_en": "Fin de semana para toda la familia: juegos, talleres para padres e hijos.",
+   "fecha": "2027-01-09",
+   "hora": "08:00",
+   "lugar": "Campamento SEMIT · Valle",
+   "mod": "Presencial",
+   "p": 120,
+   "cupos": 90,
+   "inscritos": 41,
+   "rating": 4.9,
+   "tag": "Familiar",
+   "img": "assets/inicio/semit-13.jpg",
+   "programa_es": [
+    "Sábado: juegos y talleres",
+    "Domingo: culto familiar",
+    "Pacto familiar + foto"
+   ],
+   "programa_en": [
+    "Sábado: juegos y talleres",
+    "Domingo: culto familiar",
+    "Pacto familiar + foto"
+   ]
+  },
+  {
+   "n": "Viaje Misionero · Norte Perú + Ecuador",
+   "cat": "Viajes Misioneros",
+   "d_es": "Costa, sierra y frontera misionera. 18 días transculturales con tu equipo.",
+   "d_en": "Costa, sierra y frontera misionera. 18 días transculturales con tu equipo.",
+   "fecha": "2027-01-15",
+   "hora": "05:00",
+   "lugar": "Salida Cusco → Norte → Ecuador",
+   "mod": "Presencial",
+   "p": 520,
+   "cupos": 25,
+   "inscritos": 11,
+   "rating": 5,
+   "tag": "3 rutas",
+   "img": "assets/eventos/semit-10.jpg",
+   "programa_es": [
+    "Semana 1: norte peruano",
+    "Semana 2: frontera Ecuador",
+    "Cierre: informe y envío"
+   ],
+   "programa_en": [
+    "Semana 1: norte peruano",
+    "Semana 2: frontera Ecuador",
+    "Cierre: informe y envío"
+   ]
+  },
+  {
+   "n": "Conferencia · Misiones Hasta lo Último",
+   "cat": "Conferencias",
+   "d_es": "Estrategia global, testimonios de campo y feria de agencias misioneras.",
+   "d_en": "Estrategia global, testimonios de campo y feria de agencias misioneras.",
+   "fecha": "2027-02-05",
+   "hora": "18:30",
+   "lugar": "SEMIT Cusco · auditorio",
+   "mod": "Híbrido",
+   "p": 30,
+   "cupos": 250,
+   "inscritos": 96,
+   "rating": 4.9,
+   "tag": "Transmisión en vivo",
+   "img": "assets/eventos/semit-22.jpg",
+   "programa_es": [
+    "Plenarias misioneras",
+    "Panel: obreros en campo",
+    "Feria + noche de envío"
+   ],
+   "programa_en": [
+    "Plenarias misioneras",
+    "Panel: obreros en campo",
+    "Feria + noche de envío"
+   ]
+  },
+  {
+   "n": "Viaje Misionero · Chile + Argentina",
+   "cat": "Viajes Misioneros",
+   "d_es": "Cono sur transcultural urbano. 20 días de servicio y plantación.",
+   "d_en": "Cono sur transcultural urbano. 20 días de servicio y plantación.",
+   "fecha": "2027-02-20",
+   "hora": "05:00",
+   "lugar": "Salida Cusco → Chile → Argentina",
+   "mod": "Presencial",
+   "p": 680,
+   "cupos": 20,
+   "inscritos": 7,
+   "rating": 5,
+   "tag": "3 rutas",
+   "img": "assets/eventos/semit-4.jpg",
+   "programa_es": [
+    "Etapa Chile: ciudad y campus",
+    "Etapa Argentina: barrios e iglesias",
+    "Retorno con informe"
+   ],
+   "programa_en": [
+    "Etapa Chile: ciudad y campus",
+    "Etapa Argentina: barrios e iglesias",
+    "Retorno con informe"
+   ]
+  },
+  {
+   "n": "Capacitación · Evangelismo Urbano",
+   "cat": "Capacitaciones",
+   "d_es": "Medio día en calles y plazas de Cusco: teoría corta y práctica real.",
+   "d_en": "Medio día en calles y plazas de Cusco: teoría corta y práctica real.",
+   "fecha": "2027-03-06",
+   "hora": "09:00",
+   "lugar": "Plaza San Jerónimo · Cusco",
+   "mod": "Presencial",
+   "p": 0,
+   "cupos": 100,
+   "inscritos": 38,
+   "rating": 4.9,
+   "tag": "Gratis",
+   "img": "assets/inicio/semit-7.jpg",
+   "programa_es": [
+    "Taller: comparte en 3 minutos",
+    "Salida en parejas",
+    "Testimonios y celebración"
+   ],
+   "programa_en": [
+    "Taller: comparte en 3 minutos",
+    "Salida en parejas",
+    "Testimonios y celebración"
+   ]
+  }
+ ],
+ "bcb": {
+  "pill_es": "🔥 Intensivo e Integral · 10 Ene — 8 Feb",
+  "pill_en": "🔥 Intensive & Integral · Jan 10 — Feb 8",
+  "h2_es": "BCB Transcultural",
+  "h2_en": "BCB Transcultural",
+  "p_es": "Programa de Entrenamiento Misionero en Base, Campo y Bi-vocacional. Dos fases que marcan tu llamado.",
+  "p_en": "Missionary Training Program in Base, Field, and Bi-vocational. Two phases that shape your calling.",
+  "f0_es": "Base en Cusco",
+  "f0_en": "Base in Cusco",
+  "f0sub_es": "10 Ene — 8 Feb · 4 sem",
+  "f0sub_en": "Jan 10 — Feb 8 · 4 wks",
+  "f1_es": "Campo transcultural",
+  "f1_en": "Transcultural field",
+  "f1sub_es": "15-20 días · 3 rutas",
+  "f1sub_en": "15–20 days · 3 routes",
+  "k0_es": "1° FASE · 10 ENE — 8 FEB · 4 SEMANAS",
+  "k0_en": "1ST PHASE · JAN 10 — FEB 8 · 4 WEEKS",
+  "k0t_es": "Entrenamiento en Base",
+  "k0t_en": "Base Training",
+  "k0p1_es": "Un mes intensivo, teórico y práctico: cursos, talleres, foros, plenarias, seminarios, conciertos de alabanza, ferias y experiencias transculturales.",
+  "k0p1_en": "One intensive month, theory and practice: courses, workshops, forums, plenaries, seminars, worship concerts, fairs, and transcultural experiences.",
+  "k0p2_es": "Tiempo desafiante para asumir tu rol en la misión global: descubre tu llamado, entiende el plan de Dios y da pasos concretos mientras adquieres destrezas para servir mejor.",
+  "k0p2_en": "A challenging time to take up your role in global mission: discover your calling, understand God’s plan, and take concrete steps while gaining skills to serve better.",
+  "hAreas_es": "Áreas de entrenamiento",
+  "hAreas_en": "Training areas",
+  "hOficios_es": "Bi-vocacional · 4 oficios",
+  "hOficios_en": "Bi-vocational · 4 trades",
+  "hIncluye_es": "Todo incluido",
+  "hIncluye_en": "All included",
+  "fechaT_es": "📅 Fecha",
+  "fechaT_en": "📅 Date",
+  "fechaV_es": "10 Ene — 8 Feb",
+  "fechaV_en": "Jan 10 — Feb 8",
+  "lugarT_es": "📍 Lugar",
+  "lugarT_en": "📍 Place",
+  "lugarV_es": "SEMIT Cusco · Huayllapampa",
+  "lugarV_en": "SEMIT Cusco · Huayllapampa",
+  "hInv_es": "Elige tu inversión",
+  "hInv_en": "Choose your investment",
+  "verMas_es": "¿Solo puedes 1 semana? Ver detalle +",
+  "verMas_en": "Can you only do 1 week? See detail +",
+  "verMenos_es": "Ocultar detalle semanal −",
+  "verMenos_en": "Hide weekly detail −",
+  "inscBase_es": "Haz clic aquí para inscribirte →",
+  "inscBase_en": "Click here to enroll →",
+  "k1_es": "2° FASE · 15-20 DÍAS · DENTRO Y FUERA DEL PERÚ",
+  "k1_en": "2ND PHASE · 15–20 DAYS · INSIDE AND OUTSIDE PERU",
+  "k1t_es": "Entrenamiento en Campo",
+  "k1t_en": "Field Training",
+  "k1p1_es": "Planificación, preparación y ejecución de un Viaje Misionero Transcultural. Pondrás en práctica lo aprendido y descubrirás los dones que Dios te dio.",
+  "k1p1_en": "Planning, preparation, and execution of a Transcultural Mission Trip. You’ll put into practice what you learned and discover the gifts God gave you.",
+  "k1p2_es": "Capacitación práctica en servicio cristiano, eclesiástico y humanitario, en un medio transcultural diferente al tuyo.",
+  "k1p2_en": "Hands-on training in Christian, church, and humanitarian service, in a transcultural setting different from your own.",
+  "hRuta_es": "Elige tu ruta",
+  "hRuta_en": "Choose your route",
+  "opc_es": "Opción",
+  "opc_en": "Option",
+  "viajas_es": "viajas con tu equipo, dirigido por dos misioneros de campo.",
+  "viajas_en": "you travel with your team, led by two field missionaries.",
+  "hCubre_es": "El costo cubre",
+  "hCubre_en": "The cost covers",
+  "waCampo_es": "WhatsApp Campo →",
+  "waCampo_en": "WhatsApp Field →",
+  "waCampoMsg_es": "Hola SEMIT, quiero info del Campo BCB",
+  "waCampoMsg_en": "Hi SEMIT, I want info about the BCB Field",
+  "inscCampo_es": "Inscríbete aquí →",
+  "inscCampo_en": "Enroll here →",
+  "nota1_es": "👨‍🏫 Entrenadores, profesores y misioneros de campo de amplia experiencia te guiarán en todo el proceso.",
+  "nota1_en": "👨‍🏫 Trainers, teachers, and field missionaries with broad experience will guide you through the whole process.",
+  "nota2_es": "🌎 ¡Tendrás la oportunidad de hacer Misiones en Latinoamérica!",
+  "nota2_en": "🌎 You’ll have the chance to do Missions in Latin America!",
+  "nota3_es": "👨‍👩‍👧 Familia nuclear: consulta becas y subvenciones.",
+  "nota3_en": "👨‍👩‍👧 Nuclear family: ask about scholarships and subsidies.",
+  "nota4_es": "💰 Adelanto S/.300 garantiza vacante. Cancela antes de la promo o hasta el 10 Ene 2026.",
+  "nota4_en": "💰 S/.300 advance secures your spot. Cancel before the promo or by Jan 10, 2026.",
+  "nota5_es": "💳 Pago: depósito, transferencia o Yape. Datos al final del formulario.",
+  "nota5_en": "💳 Payment: deposit, transfer, or Yape. Details at the end of the form.",
+  "nota6_es": "📅 Costo Semanal S/.250 por 1 semana (lun-dom). Incluye todos los gastos y la salida misionera de la semana elegida. Puedes tomar una o más semanas según tu disposición.",
+  "nota6_en": "📅 Weekly Cost S/.250 for 1 week (Mon–Sun). Includes all expenses and the mission outing of the chosen week. You can take one or more weeks as you wish.",
+  "nota7_es": "💲 Costos varían según la ruta elegida. Consulta informes BCB:",
+  "nota7_en": "💲 Costs vary by chosen route. Ask for BCB info:",
+  "cubre_es": [
+   "🎫 Pasajes aéreo y/o terrestre",
+   "🏠 Hospedaje en campo",
+   "🍲 Alimentación",
+   "🤝 Coordinaciones locales"
+  ],
+  "cubre_en": [
+   "🎫 Air and/or ground tickets",
+   "🏠 Field lodging",
+   "🍲 Meals",
+   "🤝 Local coordination"
+  ],
+  "img_base": "assets/inicio/semit-13.jpg",
+  "bg": "",
+  "areas": [
+   {
+    "e": "📖",
+    "t_es": "Misiones",
+    "t_en": "Misiones",
+    "d_es": "Llamado, estrategia y campo transcultural.",
+    "d_en": "Llamado, estrategia y campo transcultural.",
+    "img": "assets/nosotros/semit-6.jpg"
+   },
+   {
+    "e": "✝️",
+    "t_es": "Biblia",
+    "t_en": "Biblia",
+    "d_es": "Panorama y estudio inductivo aplicado.",
+    "d_en": "Panorama y estudio inductivo aplicado.",
+    "img": "assets/cursos/semit-19.jpg"
+   },
+   {
+    "e": "⛪",
+    "t_es": "Teología",
+    "t_en": "Teología",
+    "d_es": "Doctrina sólida para enseñar a otros.",
+    "d_en": "Doctrina sólida para enseñar a otros.",
+    "img": "assets/nosotros/semit-1.jpg"
+   },
+   {
+    "e": "🛠️",
+    "t_es": "Bi-vocacional",
+    "t_en": "Bi-vocacional",
+    "d_es": "Oficio técnico para sostener tu ministerio.",
+    "d_en": "Oficio técnico para sostener tu ministerio.",
+    "img": "assets/cursos/semit-21.jpg"
+   }
+  ],
+  "oficios": [
+   {
+    "e": "🪚",
+    "t_es": "Carpintería",
+    "t_en": "Carpintería",
+    "d_es": "Melamina y madera.",
+    "d_en": "Melamina y madera.",
+    "img": "assets/cursos/semit-21.jpg"
+   },
+   {
+    "e": "🍳",
+    "t_es": "Gastronomía",
+    "t_en": "Gastronomía",
+    "d_es": "Alta cocina práctica.",
+    "d_en": "Alta cocina práctica.",
+    "img": "assets/inicio/semit-14.jpg"
+   },
+   {
+    "e": "💈",
+    "t_es": "Peluquería",
+    "t_en": "Peluquería",
+    "d_es": "Profesional y rentable.",
+    "d_en": "Profesional y rentable.",
+    "img": "assets/nosotros/semit-8.jpg"
+   },
+   {
+    "e": "🔥",
+    "t_es": "Soldadura",
+    "t_en": "Soldadura",
+    "d_es": "Estructuras metálicas.",
+    "d_en": "Estructuras metálicas.",
+    "img": "assets/cursos/semit-15.jpg"
+   }
+  ],
+  "incluye": [
+   {
+    "e": "🏠",
+    "t_es": "Hospedaje",
+    "t_en": "Hospedaje",
+    "d_es": "En lugar tranquilo.",
+    "d_en": "En lugar tranquilo.",
+    "img": "assets/nosotros/semit-9.jpg"
+   },
+   {
+    "e": "🍲",
+    "t_es": "Alimentación",
+    "t_en": "Alimentación",
+    "d_es": "Adecuada y balanceada.",
+    "d_en": "Adecuada y balanceada.",
+    "img": "assets/inicio/semit-16.jpg"
+   },
+   {
+    "e": "📚",
+    "t_es": "Materiales y libros",
+    "t_en": "Materiales y libros",
+    "d_es": "Todo lo necesario.",
+    "d_en": "Todo lo necesario.",
+    "img": "assets/niveles/semit-3.jpg"
+   },
+   {
+    "e": "✈️",
+    "t_es": "Viajes misioneros",
+    "t_en": "Viajes misioneros",
+    "d_es": "Salidas semanales.",
+    "d_en": "Salidas semanales.",
+    "img": "assets/eventos/semit-10.jpg"
+   }
+  ],
+  "campos": [
+   {
+    "t_es": "Amazonía Peruana",
+    "t_en": "Amazonía Peruana",
+    "d_es": "Selva, ríos y comunidades nativas.",
+    "d_en": "Selva, ríos y comunidades nativas.",
+    "img": "assets/eventos/semit-10.jpg"
+   },
+   {
+    "t_es": "Norte Perú + Ecuador",
+    "t_en": "Norte Perú + Ecuador",
+    "d_es": "Costa, sierra y frontera misionera.",
+    "d_en": "Costa, sierra y frontera misionera.",
+    "img": "assets/eventos/semit-22.jpg"
+   },
+   {
+    "t_es": "Chile + Argentina",
+    "t_en": "Chile + Argentina",
+    "d_es": "Cono sur transcultural urbano.",
+    "d_en": "Cono sur transcultural urbano.",
+    "img": "assets/eventos/semit-23.jpg"
+   }
+  ],
+  "costos": [
+   {
+    "tag": "Oct",
+    "p": "S/.750",
+    "n_es": "Promoción Octubre. Inscríbete en octubre.",
+    "n_en": "Promoción Octubre. Inscríbete en octubre."
+   },
+   {
+    "tag": "Nov",
+    "p": "S/.800",
+    "n_es": "Promoción Noviembre. Inscríbete en noviembre.",
+    "n_en": "Promoción Noviembre. Inscríbete en noviembre."
+   },
+   {
+    "tag": "Dic",
+    "p": "S/.850",
+    "n_es": "Promoción Diciembre. Inscríbete en diciembre.",
+    "n_en": "Promoción Diciembre. Inscríbete en diciembre."
+   },
+   {
+    "tag": "Ene",
+    "p": "S/.880",
+    "n_es": "Costo Regular. Hasta el 10 de enero 2026.",
+    "n_en": "Costo Regular. Hasta el 10 de enero 2026."
+   },
+   {
+    "tag": "Sem",
+    "p": "S/.250",
+    "n_es": "Costo Semanal lun-dom. Incluye gastos y salida misionera.",
+    "n_en": "Costo Semanal lun-dom. Incluye gastos y salida misionera."
+   }
+  ]
+ },
+ "cta": {
+  "t_es": "¿Quieres un evento en tu iglesia?",
+  "t_en": "Want an event at your church?",
+  "p1_es": "Llevamos",
+  "p1_en": "We bring",
+  "p2_es": "conferencias, talleres y campamentos",
+  "p2_en": "conferences, workshops, and camps",
+  "p3_es": "a tu ciudad. Escríbenos y lo armamos juntos.",
+  "p3_en": "to your city. Write to us and let’s build it together.",
+  "btn_es": "Pedir un evento →",
+  "btn_en": "Request an event →"
+ },
+ "fmt": {}
+}

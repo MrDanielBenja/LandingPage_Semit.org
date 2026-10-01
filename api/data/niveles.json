@@ -1,0 +1,590 @@
+{
+ "hero": {
+  "pill_es": "📶 Ruta académica · {n} programas",
+  "pill_en": "📶 Academic path · {n} programs",
+  "h1a_es": "Tu ruta.",
+  "h1a_en": "Your path.",
+  "h1b_es": "De cero a maestría.",
+  "h1b_en": "From zero to a master’s.",
+  "img": "assets/niveles/semit-3.jpg",
+  "bg": ""
+ },
+ "intro": {
+  "sub_es": "Pregrado para empezar, Postgrado para profundizar. Elige tu rama y avanza paso a paso.",
+  "sub_en": "Undergraduate to start, graduate to go deeper. Choose your track and move forward step by step.",
+  "txt1_es": "No importa dónde estés hoy: si recién conoces la Palabra o si ya predicas y enseñas, aquí hay un escalón con tu nombre. Cada nivel te prepara para el siguiente — del primer certificado hasta la maestría — con clases claras, práctica real y acompañamiento de docentes y misioneros.",
+  "txt1_en": "No matter where you are today — whether you are just getting to know the Word or already preaching and teaching — there is a step here with your name on it. Each level prepares you for the next — from your first certificate to your master’s — with clear classes, real practice, and support from teachers and missionaries.",
+  "txt2_es": "Empieza donde estás, termina donde Dios te quiere llevar.",
+  "txt2_en": "Start where you are; finish where God wants to take you.",
+  "bg": ""
+ },
+ "ramas": [
+  {
+   "id": "pre",
+   "label_es": "Pregrado",
+   "label_en": "Undergraduate",
+   "d_es": "Empieza desde cero: certificado, diplomado y bachillerato.",
+   "d_en": "Start from zero: certificate, diploma, and bachelor’s.",
+   "e": "🎓",
+   "img": "assets/niveles/semit-3.jpg"
+  },
+  {
+   "id": "post",
+   "label_es": "Postgrado",
+   "label_en": "Graduate",
+   "d_es": "Profundiza tu llamado: licenciatura y maestría.",
+   "d_en": "Go deeper in your calling: licentiate and master’s.",
+   "e": "🏛️",
+   "img": "assets/niveles/semit-11.jpg"
+  }
+ ],
+ "subs": {
+  "pre": [
+   {
+    "id": "certificado",
+    "label_es": "Certificado Especializado",
+    "label_en": "Specialized Certificate",
+    "d_es": "4–6 meses · base bíblica y oficio",
+    "d_en": "4–6 months · biblical base + trade",
+    "e": "📜",
+    "img": "assets/niveles/semit-5.jpg",
+    "intro_t_es": "",
+    "intro_t_en": "",
+    "intro_d_es": "",
+    "intro_d_en": ""
+   },
+   {
+    "id": "diplomado",
+    "label_es": "Diplomado",
+    "label_en": "Diploma",
+    "d_es": "1 año · teología y ministerio",
+    "d_en": "1 year · theology and ministry",
+    "e": "📚",
+    "img": "assets/cursos/semit-19.jpg",
+    "intro_t_es": "",
+    "intro_t_en": "",
+    "intro_d_es": "",
+    "intro_d_en": ""
+   },
+   {
+    "id": "bachillerato",
+    "label_es": "Bachillerato",
+    "label_en": "Bachelor’s",
+    "d_es": "3 años · formación integral",
+    "d_en": "3 years · complete formation",
+    "e": "🎓",
+    "img": "assets/cursos/semit-21.jpg",
+    "intro_t_es": "",
+    "intro_t_en": "",
+    "intro_d_es": "",
+    "intro_d_en": ""
+   }
+  ],
+  "post": [
+   {
+    "id": "licenciatura",
+    "label_es": "Licenciatura",
+    "label_en": "Licentiate",
+    "d_es": "1 año post-bachiller · investiga y enseña",
+    "d_en": "1 post-bachelor year · research and teach",
+    "e": "⚖️",
+    "img": "assets/niveles/semit-11.jpg",
+    "intro_t_es": "",
+    "intro_t_en": "",
+    "intro_d_es": "",
+    "intro_d_en": ""
+   },
+   {
+    "id": "maestria",
+    "label_es": "Maestría",
+    "label_en": "Master’s",
+    "d_es": "2 años · artes o divinidades",
+    "d_en": "2 years · arts or divinity",
+    "e": "👑",
+    "img": "assets/niveles/semit-3.jpg",
+    "intro_t_es": "",
+    "intro_t_en": "",
+    "intro_d_es": "",
+    "intro_d_en": ""
+   }
+  ]
+ },
+ "maestrias": [
+  {
+   "id": "artes",
+   "label_es": "Artes",
+   "label_en": "Arts",
+   "d_es": "M.A. · Liderazgo y adoración",
+   "d_en": "M.A. · Leadership and worship",
+   "e": "🎨",
+   "img": "assets/niveles/semit-5.jpg",
+   "intro_t_es": "",
+   "intro_t_en": "",
+   "intro_d_es": "",
+   "intro_d_en": ""
+  },
+  {
+   "id": "divinidades",
+   "label_es": "Divinidades",
+   "label_en": "Divinity",
+   "d_es": "M.Div. · Pastoral y misiones",
+   "d_en": "M.Div. · Pastoral and missions",
+   "e": "✝️",
+   "img": "assets/cursos/semit-19.jpg",
+   "intro_t_es": "",
+   "intro_t_en": "",
+   "intro_d_es": "",
+   "intro_d_en": ""
+  }
+ ],
+ "ruta": [
+  {
+   "id": "certificado",
+   "t_es": "Certificado",
+   "t_en": "Certificate",
+   "e": "📜",
+   "img": "assets/niveles/semit-5.jpg"
+  },
+  {
+   "id": "diplomado",
+   "t_es": "Diplomado",
+   "t_en": "Diploma",
+   "e": "📚",
+   "img": "assets/cursos/semit-19.jpg"
+  },
+  {
+   "id": "bachillerato",
+   "t_es": "Bachillerato",
+   "t_en": "Bachelor’s",
+   "e": "🎓",
+   "img": "assets/cursos/semit-21.jpg"
+  },
+  {
+   "id": "licenciatura",
+   "t_es": "Licenciatura",
+   "t_en": "Licentiate",
+   "e": "⚖️",
+   "img": "assets/niveles/semit-11.jpg"
+  },
+  {
+   "id": "maestria",
+   "t_es": "Maestría",
+   "t_en": "Master’s",
+   "e": "👑",
+   "img": "assets/niveles/semit-3.jpg"
+  }
+ ],
+ "programas": [
+  {
+   "n": "Certificado en Biblia Aplicada",
+   "a": "Biblia",
+   "d_es": "Juan, Romanos y vida cristiana. Ideal para empezar a servir este mismo año.",
+   "d_en": "Juan, Romanos y vida cristiana. Ideal para empezar a servir este mismo año.",
+   "d": "Juan, Romanos y vida cristiana. Ideal para empezar a servir este mismo año.",
+   "p": 120,
+   "mod": "Virtual",
+   "dur_es": "6 meses",
+   "dur_en": "6 months",
+   "dur": "6 meses",
+   "tag_es": "Para empezar",
+   "tag_en": "Para empezar",
+   "tag": "Para empezar",
+   "incluye_es": [
+    "Juan: el evangelio del amor",
+    "Romanos: gracia y fe",
+    "Vida cristiana y oración",
+    "Proyecto: comparte tu testimonio"
+   ],
+   "incluye_en": [
+    "Juan: el evangelio del amor",
+    "Romanos: gracia y fe",
+    "Vida cristiana y oración",
+    "Proyecto: comparte tu testimonio"
+   ],
+   "incluye": [
+    "Juan: el evangelio del amor",
+    "Romanos: gracia y fe",
+    "Vida cristiana y oración",
+    "Proyecto: comparte tu testimonio"
+   ],
+   "rama": "pre",
+   "sub": "certificado",
+   "mae": null,
+   "semanas": 24,
+   "lecciones": 36,
+   "rating": 4.9,
+   "est": 412,
+   "img": "assets/niveles/semit-5.jpg"
+  },
+  {
+   "n": "Certificado Bi-vocacional Misionero",
+   "a": "Ministerio",
+   "d_es": "Biblia + oficio técnico: carpintería, gastronomía, peluquería o soldadura.",
+   "d_en": "Biblia + oficio técnico: carpintería, gastronomía, peluquería o soldadura.",
+   "d": "Biblia + oficio técnico: carpintería, gastronomía, peluquería o soldadura.",
+   "p": 150,
+   "mod": "Presencial",
+   "dur_es": "6 meses",
+   "dur_en": "6 months",
+   "dur": "6 meses",
+   "tag_es": "Oficio + misión",
+   "tag_en": "Oficio + misión",
+   "tag": "Oficio + misión",
+   "incluye_es": [
+    "Base bíblica intensiva",
+    "Oficio a elegir (4 opciones)",
+    "Salidas misioneras Cusco",
+    "Proyecto: sirve con tu oficio"
+   ],
+   "incluye_en": [
+    "Base bíblica intensiva",
+    "Oficio a elegir (4 opciones)",
+    "Salidas misioneras Cusco",
+    "Proyecto: sirve con tu oficio"
+   ],
+   "incluye": [
+    "Base bíblica intensiva",
+    "Oficio a elegir (4 opciones)",
+    "Salidas misioneras Cusco",
+    "Proyecto: sirve con tu oficio"
+   ],
+   "rama": "pre",
+   "sub": "certificado",
+   "mae": null,
+   "semanas": 24,
+   "lecciones": 40,
+   "rating": 4.8,
+   "est": 268,
+   "img": "assets/cursos/semit-19.jpg"
+  },
+  {
+   "n": "Diplomado en Teología y Biblia",
+   "a": "Teología",
+   "d_es": "Teología I, Pneumatología y panorama bíblico completo en 1 año.",
+   "d_en": "Teología I, Pneumatología y panorama bíblico completo en 1 año.",
+   "d": "Teología I, Pneumatología y panorama bíblico completo en 1 año.",
+   "p": 280,
+   "mod": "Híbrido",
+   "dur_es": "1 año",
+   "dur_en": "1 year",
+   "dur": "1 año",
+   "tag_es": "El más pedido",
+   "tag_en": "El más pedido",
+   "tag": "El más pedido",
+   "incluye_es": [
+    "Antiguo y Nuevo Testamento",
+    "Teología I + Pneumatología",
+    "Hermenéutica y predicación",
+    "Proyecto: enseña un curso"
+   ],
+   "incluye_en": [
+    "Antiguo y Nuevo Testamento",
+    "Teología I + Pneumatología",
+    "Hermenéutica y predicación",
+    "Proyecto: enseña un curso"
+   ],
+   "incluye": [
+    "Antiguo y Nuevo Testamento",
+    "Teología I + Pneumatología",
+    "Hermenéutica y predicación",
+    "Proyecto: enseña un curso"
+   ],
+   "rama": "pre",
+   "sub": "diplomado",
+   "mae": null,
+   "semanas": 40,
+   "lecciones": 72,
+   "rating": 4.9,
+   "est": 324,
+   "img": "assets/cursos/semit-21.jpg"
+  },
+  {
+   "n": "Diplomado en Misiones Transculturales",
+   "a": "Ministerio",
+   "d_es": "Base BCB + campo corto: Amazonía o sierra. Descubre tu llamado.",
+   "d_en": "Base BCB + campo corto: Amazonía o sierra. Descubre tu llamado.",
+   "d": "Base BCB + campo corto: Amazonía o sierra. Descubre tu llamado.",
+   "p": 320,
+   "mod": "Híbrido",
+   "dur_es": "1 año",
+   "dur_en": "1 year",
+   "dur": "1 año",
+   "tag_es": "Con campo real",
+   "tag_en": "Con campo real",
+   "tag": "Con campo real",
+   "incluye_es": [
+    "Base misionera en Cusco",
+    "Viaje transcultural 15 días",
+    "Antropología y lengua",
+    "Proyecto: plan misionero"
+   ],
+   "incluye_en": [
+    "Base misionera en Cusco",
+    "Viaje transcultural 15 días",
+    "Antropología y lengua",
+    "Proyecto: plan misionero"
+   ],
+   "incluye": [
+    "Base misionera en Cusco",
+    "Viaje transcultural 15 días",
+    "Antropología y lengua",
+    "Proyecto: plan misionero"
+   ],
+   "rama": "pre",
+   "sub": "diplomado",
+   "mae": null,
+   "semanas": 40,
+   "lecciones": 64,
+   "rating": 5,
+   "est": 198,
+   "img": "assets/eventos/semit-10.jpg"
+  },
+  {
+   "n": "Bachillerato en Teología",
+   "a": "Teología",
+   "d_es": "3 años: lenguas bíblicas, teología sistemática y pastoral. El corazón de SEMIT.",
+   "d_en": "3 años: lenguas bíblicas, teología sistemática y pastoral. El corazón de SEMIT.",
+   "d": "3 años: lenguas bíblicas, teología sistemática y pastoral. El corazón de SEMIT.",
+   "p": 900,
+   "mod": "Presencial",
+   "dur_es": "3 años",
+   "dur_en": "3 years",
+   "dur": "3 años",
+   "tag_es": "Formación integral",
+   "tag_en": "Formación integral",
+   "tag": "Formación integral",
+   "incluye_es": [
+    "Griego y hebreo introductorio",
+    "Teología sistemática I–III",
+    "Pastoral y consejería",
+    "Tesis + práctica en iglesia"
+   ],
+   "incluye_en": [
+    "Griego y hebreo introductorio",
+    "Teología sistemática I–III",
+    "Pastoral y consejería",
+    "Tesis + práctica en iglesia"
+   ],
+   "incluye": [
+    "Griego y hebreo introductorio",
+    "Teología sistemática I–III",
+    "Pastoral y consejería",
+    "Tesis + práctica en iglesia"
+   ],
+   "rama": "pre",
+   "sub": "bachillerato",
+   "mae": null,
+   "semanas": 120,
+   "lecciones": 180,
+   "rating": 4.9,
+   "est": 156,
+   "img": "assets/niveles/semit-3.jpg"
+  },
+  {
+   "n": "Bachillerato en Misiones",
+   "a": "Ministerio",
+   "d_es": "3 años: plantación de iglesias, campo largo y bi-vocacional avanzado.",
+   "d_en": "3 años: plantación de iglesias, campo largo y bi-vocacional avanzado.",
+   "d": "3 años: plantación de iglesias, campo largo y bi-vocacional avanzado.",
+   "p": 950,
+   "mod": "Presencial",
+   "dur_es": "3 años",
+   "dur_en": "3 years",
+   "dur": "3 años",
+   "tag_es": "Hasta lo último",
+   "tag_en": "Hasta lo último",
+   "tag": "Hasta lo último",
+   "incluye_es": [
+    "Misiología y plantación",
+    "Campo transcultural largo",
+    "Oficio bi-vocacional II",
+    "Proyecto final en campo"
+   ],
+   "incluye_en": [
+    "Misiología y plantación",
+    "Campo transcultural largo",
+    "Oficio bi-vocacional II",
+    "Proyecto final en campo"
+   ],
+   "incluye": [
+    "Misiología y plantación",
+    "Campo transcultural largo",
+    "Oficio bi-vocacional II",
+    "Proyecto final en campo"
+   ],
+   "rama": "pre",
+   "sub": "bachillerato",
+   "mae": null,
+   "semanas": 120,
+   "lecciones": 176,
+   "rating": 4.9,
+   "est": 132,
+   "img": "assets/eventos/semit-22.jpg"
+  },
+  {
+   "n": "Licenciatura en Teología",
+   "a": "Teología",
+   "d_es": "1 año post-bachiller: investigación, docencia y teología avanzada.",
+   "d_en": "1 año post-bachiller: investigación, docencia y teología avanzada.",
+   "d": "1 año post-bachiller: investigación, docencia y teología avanzada.",
+   "p": 750,
+   "mod": "Híbrido",
+   "dur_es": "1 año",
+   "dur_en": "1 year",
+   "dur": "1 año",
+   "tag_es": "Investiga y enseña",
+   "tag_en": "Investiga y enseña",
+   "tag": "Investiga y enseña",
+   "incluye_es": [
+    "Métodos de investigación",
+    "Teología contemporánea",
+    "Docencia universitaria",
+    "Tesis de licenciatura"
+   ],
+   "incluye_en": [
+    "Métodos de investigación",
+    "Teología contemporánea",
+    "Docencia universitaria",
+    "Tesis de licenciatura"
+   ],
+   "incluye": [
+    "Métodos de investigación",
+    "Teología contemporánea",
+    "Docencia universitaria",
+    "Tesis de licenciatura"
+   ],
+   "rama": "post",
+   "sub": "licenciatura",
+   "mae": null,
+   "semanas": 40,
+   "lecciones": 48,
+   "rating": 4.9,
+   "est": 88,
+   "img": "assets/niveles/semit-11.jpg"
+  },
+  {
+   "n": "Licenciatura en Misiones y Plantación",
+   "a": "Ministerio",
+   "d_es": "Estrategia global, liderazgo y plantación de iglesias multiculturales.",
+   "d_en": "Estrategia global, liderazgo y plantación de iglesias multiculturales.",
+   "d": "Estrategia global, liderazgo y plantación de iglesias multiculturales.",
+   "p": 780,
+   "mod": "Híbrido",
+   "dur_es": "1 año",
+   "dur_en": "1 year",
+   "dur": "1 año",
+   "tag_es": "Envía y planta",
+   "tag_en": "Envía y planta",
+   "tag": "Envía y planta",
+   "incluye_es": [
+    "Estrategia y movilización",
+    "Liderazgo transcultural",
+    "Plantación avanzada",
+    "Proyecto: planta o revitaliza"
+   ],
+   "incluye_en": [
+    "Estrategia y movilización",
+    "Liderazgo transcultural",
+    "Plantación avanzada",
+    "Proyecto: planta o revitaliza"
+   ],
+   "incluye": [
+    "Estrategia y movilización",
+    "Liderazgo transcultural",
+    "Plantación avanzada",
+    "Proyecto: planta o revitaliza"
+   ],
+   "rama": "post",
+   "sub": "licenciatura",
+   "mae": null,
+   "semanas": 40,
+   "lecciones": 46,
+   "rating": 4.8,
+   "est": 74,
+   "img": "assets/cursos/semit-21.jpg"
+  },
+  {
+   "n": "Maestría en Artes · Liderazgo Cristiano",
+   "a": "Ministerio",
+   "d_es": "M.A. 2 años: liderazgo, adoración, comunicación y gestión ministerial.",
+   "d_en": "M.A. 2 años: liderazgo, adoración, comunicación y gestión ministerial.",
+   "d": "M.A. 2 años: liderazgo, adoración, comunicación y gestión ministerial.",
+   "p": 1400,
+   "mod": "Virtual",
+   "dur_es": "2 años",
+   "dur_en": "2 years",
+   "dur": "2 años",
+   "tag_es": "M.A. · Artes",
+   "tag_en": "M.A. · Artes",
+   "tag": "M.A. · Artes",
+   "incluye_es": [
+    "Liderazgo y gobernanza",
+    "Adoración y creatividad",
+    "Comunicación y medios",
+    "Tesis aplicada M.A."
+   ],
+   "incluye_en": [
+    "Liderazgo y gobernanza",
+    "Adoración y creatividad",
+    "Comunicación y medios",
+    "Tesis aplicada M.A."
+   ],
+   "incluye": [
+    "Liderazgo y gobernanza",
+    "Adoración y creatividad",
+    "Comunicación y medios",
+    "Tesis aplicada M.A."
+   ],
+   "rama": "post",
+   "sub": "maestria",
+   "mae": "artes",
+   "semanas": 80,
+   "lecciones": 72,
+   "rating": 5,
+   "est": 61,
+   "img": "assets/cursos/semit-19.jpg"
+  },
+  {
+   "n": "Maestría en Divinidades · M.Div",
+   "a": "Teología",
+   "d_es": "M.Div. 2 años: exégesis, predicación, pastoral y misiones. El grado pastoral.",
+   "d_en": "M.Div. 2 años: exégesis, predicación, pastoral y misiones. El grado pastoral.",
+   "d": "M.Div. 2 años: exégesis, predicación, pastoral y misiones. El grado pastoral.",
+   "p": 1500,
+   "mod": "Híbrido",
+   "dur_es": "2 años",
+   "dur_en": "2 years",
+   "dur": "2 años",
+   "tag_es": "M.Div. · Pastoral",
+   "tag_en": "M.Div. · Pastoral",
+   "tag": "M.Div. · Pastoral",
+   "incluye_es": [
+    "Exégesis griego/hebreo",
+    "Homilética avanzada",
+    "Teología pastoral",
+    "Tesis + internado M.Div."
+   ],
+   "incluye_en": [
+    "Exégesis griego/hebreo",
+    "Homilética avanzada",
+    "Teología pastoral",
+    "Tesis + internado M.Div."
+   ],
+   "incluye": [
+    "Exégesis griego/hebreo",
+    "Homilética avanzada",
+    "Teología pastoral",
+    "Tesis + internado M.Div."
+   ],
+   "rama": "post",
+   "sub": "maestria",
+   "mae": "divinidades",
+   "semanas": 80,
+   "lecciones": 84,
+   "rating": 5,
+   "est": 57,
+   "img": "assets/niveles/semit-3.jpg"
+  }
+ ],
+ "fmt": {}
+}

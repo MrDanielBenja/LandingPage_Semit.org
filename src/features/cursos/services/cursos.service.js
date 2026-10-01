@@ -1,12 +1,15 @@
 import { CURSOS } from '../data/cursos.data'
-
-const BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
+import { asArr } from '../../../core/cms/safe'
+import { apiBase } from '../../../core/cms/apiBase'
 
 export function resolveImg(url) {
+  const BASE = apiBase()
   if (!url) return ''
   if (/^(https?:|data:|blob:)/i.test(url)) return url
-  if (url.startsWith('/')) return `${BASE}${url}`
-  return BASE ? `${BASE}/${url.replace(/^\.\//, '')}` : url
+  if (url.startsWith('/')) return `${BASE ?? ''}${url}`
+  const clean = String(url).replace(/^\.\//, '')
+  if (BASE == null) return url
+  return BASE ? `${BASE}/${clean}` : `/${clean}`
 }
 
 export function mapApiCurso(r) {
@@ -30,7 +33,8 @@ export function mapApiCurso(r) {
 }
 
 export async function fetchCursos(params = {}) {
-  if (!BASE) return { data: CURSOS, meta: null, source: 'local' }
+  const BASE = apiBase()
+  if (BASE == null) return { data: CURSOS, meta: null, source: 'local' }
   const qs = new URLSearchParams()
   for (const [k, v] of Object.entries(params)) {
     if (v && v !== 'Todos') qs.set(k, v)
@@ -38,5 +42,5 @@ export async function fetchCursos(params = {}) {
   const res = await fetch(`${BASE}/api/v1/cursos?${qs}`)
   if (!res.ok) throw new Error(`api ${res.status}`)
   const json = await res.json()
-  return { data: (json.data || []).map(mapApiCurso), meta: json.meta || null, source: 'api' }
+  return { data: asArr(json.data, []).map(mapApiCurso), meta: json.meta || null, source: 'api' }
 }

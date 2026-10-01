@@ -1,0 +1,80 @@
+{
+ "hero": {
+  "pill_es": "🎓 Catálogo 2025-II · {n} cursos",
+  "pill_en": "🎓 2025-II Catalog · {n} courses",
+  "h1a_es": "Elige.",
+  "h1a_en": "Choose.",
+  "h1b_es": "Aprende. Enseña.",
+  "h1b_en": "Learn. Teach.",
+  "p_es": "Cada 1° lunes inicia un grupo nuevo. 100% prácticos, con materiales, foro en vivo y certificado digital.",
+  "p_en": "Every 1st Monday a new group starts. 100% hands-on, with materials, live forum, and digital certificate.",
+  "ph_es": "Buscar: romanos, teología, dones…",
+  "ph_en": "Search: romans, theology, gifts…",
+  "img": "assets/cursos/semit-15.jpg",
+  "bg": ""
+ },
+ "stats": {
+  "promoLabel_es": "promo mensual",
+  "promoLabel_en": "monthly promo",
+  "activosLabel_es": "cursos activos",
+  "activosLabel_en": "active courses",
+  "promLabel_es": "promedio",
+  "promLabel_en": "average"
+ },
+ "tracks": [
+  {
+   "id": "Todos",
+   "e": "🌎",
+   "d_es": "Todo el catálogo",
+   "d_en": "Whole catalog",
+   "img": "assets/cursos/semit-15.jpg"
+  },
+  {
+   "id": "Biblia",
+   "e": "📖",
+   "d_es": "Lee y enseña la Palabra",
+   "d_en": "Read and teach the Word",
+   "img": "assets/cursos/semit-19.jpg"
+  },
+  {
+   "id": "Teología",
+   "e": "⛪",
+   "d_es": "Doctrina que se vive",
+   "d_en": "Doctrine lived out",
+   "img": "assets/niveles/semit-3.jpg"
+  },
+  {
+   "id": "Ministerio",
+   "e": "🌱",
+   "d_es": "Sirve y multiplica",
+   "d_en": "Serve and multiply",
+   "img": "assets/nosotros/semit-6.jpg"
+  }
+ ],
+ "toolbar": {
+  "modLabel_es": "Modalidad",
+  "modLabel_en": "Modality",
+  "ordLabel_es": "Ordenar",
+  "ordLabel_en": "Sort"
+ },
+ "empty": {
+  "t_es": "Sin resultados",
+  "t_en": "No results",
+  "p_es": "Nada para “{q}” con estos filtros. Prueba con otra palabra o limpia los filtros.",
+  "p_en": "Nothing for “{q}” with these filters. Try another word or clear the filters.",
+  "btn_es": "Ver todo",
+  "btn_en": "See all"
+ },
+ "cta": {
+  "t_es": "¿No sabes por dónde empezar?",
+  "t_en": "Not sure where to start?",
+  "p1_es": "Ruta sugerida:",
+  "p1_en": "Suggested path:",
+  "p2_es": "Escríbenos y te armamos tu plan.",
+  "p2_en": "Write to us and we will build your plan.",
+  "btn_es": "Pedir mi ruta →",
+  "btn_en": "Get my path →"
+ },
+ "overrides": {},
+ "fmt": {}
+}

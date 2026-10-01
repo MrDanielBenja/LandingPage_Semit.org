@@ -1,30 +1,49 @@
 import { useState } from 'react'
-import { DECLARACION_FE } from '../data/nosotros.data'
+import { asArr } from '../../../core/cms/safe'
+import { useLang } from '../../../app/providers/LangProvider'
+import { useContent } from '../../../core/cms/contentStore'
+import { fmtCssKey } from '../../../core/cms/fmt'
+import { DEFAULT_NOSOTROS } from '../../../core/cms/defaultNosotros'
 
-const FILTROS = ['Todas', 'Dios', 'Cristo', 'Espíritu', 'Iglesia']
+const FILTROS_ES = ['Todas', 'Dios', 'Cristo', 'Espíritu', 'Iglesia']
+const FILTROS_EN = ['All', 'God', 'Christ', 'Spirit', 'Church']
 
-function grupo(t) {
+function grupo(t, lang) {
+  if (lang === 'en') {
+    if (/Triune|Scriptures|Mankind|Destiny/i.test(t)) return 'God'
+    if (/Jesus Christ|Second Coming/i.test(t)) return 'Christ'
+    if (/Spirit|Healing/i.test(t)) return 'Spirit'
+    return 'Church'
+  }
   if (/Dios Trino|Escrituras|Hombre|Destino/i.test(t)) return 'Dios'
   if (/Jesucristo|Segunda Venida/i.test(t)) return 'Cristo'
   if (/Espíritu|Sanidad/i.test(t)) return 'Espíritu'
   return 'Iglesia'
 }
 
-export function DeclaracionFe() {
+export function DeclaracionFe({ preview }) {
+  const { lang, t } = useLang()
+  const { data: saved } = useContent('nosotros', DEFAULT_NOSOTROS)
+  const cms = preview || saved
+  const o = cms.fe || DEFAULT_NOSOTROS.fe
+  const L = (k) => (lang === 'en' ? o[`${k}_en`] : o[`${k}_es`]) || t(`nosotros.fe.${k}`)
+  const DATA = asArr(o.items, []).map(x => ({ ...x, t: lang === 'en' ? x.t_en : x.t_es, d: lang === 'en' ? x.d_en : x.d_es }))
+  const FILTROS = lang === 'en' ? FILTROS_EN : FILTROS_ES
+  const ALL = FILTROS[0]
   const [fe, setFe] = useState(0)
-  const [f, setF] = useState('Todas')
+  const [f, setF] = useState(ALL)
   const [q, setQ] = useState('')
-  const list = DECLARACION_FE
-    .map((x, k) => ({ ...x, k, g: grupo(x.t) }))
-    .filter(x => (f === 'Todas' || x.g === f) && (x.t + x.d).toLowerCase().includes(q.toLowerCase()))
+  const list = DATA
+    .map((x, k) => ({ ...x, k, g: grupo(x.t, lang) }))
+    .filter(x => (f === ALL || x.g === f) && (x.t + x.d).toLowerCase().includes(q.toLowerCase()))
   const open = list.findIndex(x => x.k === fe)
   return (
-    <section className="rv fe-sec">
-      <div className="hsec"><span className="pill">✝️ Declaración de Fe · {DECLARACION_FE.length} verdades</span><h2>En esto creemos</h2>
-        <p>La posición doctrinal del SEMIT. Filtra por tema o busca una palabra: gracia, trinidad, iglesia…</p></div>
+    <section className="rv fe-sec" style={o.bg ? { background: o.bg } : undefined}>
+      <div className="hsec"><span className="pill">{L('pill')} · {DATA.length}</span><h2 style={fmtCssKey(cms, 'fe.h2')}>{L('h2')}</h2>
+        <p style={fmtCssKey(cms, 'fe.p')}>{L('sub')}</p></div>
       <div className="fe-tools">
-        <div className="cu-search fe-search"><span>🔍</span><input value={q} onChange={e => setQ(e.target.value)} placeholder="Buscar en la declaración…" />{q && <button onClick={() => setQ('')}>✕</button>}</div>
-        <div className="fe-chips">{FILTROS.map(x => <button key={x} className={f === x ? 'on' : ''} onClick={() => setF(x)}>{x}</button>)}</div>
+        <div className="cu-search fe-search"><span>🔍</span><input value={q} onChange={e => setQ(e.target.value)} placeholder={t('nosotros.fe.ph')} />{q && <button onClick={() => setQ('')}>✕</button>}</div>
+        <div className="fe-chips">{FILTROS.map(x => <button key={x} className={f === x ? 'on' : ''} onClick={() => { setF(x); setFe(-1) }}>{x}</button>)}</div>
       </div>
       <div className="fe-timeline">
         {list.map((x, idx) => (
@@ -41,8 +60,8 @@ export function DeclaracionFe() {
           </div>
         ))}
       </div>
-      {list.length === 0 && <p className="cu-count">Sin resultados para “{q}”. <button className="link-btn" onClick={() => { setQ(''); setF('Todas') }}>limpiar</button></p>}
-      {open >= 0 && <p className="cu-count">Leyendo {open + 1} de {list.length}</p>}
+      {list.length === 0 && <p className="cu-count">{t('nosotros.fe.empty', { q })} <button className="link-btn" onClick={() => { setQ(''); setF(ALL) }}>{t('nosotros.fe.clear')}</button></p>}
+      {open >= 0 && <p className="cu-count">{t('nosotros.fe.reading', { a: open + 1, b: list.length })}</p>}
     </section>
   )
 }

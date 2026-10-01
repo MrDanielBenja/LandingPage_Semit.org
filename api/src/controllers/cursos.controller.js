@@ -1,4 +1,4 @@
-import { pool } from '../db.js'
+import { boolTrue, isMysql, pool } from '../db.js'
 import { queryStore, findBySlug, filtrosStore } from '../store.js'
 
 const SORTS = {
@@ -10,10 +10,15 @@ const SORTS = {
 async function withTemario(rows) {
   if (!rows.length) return []
   const ids = rows.map(r => r.id)
-  const { rows: t } = await pool.query(
-    'SELECT curso_id, titulo FROM temario WHERE curso_id = ANY($1) ORDER BY curso_id, orden',
-    [ids]
-  )
+  const { rows: t } = isMysql()
+    ? await pool.query(
+      `SELECT curso_id, titulo FROM temario WHERE curso_id IN (${ids.map(() => '?').join(',')}) ORDER BY curso_id, orden`,
+      ids
+    )
+    : await pool.query(
+      'SELECT curso_id, titulo FROM temario WHERE curso_id = ANY($1) ORDER BY curso_id, orden',
+      [ids]
+    )
   const by = new Map()
   for (const x of t) {
     if (!by.has(x.curso_id)) by.set(x.curso_id, [])
@@ -26,19 +31,24 @@ export async function getCursos(req, res) {
   try {
     if (!pool) return res.json(queryStore(req.query))
     const { q = '', area, modalidad, nivel, sort = 'pop', page = 1, limit = 12 } = req.query
-    const where = ['c.activo = TRUE']
+    const active = boolTrue()
+    const like = isMysql() ? 'LIKE' : 'ILIKE'
+    const concat = isMysql() ? "CONCAT(c.nombre, ' ', c.area, ' ', c.descripcion)" : "(c.nombre || ' ' || c.area || ' ' || c.descripcion)"
+    const ph = () => (isMysql() ? '?' : `$${vals.length}`)
+    const where = [active]
     const vals = []
-    if (q) { vals.push(`%${q}%`); where.push(`(c.nombre || ' ' || c.area || ' ' || c.descripcion) ILIKE $${vals.length}`) }
-    if (area) { vals.push(area); where.push(`c.area = $${vals.length}`) }
-    if (modalidad) { vals.push(modalidad); where.push(`c.modalidad = $${vals.length}`) }
-    if (nivel) { vals.push(nivel); where.push(`c.nivel = $${vals.length}`) }
+    if (q) { vals.push(`%${q}%`); where.push(`${concat} ${like} ${ph()}`) }
+    if (area) { vals.push(area); where.push(`c.area = ${ph()}`) }
+    if (modalidad) { vals.push(modalidad); where.push(`c.modalidad = ${ph()}`) }
+    if (nivel) { vals.push(nivel); where.push(`c.nivel = ${ph()}`) }
     const lim = Math.min(Number(limit) || 12, 50)
     const off = (Math.max(Number(page) || 1, 1) - 1) * lim
     const order = SORTS[sort] || SORTS.pop
-    const [{ rows }, { rows: [{ count }] }] = await Promise.all([
+    const [{ rows }, countRes] = await Promise.all([
       pool.query(`SELECT c.* FROM cursos c WHERE ${where.join(' AND ')} ORDER BY ${order} LIMIT ${lim} OFFSET ${off}`, vals),
-      pool.query(`SELECT COUNT(*)::int count FROM cursos c WHERE ${where.join(' AND ')}`, vals),
+      pool.query(`SELECT COUNT(*) AS count FROM cursos c WHERE ${where.join(' AND ')}`, vals),
     ])
+    const count = Number(countRes.rows?.[0]?.count || 0)
     const totalPages = Math.max(Math.ceil(count / lim), 1)
     res.json({ data: await withTemario(rows), meta: { total: count, page: Number(page) || 1, limit: lim, totalPages } })
   } catch {
@@ -53,7 +63,7 @@ export async function getCursoBySlug(req, res) {
       if (!one) return res.status(404).json({ error: 'not_found' })
       return res.json({ data: one })
     }
-    const { rows } = await pool.query('SELECT c.* FROM cursos c WHERE c.slug = $1 AND c.activo = TRUE', [req.params.slug])
+    const { rows } = await pool.query(`SELECT c.* FROM cursos c WHERE c.slug = $1 AND ${boolTrue()}`, [req.params.slug])
     if (!rows.length) return res.status(404).json({ error: 'not_found' })
     const [one] = await withTemario(rows)
     res.json({ data: one })
@@ -67,10 +77,11 @@ export async function getCursoBySlug(req, res) {
 export async function getFiltros(_, res) {
   try {
     if (!pool) return res.json(filtrosStore())
+    const active = boolTrue()
     const [a, m, n] = await Promise.all([
-      pool.query("SELECT DISTINCT area FROM cursos WHERE activo = TRUE ORDER BY 1"),
-      pool.query("SELECT DISTINCT modalidad FROM cursos WHERE activo = TRUE ORDER BY 1"),
-      pool.query("SELECT DISTINCT nivel FROM cursos WHERE activo = TRUE ORDER BY 1"),
+      pool.query(`SELECT DISTINCT area FROM cursos WHERE ${active} ORDER BY 1`),
+      pool.query(`SELECT DISTINCT modalidad FROM cursos WHERE ${active} ORDER BY 1`),
+      pool.query(`SELECT DISTINCT nivel FROM cursos WHERE ${active} ORDER BY 1`),
     ])
     res.json({
       areas: a.rows.map(r => r.area),

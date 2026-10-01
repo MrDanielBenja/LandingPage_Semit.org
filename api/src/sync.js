@@ -89,19 +89,28 @@ export async function syncFromPortal() {
   }
   mkdirSync(dirname(DATA), { recursive: true })
   writeFileSync(DATA, JSON.stringify(out, null, 1))
-  if (process.env.DATABASE_URL) {
-    const { pool } = await import('./db.js')
+  if (process.env.DATABASE_URL || process.env.MYSQL_URL || process.env.MYSQL_PUBLIC_URL) {
+    const { isMysql, pool } = await import('./db.js')
     if (pool) {
       for (const r of out) {
-        await pool.query(
-          `INSERT INTO cursos (slug, nombre, area, descripcion, precio, precio_regular, modalidad, nivel, semanas, lecciones, rating, inscritos, tag, imagen_url)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
-           ON CONFLICT (slug) DO UPDATE SET nombre=EXCLUDED.nombre, area=EXCLUDED.area, descripcion=EXCLUDED.descripcion, nivel=EXCLUDED.nivel, semanas=EXCLUDED.semanas, lecciones=EXCLUDED.lecciones, inscritos=EXCLUDED.inscritos, tag=EXCLUDED.tag, imagen_url=EXCLUDED.imagen_url`,
-          [r.slug, r.nombre, r.area, r.descripcion, r.precio, r.precio_regular, r.modalidad, r.nivel, r.semanas, r.lecciones, r.rating, r.inscritos, r.tag, r.imagen_url]
-        )
+        if (isMysql()) {
+          await pool.query(
+            `INSERT INTO cursos (slug, nombre, area, descripcion, precio, precio_regular, modalidad, nivel, semanas, lecciones, rating, inscritos, tag, imagen_url)
+             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+             ON DUPLICATE KEY UPDATE nombre=VALUES(nombre), area=VALUES(area), descripcion=VALUES(descripcion), nivel=VALUES(nivel), semanas=VALUES(semanas), lecciones=VALUES(lecciones), inscritos=VALUES(inscritos), tag=VALUES(tag), imagen_url=VALUES(imagen_url)`,
+            [r.slug, r.nombre, r.area, r.descripcion, r.precio, r.precio_regular, r.modalidad, r.nivel, r.semanas, r.lecciones, r.rating, r.inscritos, r.tag, r.imagen_url]
+          )
+        } else {
+          await pool.query(
+            `INSERT INTO cursos (slug, nombre, area, descripcion, precio, precio_regular, modalidad, nivel, semanas, lecciones, rating, inscritos, tag, imagen_url)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+             ON CONFLICT (slug) DO UPDATE SET nombre=EXCLUDED.nombre, area=EXCLUDED.area, descripcion=EXCLUDED.descripcion, nivel=EXCLUDED.nivel, semanas=EXCLUDED.semanas, lecciones=EXCLUDED.lecciones, inscritos=EXCLUDED.inscritos, tag=EXCLUDED.tag, imagen_url=EXCLUDED.imagen_url`,
+            [r.slug, r.nombre, r.area, r.descripcion, r.precio, r.precio_regular, r.modalidad, r.nivel, r.semanas, r.lecciones, r.rating, r.inscritos, r.tag, r.imagen_url]
+          )
+        }
         await pool.query('DELETE FROM temario WHERE curso_id = (SELECT id FROM cursos WHERE slug = $1)', [r.slug])
         for (const [i, t] of r.temario.entries()) {
-          await pool.query('INSERT INTO temario (curso_id, orden, titulo) SELECT id, $2, $3 FROM cursos WHERE slug = $1', [r.slug, i + 1, t])
+          await pool.query('INSERT INTO temario (curso_id, orden, titulo) SELECT id, $1, $2 FROM cursos WHERE slug = $3', [i + 1, t, r.slug])
         }
       }
     }

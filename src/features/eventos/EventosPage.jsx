@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useReveal } from '../../shared/hooks/useReveal'
 import { useCountdown } from '../../shared/hooks/useCountdown'
-import { IMGS, LOCAL } from '../../shared/lib/images'
-import { EVENTOS, EV_CATS, EV_CAT_INFO } from './data/eventos.data'
+import { useLang } from '../../app/providers/LangProvider'
+import { useContent } from '../../core/cms/contentStore'
+import { resolveAsset } from '../../core/cms/assets'
+import { fmtCssKey } from '../../core/cms/fmt'
+import { DEFAULT_EVENTOS } from '../../core/cms/defaultEventos'
 import { EventoCard, evDiasRestan } from './components/EventoCard'
 import { EventoDrawer } from './components/EventoModal'
 import { BcbEvento } from './components/BcbEvento'
-
-const MESES_L = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-const WEEK_S = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
 
 function monthCells(y, m) {
   const first = new Date(y, m, 1)
@@ -24,43 +24,80 @@ function monthCells(y, m) {
 const keyOfDay = (y, m, d) => `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
 
 function ProximoHero({ ev, onSelect }) {
+  const { lang, t } = useLang()
   const cd = useCountdown(ev.fecha + 'T' + ev.hora + ':00')
+  const en = lang === 'en'
+  const catMap = t('eventos.catMap')
+  const catT = (catMap && catMap[ev.cat]) || ev.cat
+  const units = en ? ['days', 'hrs', 'min', 'sec'] : ['días', 'hrs', 'min', 'seg']
   return (
     <div className="ev-hero-card rv" onClick={() => onSelect(ev)}>
       <img src={ev.img} alt={ev.n} loading="lazy" />
       <div className="ev-hero-veil" />
       <div className="ev-hero-txt">
-        <span className="gold-pill">🔥 Próximo evento · {ev.cat}</span>
+        <span className="gold-pill">{en ? `🔥 Next event · ${catT}` : `🔥 Próximo evento · ${catT}`}</span>
         <h2>{ev.n}</h2>
         <p>📍 {ev.lugar} · 🕘 {ev.hora}</p>
         <div className="ev-cd">
-          {[[cd.d, 'días'], [cd.h, 'hrs'], [cd.m, 'min'], [cd.s, 'seg']].map(([v, l]) => (
-            <div key={l}><b>{String(v).padStart(2, '0')}</b><span>{l}</span></div>
+          {[cd.d, cd.h, cd.m, cd.s].map((v, k) => (
+            <div key={units[k]}><b>{String(v).padStart(2, '0')}</b><span>{units[k]}</span></div>
           ))}
         </div>
-        <span className="btn btn-gold ev-hero-btn">Reservar mi cupo →</span>
+        <span className="btn btn-gold ev-hero-btn">{en ? 'Reserve my spot →' : 'Reservar mi cupo →'}</span>
       </div>
     </div>
   )
 }
 
-function SecHead({ n, pill, title, sub }) {
+function SecHead({ n, pill, title, sub, titleStyle, subStyle }) {
   return (
     <div className="ev-sec-head rv">
       <span className="ev-num">{n}</span>
-      <div><span className="pill">{pill}</span><h2>{title}</h2>{sub && <p>{sub}</p>}</div>
+      <div><span className="pill">{pill}</span><h2 style={titleStyle}>{title}</h2>{sub && <p style={subStyle}>{sub}</p>}</div>
     </div>
   )
 }
 
-export function EventosPage() {
+export function EventosPage({ preview }) {
+  const { lang, t } = useLang()
+  const en = lang === 'en'
+  const { data: saved } = useContent('eventos', DEFAULT_EVENTOS)
+  const cms = preview || saved
+  const h = cms.hero || DEFAULT_EVENTOS.hero
+  const HL = (k) => (lang === 'en' ? h[`${k}_en`] : h[`${k}_es`])
+  const s1 = cms.sec1 || DEFAULT_EVENTOS.sec1
+  const s2 = cms.sec2 || DEFAULT_EVENTOS.sec2
+  const s3 = cms.sec3 || DEFAULT_EVENTOS.sec3
+  const S = (o, k) => (lang === 'en' ? o[`${k}_en`] : o[`${k}_es`])
+  const cc = cms.cta || DEFAULT_EVENTOS.cta
+  const CL = (k) => (lang === 'en' ? cc[`${k}_en`] : cc[`${k}_es`])
+  const CATS = (Array.isArray(cms.cats) && cms.cats.length ? cms.cats : DEFAULT_EVENTOS.cats)
+  const CAT_ORDER = CATS.map(c => c.id)
+  const MESES_L = t('eventos.meses')
+  const WEEK_S = t('eventos.semana')
+  const catMap = t('eventos.catMap')
+  const catT = (c) => (catMap && catMap[c]) || c
+  const catInfo = (id) => CATS.find(c => c.id === id) || CATS[0] || {}
+  const catDesc = (id) => {
+    const o = CATS.find(c => c.id === id) || {}
+    return lang === 'en' ? (o.d_en || o.d_es || '') : (o.d_es || o.d_en || '')
+  }
+  const ALL = useMemo(() => {
+    const arr = (Array.isArray(cms.eventos) && cms.eventos.length ? cms.eventos : DEFAULT_EVENTOS.eventos)
+    return arr.map(e => ({
+      ...e,
+      d: lang === 'en' ? (e.d_en || e.d_es || '') : (e.d_es || e.d_en || ''),
+      programa: lang === 'en' ? (e.programa_en || e.programa_es || []) : (e.programa_es || e.programa_en || []),
+      img: resolveAsset(e.img),
+    }))
+  }, [cms, lang])
   const [q, setQ] = useState('')
   const [cat, setCat] = useState('Todos')
   const [sel, setSel] = useState(null)
   const [soloProx, setSoloProx] = useState(true)
   const [vista, setVista] = useState('lista')
   const [anio, setAnio] = useState(() => {
-    const ys = EVENTOS.map(e => Number(e.fecha.slice(0, 4))).sort((a, b) => a - b)
+    const ys = DEFAULT_EVENTOS.eventos.map(e => Number(e.fecha.slice(0, 4))).sort((a, b) => a - b)
     const now = new Date().getFullYear()
     return ys.includes(now) ? now : (ys[0] ?? now)
   })
@@ -72,27 +109,29 @@ export function EventosPage() {
   }, [hash])
 
   const anios = useMemo(() => {
-    const s = new Set(EVENTOS.map(e => Number(e.fecha.slice(0, 4))))
+    const s = new Set(ALL.map(e => Number(e.fecha.slice(0, 4))))
     return [...s].sort((a, b) => a - b)
-  }, [])
+  }, [ALL])
+
+  const hay = (c) => (c.n + c.cat + (c.d_es || '') + (c.d_en || '') + c.lugar).toLowerCase().includes(q.toLowerCase())
 
   const list = useMemo(() => {
-    const r = EVENTOS.filter(c =>
+    const r = ALL.filter(c =>
       (cat === 'Todos' || c.cat === cat) &&
       (!soloProx || evDiasRestan(c.fecha) >= 0) &&
       (Number(c.fecha.slice(0, 4)) === anio) &&
       (!mesSel || Number(c.fecha.slice(5, 7)) === mesSel) &&
-      (c.n + c.cat + c.d + c.lugar).toLowerCase().includes(q.toLowerCase()))
+      hay(c))
     return [...r].sort((a, b) => a.fecha.localeCompare(b.fecha))
-  }, [q, cat, soloProx, anio, mesSel])
+  }, [ALL, q, cat, soloProx, anio, mesSel])
 
   const yearBase = useMemo(() => {
-    return EVENTOS.filter(c =>
+    return ALL.filter(c =>
       (cat === 'Todos' || c.cat === cat) &&
       (!soloProx || evDiasRestan(c.fecha) >= 0) &&
       (Number(c.fecha.slice(0, 4)) === anio) &&
-      (c.n + c.cat + c.d + c.lugar).toLowerCase().includes(q.toLowerCase()))
-  }, [q, cat, soloProx, anio])
+      hay(c))
+  }, [ALL, q, cat, soloProx, anio])
 
   const byFecha = useMemo(() => {
     const map = {}
@@ -101,68 +140,69 @@ export function EventosPage() {
   }, [yearBase])
 
   const proximo = useMemo(() => {
-    const f = EVENTOS.filter(e => evDiasRestan(e.fecha) >= 0).sort((a, b) => a.fecha.localeCompare(b.fecha))
-    return f[0] || EVENTOS[0]
-  }, [])
+    const f = ALL.filter(e => evDiasRestan(e.fecha) >= 0).sort((a, b) => a.fecha.localeCompare(b.fecha))
+    return f[0] || ALL[0]
+  }, [ALL])
 
   const limpiar = () => { setQ(''); setCat('Todos'); setSoloProx(false); setMesSel(null) }
-  const track = EV_CAT_INFO[cat] || EV_CAT_INFO.Todos
+  const track = catInfo(cat)
+  const heroPill = (HL('pill') || '').replaceAll('{a}', anio).replaceAll('{n}', yearBase.length)
 
   return (
     <div className="pg pg-cursos">
-      <div className="nos-hero rv">
-        <img className="nos-hero-bg" src={LOCAL.inicio4} alt="Eventos SEMIT" loading="lazy" />
+      <div className="nos-hero rv" style={h.bg ? { background: h.bg } : undefined}>
+        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Eventos SEMIT" loading="lazy" />
         <div className="nos-hero-veil" />
         <div className="container nos-hero-in">
-          <span className="pill pill-glass">🎉 Agenda {anio} · {yearBase.length} experiencias</span>
-          <h1>Próximos<br />eventos.</h1>
-          <p>No te pierdas ninguna de nuestras experiencias preparadas para ti: viajes, conferencias, talleres y campamentos.</p>
+          <span className="pill pill-glass" style={fmtCssKey(cms, 'ev.hero.pill')}>{heroPill}</span>
+          <h1 style={fmtCssKey(cms, 'ev.hero.h1')}>{HL('h1a')}<br />{HL('h1b')}</h1>
+          <p style={fmtCssKey(cms, 'ev.hero.p')}>{HL('p')}</p>
           <div className="nos-stats-float">
-            <div className="stat4"><b>✈️</b><span>viajes misioneros</span></div>
-            <div className="stat4"><b>🎤</b><span>conferencias</span></div>
-            <div className="stat4"><b>🛠️</b><span>capacitaciones</span></div>
-            <div className="stat4"><b>🏕️</b><span>campamentos</span></div>
+            <div className="stat4"><b>✈️</b><span>{HL('s1')}</span></div>
+            <div className="stat4"><b>🎤</b><span>{HL('s2')}</span></div>
+            <div className="stat4"><b>🛠️</b><span>{HL('s3')}</span></div>
+            <div className="stat4"><b>🏕️</b><span>{HL('s4')}</span></div>
           </div>
         </div>
       </div>
 
       <div className="container sec nos-body">
-        <SecHead n="01" pill="🔥 No te lo pierdas" title="Lo más próximo" sub="Nuestro siguiente encuentro, con cuenta regresiva en vivo." />
+        <SecHead n={s1.n} pill={S(s1, 'pill')} title={S(s1, 'title')} sub={S(s1, 'sub')} titleStyle={fmtCssKey(cms, 'ev.sec.title')} subStyle={fmtCssKey(cms, 'ev.sec.sub')} />
         <ProximoHero ev={proximo} onSelect={setSel} />
 
-        <SecHead n="02" pill="🗓️ Agenda completa" title="Explora todo" sub="Filtra por tipo, toca un día del calendario o busca por palabra." />
+        <SecHead n={s2.n} pill={S(s2, 'pill')} title={S(s2, 'title')} sub={S(s2, 'sub')} titleStyle={fmtCssKey(cms, 'ev.sec.title')} subStyle={fmtCssKey(cms, 'ev.sec.sub')} />
 
         <div className="ev-panel rv">
           <div className="cu-search ev-search">
             <span>🔍</span>
-            <input value={q} onChange={e => setQ(e.target.value)} placeholder="Buscar: amazonía, jóvenes, predicación…" />
+            <input value={q} onChange={e => setQ(e.target.value)} placeholder={t('eventos.ph')} />
             {q && <button onClick={() => setQ('')}>✕</button>}
           </div>
           <div className="ev-cats rv">
-            {EV_CATS.map(a => (
-              <button key={a} className={`cat-card ${cat === a ? 'on' : ''}`} onClick={() => setCat(a)}>
-                <span className="cat-media"><img src={EV_CAT_INFO[a].img} alt={a} loading="lazy" /><span className="cat-emo">{EV_CAT_INFO[a].e}</span><span className="cat-count">{a === 'Todos' ? yearBase.length : yearBase.filter(c => c.cat === a).length}</span></span>
-                <span className="cat-body"><b>{a === 'Todos' ? 'Todo' : a}</b><small>{EV_CAT_INFO[a].d}</small></span>
+            {CATS.map(a => (
+              <button key={a.id} className={`cat-card ${cat === a.id ? 'on' : ''}`} onClick={() => setCat(a.id)}>
+                <span className="cat-media"><img src={resolveAsset(a.img)} alt={a.id} loading="lazy" /><span className="cat-emo">{a.e}</span><span className="cat-count">{a.id === 'Todos' ? yearBase.length : yearBase.filter(c => c.cat === a.id).length}</span></span>
+                <span className="cat-body"><b>{a.id === 'Todos' ? t('eventos.todo') : catT(a.id)}</b><small>{lang === 'en' ? (a.d_en || a.d_es) : (a.d_es || a.d_en)}</small></span>
               </button>
             ))}
           </div>
           <div className="ev-filters ev-filters-2">
-            <div className="cu-fgroup"><span>Ver</span><div>
-              <button className={!soloProx ? 'on' : ''} onClick={() => setSoloProx(false)}>Todos</button>
-              <button className={soloProx ? 'on' : ''} onClick={() => setSoloProx(true)}>Solo próximos</button>
+            <div className="cu-fgroup"><span>{t('eventos.ver')}</span><div>
+              <button className={!soloProx ? 'on' : ''} onClick={() => setSoloProx(false)}>{t('eventos.todos')}</button>
+              <button className={soloProx ? 'on' : ''} onClick={() => setSoloProx(true)}>{t('eventos.soloProx')}</button>
             </div></div>
-            <div className="cu-fgroup"><span>Vista</span><div>
-              <button className={vista === 'lista' ? 'on' : ''} onClick={() => setVista('lista')}>📋 Lista</button>
-              <button className={vista === 'cal' ? 'on' : ''} onClick={() => setVista('cal')}>📅 Año</button>
+            <div className="cu-fgroup"><span>{t('eventos.vista')}</span><div>
+              <button className={vista === 'lista' ? 'on' : ''} onClick={() => setVista('lista')}>{t('eventos.lista')}</button>
+              <button className={vista === 'cal' ? 'on' : ''} onClick={() => setVista('cal')}>{t('eventos.anio')}</button>
             </div></div>
           </div>
-          <p className="ev-active">{track.e} <b>{cat === 'Todos' ? 'Toda la agenda' : cat}</b> · {track.d}</p>
+          <p className="ev-active">{track.e} <b>{cat === 'Todos' ? t('eventos.todaAgenda') : catT(cat)}</b> · {catDesc(cat)}</p>
         </div>
 
         {vista === 'cal' && (
           <div className="ev-year rv" key={`year-${anio}-${cat}-${soloProx}-${q}`}>
             <div className="ev-cal-head">
-              <div><b>Agenda {anio}</b><small>Toca una burbuja de color para ver el evento · toca el mes para ver su lista</small></div>
+              <div><b>{en ? `Calendar ${anio}` : `Agenda ${anio}`}</b><small>{t('eventos.calSub')}</small></div>
               <div className="ev-year-nav">{anios.map(a => <button key={a} className={a === anio ? 'on' : ''} onClick={() => { setAnio(a); setMesSel(null) }}>{a}</button>)}</div>
             </div>
             <div className="ev-mood-cal">
@@ -178,7 +218,7 @@ export function EventosPage() {
                       return (
                         <span key={d} className="ev-mday">
                           <button
-                            className={`ev-circle has cat-${EV_CATS.indexOf(evs[0].cat)}`}
+                            className={`ev-circle has cat-${CAT_ORDER.indexOf(evs[0].cat)}`}
                             onClick={() => setSel(evs[0])}
                             title={`${evs.map(e => e.n).join(' · ')} — ver detalle`}
                           >{d}</button>
@@ -190,44 +230,44 @@ export function EventosPage() {
               ))}
             </div>
             <div className="ev-legend">
-              {EV_CATS.slice(1).map((c, k) => <span key={c}><i className={`ev-dot cat-${k + 1}`} />{c}</span>)}
-              {mesSel != null && <button className="link-btn" onClick={() => setMesSel(null)}>✕ soltar {MESES_L[mesSel - 1]}</button>}
+              {CATS.slice(1).map((c) => <span key={c.id}><i className={`ev-dot cat-${CAT_ORDER.indexOf(c.id)}`} />{catT(c.id)}</span>)}
+              {mesSel != null && <button className="link-btn" onClick={() => setMesSel(null)}>{t('eventos.soltar', { m: MESES_L[mesSel - 1] })}</button>}
             </div>
           </div>
         )}
 
         {vista === 'lista' && (
           <>
-            <div className="cu-count rv">{list.length} evento{list.length === 1 ? '' : 's'} en {mesSel != null ? MESES_L[mesSel - 1] : ''} {anio}{q && <> para <b>“{q}”</b></>} · <button className="link-btn" onClick={limpiar}>limpiar filtros</button></div>
+            <div className="cu-count rv">{list.length} {list.length === 1 ? t('eventos.count.uno') : t('eventos.count.muchos')} {t('eventos.count.en')} {mesSel != null ? MESES_L[mesSel - 1] : ''} {anio}{q && <> {en ? 'for' : 'para'} <b>“{q}”</b></>} · <button className="link-btn" onClick={limpiar}>{t('eventos.count.limpiar')}</button></div>
 
             <div className="cu-list" key={cat + soloProx + anio + mesSel + vista}>
-              {list.map((c, k) => <EventoCard key={`${c.fecha}-${c.n}`} c={c} i={k} onSelect={setSel} />)}
+              {list.map((c, k) => <EventoCard key={`${c.fecha}-${c.n}`} c={c} i={k} onSelect={setSel} preview={preview} />)}
             </div>
             {list.length === 0 && (
               <div className="cu-empty rv">
-                <span>📅</span><h3>Sin eventos</h3>
-                <p>{mesSel != null ? 'Ese mes no hay nada programado. Suelta el mes o limpia los filtros.' : 'Nada con estos filtros. Prueba otra palabra o limpia los filtros.'}</p>
-                <button className="btn btn-blue" onClick={limpiar}>Ver agenda completa</button>
+                <span>📅</span><h3>{t('eventos.empty.t')}</h3>
+                <p>{mesSel != null ? t('eventos.empty.pMes') : t('eventos.empty.pGen')}</p>
+                <button className="btn btn-blue" onClick={limpiar}>{t('eventos.empty.btn')}</button>
               </div>
             )}
             {mesSel != null && (
               <div className="rv" style={{ textAlign: 'center', marginTop: 14 }}>
-                <button className="btn btn-line" onClick={() => setVista('cal')}>← Volver al calendario {anio}</button>
+                <button className="btn btn-line" onClick={() => setVista('cal')}>{t('eventos.volver', { a: anio })}</button>
               </div>
             )}
           </>
         )}
 
-        <SecHead n="03" pill="🔥 Intensivo Ene–Feb" title="BCB Transcultural" sub="Nuestro programa estrella: un mes en base + campo transcultural + oficio." />
-        <BcbEvento />
+        <SecHead n={s3.n} pill={S(s3, 'pill')} title={S(s3, 'title')} sub={S(s3, 'sub')} titleStyle={fmtCssKey(cms, 'ev.sec.title')} subStyle={fmtCssKey(cms, 'ev.sec.sub')} />
+        <BcbEvento preview={preview} />
 
         <div className="cu-cta rv">
-          <div><h3>¿Quieres un evento en tu iglesia?</h3><p>Llevamos <b>conferencias, talleres y campamentos</b> a tu ciudad. Escríbenos y lo armamos juntos.</p></div>
-          <Link className="btn btn-blue" to="/contacto">Pedir un evento →</Link>
+          <div><h3 style={fmtCssKey(cms, 'ev.cta.t')}>{CL('t')}</h3><p style={fmtCssKey(cms, 'ev.cta.p')}>{CL('p1')} <b>{CL('p2')}</b> {CL('p3')}</p></div>
+          <Link className="btn btn-blue" to="/contacto">{CL('btn')}</Link>
         </div>
       </div>
 
-      <EventoDrawer evento={sel} onClose={() => setSel(null)} />
+      <EventoDrawer evento={sel} onClose={() => setSel(null)} preview={preview} />
     </div>
   )
 }

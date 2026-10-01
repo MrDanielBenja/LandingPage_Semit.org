@@ -1,68 +1,56 @@
 import { useEffect, useState } from 'react'
+import { asArr } from '../../../core/cms/safe'
 import { Link } from 'react-router-dom'
-import { IMGS } from '../../../shared/lib/images'
+import { useLang } from '../../../app/providers/LangProvider'
+import { useContent } from '../../../core/cms/contentStore'
+import { resolveAsset } from '../../../core/cms/assets'
+import { DEFAULT_INICIO } from '../../../core/cms/defaultInicio'
+import { fmtCssKey } from '../../../core/cms/fmt'
 
 const AULA_URL = 'https://demo.casa-peniel.com/'
-
 const ORDER = ['presencial', 'semi', 'virtual']
 
-const MODS = [
-  {
-    id: 'presencial', e: '🏫', t: 'Presencial', d: 'En sede Cusco · Huayllapampa', img: IMGS.aula,
-    hijos: [
-      { e: '📚', t: 'Regular', d: 'Clases semanales Lun–Vie · ideal si vives en Cusco o vienes a radicar.', img: IMGS.clases },
-      { e: '⚡', t: 'Intensivo', d: 'Módulos concentrados Ene–Feb y Jul · avanza un semestre en semanas.', img: IMGS.estudiantes },
-    ],
-  },
-  {
-    id: 'semi', e: '🔀', t: 'Semipresencial', d: 'Mitad en sede, mitad en casa', img: IMGS.cusco,
-    hijos: [
-      { e: '🗓️', t: 'Encuentros mensuales', d: 'Un fin de semana al mes en Cusco + clases virtuales entre encuentros.', img: IMGS.iglesia },
-      { e: '🧭', t: 'Campo guiado', d: 'Prácticas en tu iglesia local con mentor SEMIT que te acompaña.', img: IMGS.selva },
-    ],
-  },
-  {
-    id: 'virtual', e: '💻', t: 'Virtual', d: 'Desde donde estés en el mundo', img: IMGS.biblioteca,
-    hijos: [
-      { e: '🎥', t: 'Online en vivo', d: 'Clases en vivo cada 1° lunes de mes · foro, preguntas y comunidad real.', img: IMGS.biblia },
-      { e: '⏯️', t: 'Asincrónico', d: 'A tu ritmo, acceso de por vida · videos, guías y certificado igual de válido.', img: IMGS.libros },
-    ],
-  },
-]
-
-export function Modalidades() {
+export function Modalidades({ preview }) {
+  const { lang, t } = useLang()
+  const { data: saved } = useContent('inicio', DEFAULT_INICIO)
+  const cms = preview || saved
+  const md = cms.mods || DEFAULT_INICIO.mods
+  const L = (k) => (lang === 'en' ? md[`${k}_en`] : md[`${k}_es`]) || t(`home.mods.${k}`)
+  const MODS = asArr(md.items, []).map(m => ({ ...m, t: lang === 'en' ? m.t_en : m.t_es, d: lang === 'en' ? m.d_en : m.d_es, img: resolveAsset(m.img), hijos: asArr(m.hijos, []).map(h => ({ ...h, t: lang === 'en' ? h.t_en : h.t_es, d: lang === 'en' ? h.d_en : h.d_es, img: resolveAsset(h.img) })) }))
   const [mod, setMod] = useState('presencial')
-  const [pause, setPause] = useState(false)
-  const cur = MODS.find(m => m.id === mod)
+  const [pause, setPause] = useState(!!preview)
+  const cur = MODS.find(m => m.id === mod) || MODS[0]
+  const ORDER_L = MODS.map(m => m.id)
   useEffect(() => {
-    if (pause) return
-    const t = setInterval(() => setMod(m => ORDER[(ORDER.indexOf(m) + 1) % ORDER.length]), 6000)
-    return () => clearInterval(t)
-  }, [pause])
+    if (pause || preview) return
+    const tm = setInterval(() => setMod(m => ORDER_L[(ORDER_L.indexOf(m) + 1) % ORDER_L.length]), 6000)
+    return () => clearInterval(tm)
+  }, [pause, preview, ORDER_L.join(',')])
+  if (!cur) return null
   return (
-    <div className="rv" onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>
-      <div className="hsec"><span className="pill">🗂️ Elige cómo estudiar</span><h2>Tu llamado, a tu manera</h2>
-        <p>Como seminario tenemos modalidades para cada realidad: toca una y descubre sus dos caminos.</p></div>
+    <div className="rv" style={md.bg ? { background: md.bg } : undefined} onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>
+      <div className="hsec"><span className="pill" style={fmtCssKey(cms, 'mods.pill')}>{L('pill')}</span><h2 style={fmtCssKey(cms, 'mods.h2')}>{L('h2')}</h2>
+        <p style={fmtCssKey(cms, 'mods.sub')}>{L('sub')}</p></div>
       <div className="mod-tabs">
         {MODS.map(m => (
           <button key={m.id} className={`mod-tab ${mod === m.id ? 'on' : ''}`} onClick={() => setMod(m.id)}>
             <span className="mod-photo"><img src={m.img} alt={m.t} loading="lazy" /><span className="mod-e">{m.e}</span></span>
-            <b>{m.t}</b>
-            <small>{m.d}</small>
+            <b style={fmtCssKey(cms, 'mods.itemt')}>{m.t}</b>
+            <small style={fmtCssKey(cms, 'mods.itemd')}>{m.d}</small>
           </button>
         ))}
       </div>
       <div key={mod} className="mod-duo">
         {cur.hijos.map((h, k) => {
-          const toBcb = cur.id === 'presencial' && h.t === 'Intensivo'
+          const toBcb = cur.id === 'presencial' && (h.t === 'Intensivo' || h.t === 'Intensive')
           const toAula = cur.id === 'virtual'
           const inner = (<>
             <div className="mod-card-media"><img src={h.img} alt={h.t} loading="lazy" /><span className="mod-big">{h.e}</span></div>
             <div className="mod-card-txt">
               <span className="k">{cur.t} · 0{k + 1}</span>
-              <h3>{h.t}</h3>
-              <p>{h.d}</p>
-              {(toBcb || toAula) && <span className="mod-go">{toBcb ? 'Ver BCB Transcultural →' : 'Abrir aula virtual →'}</span>}
+              <h3 style={fmtCssKey(cms, 'mods.hijot')}>{h.t}</h3>
+              <p style={fmtCssKey(cms, 'mods.hijod')}>{h.d}</p>
+              {(toBcb || toAula) && <span className="mod-go">{toBcb ? t('home.mods.goBcb') : t('home.mods.goAula')}</span>}
             </div>
           </>)
           if (toBcb) return <Link key={h.t} to="/eventos#bcb" className="mod-card mod-link" style={{ animationDelay: `${k * 100}ms` }}>{inner}</Link>
@@ -70,7 +58,7 @@ export function Modalidades() {
           return <div key={h.t} className="mod-card" style={{ animationDelay: `${k * 100}ms` }}>{inner}</div>
         })}
       </div>
-      <div className="dots">{ORDER.map(o => <button key={o} aria-label={o} className={`dot ${mod === o ? 'on' : ''}`} onClick={() => setMod(o)} />)}</div>
+      <div className="dots">{ORDER_L.map(o => <button key={o} aria-label={o} className={`dot ${mod === o ? 'on' : ''}`} onClick={() => setMod(o)} />)}</div>
     </div>
   )
 }

@@ -60,7 +60,7 @@
   "modalidad": "Virtual",
   "nivel": "Fundamentos",
   "semanas": 4,
-  "lecciones": 12,
+  "lecciones": 15,
   "rating": 4.9,
   "inscritos": 14,
   "tag": "Portal",
@@ -77,7 +77,10 @@
    "Lección 7",
    "Lección 8",
    "Lección 9",
-   "LECCION 10"
+   "LECCION 10",
+   "Lección 11",
+   "Lección 12",
+   "Lección 13"
   ],
   "activo": true
  },
@@ -92,7 +95,7 @@
   "modalidad": "Virtual",
   "nivel": "Intermedio",
   "semanas": 4,
-  "lecciones": 7,
+  "lecciones": 8,
   "rating": 4.9,
   "inscritos": 11,
   "tag": "Intermedio",
@@ -104,7 +107,8 @@
    "Lección 4: Los ángeles, su ministerio",
    "Lección 5: La prueba de los ángeles: triunfo y tragedia",
    "Lección 6",
-   "Lección 7"
+   "Lección 7",
+   "Leción 8"
   ],
   "activo": true
  },
@@ -239,7 +243,7 @@
   "modalidad": "Virtual",
   "nivel": "Intermedio",
   "semanas": 4,
-  "lecciones": 11,
+  "lecciones": 12,
   "rating": 4.9,
   "inscritos": 17,
   "tag": "Intermedio",
@@ -255,7 +259,8 @@
    "Lección 8: Camino a la comunión: 2° paso, Confesión y arrepentimiento",
    "Lección 9: Camino a la comunión: 3° paso, la alabanza",
    "Lección 10: Camino a la Comunión:4° paso, la adoración",
-   "Lección 11: Alcanzando la Comunión: la meta de nuestro caminar"
+   "Lección 11: Alcanzando la Comunión: la meta de nuestro caminar",
+   "Lección 12"
   ],
   "activo": true
  }

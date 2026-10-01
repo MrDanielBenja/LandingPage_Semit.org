@@ -1,0 +1,52 @@
+SEMIT — Despliegue en cPanel (Node.js)
+=====================================
+
+Contenido del zip (raíz = carpeta de la app Node en cPanel):
+  app.js, package.json, package-lock.json, .env.example
+  src/            código de la API
+  data/           contenido del CMS en JSON (8 páginas)
+  public/         frontend compilado + assets (imágenes)
+  uploads/covers/ portadas de cursos del portal
+  uploads/cms/    carpeta para imágenes subidas desde el CMS
+  sql/            scripts de base de datos (opcional)
+
+PASOS
+1. cPanel → Setup Node.js App → crea app (Node 20+, startup file: app.js).
+2. Sube semit-cpanel-node.zip a la carpeta de la app y extráelo ahí.
+3. En terminal de la app:  npm install --omit=dev
+4. Copia .env.example a .env y ajústalo:
+     PORT=4000
+     CORS_ORIGIN=https://semit.org,https://www.semit.org
+     SYNC_ON_BOOT=0
+     ADMIN_USER=admin
+     ADMIN_PIN=tu-clave-larga
+     # MYSQL_URL=mysql://usuario:clave@localhost:3306/semit  (si usas BD)
+     UPLOAD_IMAGE_MAX_MB=0
+     UPLOAD_VIDEO_MAX_MB=500
+     UPLOAD_JSON_MAX_MB=70
+5. Reinicia la app (Restart) y abre https://semit.org/api/v1/health → {"ok":true}
+
+SI LAS IMÁGENES DAN 500
+El 500 en /assets/*.jpg con el HTML cargando = el hosting no entrega
+los archivos estáticos. En este orden:
+1. Abre https://semit.org/api/v1/diag → debe decir
+   assets {ok:true}. Si dice ok:false, la carpeta public/assets/
+   no se subió o quedó con otro nombre (mayúsculas, assets duplicado).
+2. Permisos: archivos 644 · carpetas 755
+   (click derecho en Administrador de archivos).
+   Afecta a: public/assets/ y uploads/.
+3. Borra o renombra cualquier .htaccess con reglas PHP viejas
+   (php_flag, AddHandler, php_value) dentro de public_html/ o assets/.
+4. cPanel → Hotlink Protection: desactívalo para tu dominio.
+5. cPanel → Metrics → Errors: ahí sale la línea exacta del 500. Si dice
+   "Permission denied" es paso 2; si dice "Invalid command 'php_flag'"
+   es paso 3.
+- Verifica directo: https://semit.org/assets/logo/logo.png debe dar 200.
+- Imagen inexistente ahora da 404 (antes caía al index.html).
+- El aviso [Intervention] de Edge sobre lazy-load es solo informativo,
+  no causa el 500.
+
+NOTAS
+- El frontend va servido por la misma app Node (public/index.html).
+- data/*.json se puede respaldar/restaurar desde /DirAdmin → Respaldo.
+- No subas tu .env real a ningún lado.

@@ -1,0 +1,254 @@
+{
+ "hero": {
+  "h": 640,
+  "overlay": "rgba(0,0,0,.5)",
+  "textColor": "#ffffff"
+ },
+ "news": {
+  "bg": "#1d1d1f",
+  "h_es": "📩 Suscríbete y recibe promociones",
+  "p_es": "Cursos nuevos, publicaciones, libros populares y mucho más.",
+  "ph_es": "Tu correo",
+  "btn_es": "Suscribirme",
+  "h_en": "📩 Subscribe for promotions",
+  "p_en": "New courses, publications, popular books, and much more.",
+  "ph_en": "Your email",
+  "btn_en": "Subscribe"
+ },
+ "sections": {
+  "portadaBg": "#0b1011",
+  "testiBg": "#ffffff"
+ },
+ "slides": [
+  {
+   "fit": "cover",
+   "h": 640,
+   "id": "s1",
+   "img": "assets/inicio/semit-7.jpg",
+   "overlay": "rgba(0,0,0,.5)",
+   "pillBg": "",
+   "pillColor": "",
+   "posX": 50,
+   "posY": 50,
+   "s_en": "Solid Bible, real mission, practical trade.",
+   "s_es": "Biblia sólida, misión real y oficio práctico.",
+   "t_en": "Theology you live out.",
+   "t_es": "Teología que se vive.",
+   "textColor": "#ffffff"
+  },
+  {
+   "fit": "cover",
+   "h": 640,
+   "id": "s2",
+   "img": "assets/inicio/semit-13.jpg",
+   "overlay": "rgba(0,0,0,.5)",
+   "pillBg": "",
+   "pillColor": "",
+   "posX": 50,
+   "posY": 50,
+   "s_en": "SEMIT Seminary: on-site, hybrid, and online.",
+   "s_es": "Seminario SEMIT: presencial, semipresencial y virtual.",
+   "t_en": "Training you live out.",
+   "t_es": "Capacitación que se vive.",
+   "textColor": "#ffffff"
+  },
+  {
+   "fit": "cover",
+   "h": 640,
+   "id": "s3",
+   "img": "assets/inicio/semit-14.jpg",
+   "overlay": "rgba(0,0,0,.5)",
+   "pillBg": "",
+   "pillColor": "",
+   "posX": 50,
+   "posY": 50,
+   "s_en": "Online courses from $30 with certificate.",
+   "s_es": "Cursos virtuales desde $30 con certificado.",
+   "t_en": "Start this Monday.",
+   "t_es": "Empieza este lunes.",
+   "textColor": "#ffffff"
+  }
+ ],
+ "testimonios": [
+  {
+   "bg": "#ffffff",
+   "id": "t1",
+   "img": "assets/nosotros/semit-1.jpg",
+   "n": "María — Cusco",
+   "size": 56,
+   "t_en": "BCB changed me more than years of theory. Real fieldwork in the Amazon.",
+   "t_es": "BCB me cambió más que años de teoría. Campo real en Amazonía.",
+   "textColor": "#1d1d1f"
+  },
+  {
+   "bg": "#ffffff",
+   "id": "t2",
+   "img": "assets/nosotros/semit-6.jpg",
+   "n": "Josué — Ecuador",
+   "size": 56,
+   "t_en": "Real missionary teachers. Clear and heartfelt.",
+   "t_es": "Profes misioneros de verdad. Claro y con corazón.",
+   "textColor": "#1d1d1f"
+  },
+  {
+   "bg": "#ffffff",
+   "id": "t3",
+   "img": "assets/nosotros/semit-8.jpg",
+   "n": "Ana — Argentina",
+   "size": 56,
+   "t_en": "I started one virtual Monday and never stopped. Everything super clear.",
+   "t_es": "Empecé un lunes virtual y no paré. Súper claro todo.",
+   "textColor": "#1d1d1f"
+  }
+ ],
+ "intro": {
+  "pill_es": "🌍 SEMIT Internacional · Seminario SEMIT",
+  "pill_en": "🌍 SEMIT International · SEMIT Seminary",
+  "p_es": "SEMIT Internacional tiene su seminario: el Seminario SEMIT . No es solo aula — es capacitación bíblica sólida y entrenamiento misionero real: aprendes, practicas, sales al campo y enseñas a otros.",
+  "p_en": "SEMIT International has its own seminary: the SEMIT Seminary . More than classrooms — it is solid biblical training and real missionary hands-on preparation : you learn, you practice, you go to the field, and you teach others.",
+  "pt1t_es": "Capacitación",
+  "pt1t_en": "Training",
+  "pt1d_es": "Biblia, teología y ministerio con docentes y misioneros en campo.",
+  "pt1d_en": "Bible, theology, and ministry with teachers and missionaries on the field.",
+  "pt2t_es": "Entrenamiento",
+  "pt2t_en": "Hands-on preparation",
+  "pt2d_es": "Campo real + oficio bi-vocacional para sostener tu ministerio.",
+  "pt2d_en": "Real fieldwork + a bi-vocational trade to sustain your ministry.",
+  "pt3t_es": "Multiplicación",
+  "pt3t_en": "Multiplication",
+  "pt3d_es": "Te enseñamos para que enseñes: 2 Tim 2:2 en acción.",
+  "pt3d_en": "We teach you so you can teach: 2 Tim 2:2 in action.",
+  "imgs": [
+   "assets/cursos/semit-15.jpg",
+   "assets/inicio/semit-13.jpg",
+   "assets/niveles/semit-11.jpg"
+  ],
+  "bg": "",
+  "headingColor": "",
+  "textColor": "",
+  "h2_es": "Capacitación y entrenamiento que se vive.",
+  "h2_en": "Training and preparation you live out."
+ },
+ "mods": {
+  "pill_es": "🗂️ Elige cómo estudiar",
+  "pill_en": "🗂️ Choose how to study",
+  "h2_es": "Tu llamado, a tu manera",
+  "h2_en": "Your calling, your way",
+  "sub_es": "Como seminario tenemos modalidades para cada realidad: toca una y descubre sus dos caminos.",
+  "sub_en": "As a seminary we have options for every reality: tap one and discover its two paths.",
+  "bg": "",
+  "items": [
+   {
+    "id": "presencial",
+    "e": "🏫",
+    "t_es": "Presencial",
+    "t_en": "On-site",
+    "d_es": "En sede Cusco · Huayllapampa",
+    "d_en": "At our Cusco campus · Huayllapampa",
+    "img": "assets/cursos/semit-15.jpg",
+    "hijos": [
+     {
+      "e": "📚",
+      "t_es": "Regular",
+      "t_en": "Regular",
+      "d_es": "Clases semanales Lun–Vie · ideal si vives en Cusco o vienes a radicar.",
+      "d_en": "Weekly Mon–Fri classes · ideal if you live in Cusco or come to stay.",
+      "img": "assets/cursos/semit-21.jpg"
+     },
+     {
+      "e": "⚡",
+      "t_es": "Intensivo",
+      "t_en": "Intensive",
+      "d_es": "Módulos concentrados Ene–Feb y Jul · avanza un semestre en semanas.",
+      "d_en": "Focused Jan–Feb and Jul modules · finish a semester in weeks.",
+      "img": "assets/inicio/semit-13.jpg"
+     }
+    ]
+   },
+   {
+    "id": "semi",
+    "e": "🔀",
+    "t_es": "Semipresencial",
+    "t_en": "Hybrid",
+    "d_es": "Mitad en sede, mitad en casa",
+    "d_en": "Half on campus, half at home",
+    "img": "assets/inicio/semit-7.jpg",
+    "hijos": [
+     {
+      "e": "🗓️",
+      "t_es": "Encuentros mensuales",
+      "t_en": "Monthly gatherings",
+      "d_es": "Un fin de semana al mes en Cusco + clases virtuales entre encuentros.",
+      "d_en": "One weekend a month in Cusco + online classes in between.",
+      "img": "assets/nosotros/semit-1.jpg"
+     },
+     {
+      "e": "🧭",
+      "t_es": "Campo guiado",
+      "t_en": "Guided fieldwork",
+      "d_es": "Prácticas en tu iglesia local con mentor SEMIT que te acompaña.",
+      "d_en": "Practice at your local church with a SEMIT mentor.",
+      "img": "assets/eventos/semit-10.jpg"
+     }
+    ]
+   },
+   {
+    "id": "virtual",
+    "e": "💻",
+    "t_es": "Virtual",
+    "t_en": "Online",
+    "d_es": "Desde donde estés en el mundo",
+    "d_en": "From anywhere in the world",
+    "img": "assets/niveles/semit-11.jpg",
+    "hijos": [
+     {
+      "e": "🎥",
+      "t_es": "Online en vivo",
+      "t_en": "Live online",
+      "d_es": "Clases en vivo cada 1° lunes de mes · foro, preguntas y comunidad real.",
+      "d_en": "Live classes every 1st Monday · forum, Q&A, real community.",
+      "img": "assets/cursos/semit-19.jpg"
+     },
+     {
+      "e": "⏯️",
+      "t_es": "Asincrónico",
+      "t_en": "Self-paced",
+      "d_es": "A tu ritmo, acceso de por vida · videos, guías y certificado igual de válido.",
+      "d_en": "At your pace, lifetime access · videos, guides, equally valid certificate.",
+      "img": "assets/niveles/semit-3.jpg"
+     }
+    ]
+   }
+  ]
+ },
+ "ruta": {
+  "pill_es": "🛤️ De cero a maestría",
+  "pill_en": "🛤️ From zero to a master’s",
+  "h2_es": "Tu ruta, paso a paso",
+  "h2_en": "Your path, step by step",
+  "sub_es": "Cinco escalones, un solo llamado. Toca cada uno y mira qué incluye.",
+  "sub_en": "Five steps, one calling. Tap each one and see what it includes.",
+  "bg": ""
+ },
+ "top": {
+  "pill_es": "🔥 Los más pedidos",
+  "pill_en": "🔥 Most requested",
+  "h2_es": "Empieza este lunes",
+  "h2_en": "Start this Monday",
+  "sub_es": "Los 4 cursos que más vidas están marcando. Todos inician cada 1° lunes, con certificado.",
+  "sub_en": "The 4 courses changing the most lives. All start every 1st Monday, with certificate.",
+  "count": 4,
+  "bg": ""
+ },
+ "teaser": {
+  "pill_es": "🎉 Próximo evento ·",
+  "pill_en": "🎉 Next event ·",
+  "bg": ""
+ },
+ "marquee": {
+  "text_es": "TEOLOGÍA ✦ BIBLIA ✦ MISIONES ✦ BI-VOCACIONAL ✦ TEOLOGÍA ✦ BIBLIA ✦ MISIONES ✦ BI-VOCACIONAL ✦ ",
+  "text_en": "THEOLOGY ✦ BIBLE ✦ MISSIONS ✦ BI-VOCATIONAL ✦ THEOLOGY ✦ BIBLE ✦ MISSIONS ✦ BI-VOCATIONAL ✦ ",
+  "bg": "",
+  "color": ""
+ }
+}
