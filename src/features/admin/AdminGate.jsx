@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login, isAuthed } from './adminAuth'
+import { syncServerLimits } from '../../core/cms/media'
 
 export function AdminGate({ children }) {
   const [user, setUser] = useState('admin')
@@ -8,6 +9,7 @@ export function AdminGate({ children }) {
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
   const [ok, setOk] = useState(() => isAuthed())
+  useEffect(() => { syncServerLimits() }, [])
   const nav = useNavigate()
   if (ok) return children
   const send = async (e) => {

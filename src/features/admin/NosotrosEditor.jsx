@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { arrOf } from '../../core/cms/safe'
-import { aliasPaisId, defaultPaises, flagFor, normalizePaises, searchPaises } from '../../core/cms/paises'
-import { Row, FmtCtl, ImgPick } from './InicioEditor'
+import { aliasPaisId, defaultPaises, flagFor, flagNameList, memberPaises, normalizePaises, searchPaises } from '../../core/cms/paises'
+import { Row, FmtCtl, ImgPick, IconsForm } from './InicioEditor'
 import { NOSOTROS_ASSETS } from '../../core/cms/defaultNosotros'
 import { resolveUpload } from './adminUpload'
+import { imgEditScaleOnly } from '../../core/cms/imgEdit'
 
 function PaisesManager({ paises, onChange }) {
   const [q, setQ] = useState('')
@@ -70,9 +71,20 @@ function HeroForm({ o, onChange, fmt, setFmt }) {
         <Row label="Verse EN"><textarea rows={2} value={o.verse_en || ''} onChange={e => set('verse_en', e.target.value)} /></Row>
       </>)}
       <Row label="Cita"><input value={o.verseRef || ''} onChange={e => set('verseRef', e.target.value)} /></Row>
-      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} /></Row>
+      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, ...p }), 'Nosotros hero - Edición de Imagen')} /></Row>
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
-      <div className="adm-note">Stats: {arrOf(o.stats).map(s => `${s.v}`).join(' · ')}</div>
+      <div className="adm-note">Stats ({arrOf(o.stats).length}) — valor + etiqueta ES/EN</div>
+      {arrOf(o.stats).map((s, k) => (
+        <div key={k} className="adm-grid3">
+          <Row label={`Valor ${k + 1}`}><input type="number" min="0" value={s.v ?? 0} onChange={e => set('stats', arrOf(o.stats).map((x, j) => (j === k ? { ...x, v: Number(e.target.value) } : x)))} /></Row>
+          <Row label="Etiqueta ES"><input value={s.label_es || ''} onChange={e => set('stats', arrOf(o.stats).map((x, j) => (j === k ? { ...x, label_es: e.target.value } : x)))} /></Row>
+          <Row label="Label EN"><input value={s.label_en || ''} onChange={e => set('stats', arrOf(o.stats).map((x, j) => (j === k ? { ...x, label_en: e.target.value } : x)))} /></Row>
+        </div>
+      ))}
+      <div className="adm-listops">
+        <button className="btn btn-line" onClick={() => set('stats', [...arrOf(o.stats), { v: 0, label_es: 'Nuevo', label_en: 'New' }])}>+ Agregar</button>
+        <button className="btn btn-line" onClick={() => { if (arrOf(o.stats).length > 1) set('stats', arrOf(o.stats).slice(0, -1)) }}>− Quitar</button>
+      </div>
     </div>
   )
 }
@@ -106,7 +118,7 @@ function QuienesForm({ o, onChange, fmt, setFmt }) {
         <Row label="Dedica text EN"><textarea rows={2} value={o.dedicap_en || ''} onChange={e => set('dedicap_en', e.target.value)} /></Row>
         <Row label="CTA EN"><input value={o.cta_en || ''} onChange={e => set('cta_en', e.target.value)} /></Row>
       </>)}
-      <Row label="Imagen dedica"><ImgPick value={o.dedicaImg} onChange={v => set('dedicaImg', v)} /></Row>
+      <Row label="Imagen dedica"><ImgPick value={o.dedicaImg} onChange={v => set('dedicaImg', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, imgCfgDedica: p.imgCfg }), 'Dedica - Edición de Imagen')} /></Row>
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
       <Row label="Pilar"><select value={sel} onChange={e => setSel(Number(e.target.value))}>{items.map((x, k) => <option key={k} value={k}>{x.t_es || `Pilar ${k + 1}`}</option>)}</select></Row>
       {cur && (<>
@@ -118,7 +130,7 @@ function QuienesForm({ o, onChange, fmt, setFmt }) {
           <Row label="Title EN"><input value={cur.t_en || ''} onChange={e => upd({ ...cur, t_en: e.target.value })} /></Row>
           <Row label="Desc EN"><textarea rows={2} value={cur.d_en || ''} onChange={e => upd({ ...cur, d_en: e.target.value })} /></Row>
         </>)}
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'Pilar - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -170,7 +182,7 @@ function FuncsForm({ o, onChange, fmt, setFmt, sel, onSel }) {
           <Row label="Title EN"><input value={cur.t_en || ''} onChange={e => upd({ ...cur, t_en: e.target.value })} /></Row>
           <Row label="Desc EN"><textarea rows={2} value={cur.d_en || ''} onChange={e => upd({ ...cur, d_en: e.target.value })} /></Row>
         </>)}
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'Función - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -231,6 +243,17 @@ function EquipoForm({ o, onChange, fmt, setFmt, sel, onSel }) {
   const items = arrOf(o.members)
   const paises = normalizePaises(o.paises, defaultPaises())
   const cur = items[sel]
+  const curPaises = memberPaises(cur)
+  const togglePais = (id) => {
+    const has = curPaises.includes(id)
+    if (has) {
+      if (curPaises.length <= 1) return
+      upd({ ...cur, p: curPaises.filter((x) => x !== id)[0], paises: curPaises.filter((x) => x !== id) })
+    } else {
+      if (curPaises.length >= 5) return
+      upd({ ...cur, p: curPaises[0], paises: [...curPaises, id] })
+    }
+  }
   const upd = (next) => onChange({ ...o, members: items.map((x, k) => (k === sel ? next : x)) })
   const add = () => onChange({ ...o, members: [...items, { n: 'Nuevo', p: paises[0]?.id || 'PER', img: NOSOTROS_ASSETS[0], rol_es: '', rol_en: '', q_es: '', q_en: '' }] })
   const del = () => { if (items.length > 1) { onChange({ ...o, members: items.filter((_, k) => k !== sel) }); onSel(0) } }
@@ -243,18 +266,27 @@ function EquipoForm({ o, onChange, fmt, setFmt, sel, onSel }) {
         <FmtCtl label="Formato título" value={fmt['equipo.title']} onChange={v => setFmt('equipo.title', v)} />
         <Row label="Sub ES"><input value={o.sub_es || ''} onChange={e => set('sub_es', e.target.value)} /></Row>
         <FmtCtl label="Formato texto" value={fmt['equipo.p']} onChange={v => setFmt('equipo.p', v)} />
+        <Row label="Sufijo azul ES"><input value={o.suffix_es ?? ''} placeholder="· docente y misionero SEMIT" onChange={e => set('suffix_es', e.target.value)} /></Row>
+        <FmtCtl label="Formato sufijo azul" value={fmt['equipo.suffix']} onChange={v => setFmt('equipo.suffix', v)} />
       </>) : (<>
         <Row label="Pill EN"><input value={o.pill_en || ''} onChange={e => set('pill_en', e.target.value)} /></Row>
         <Row label="Title EN"><input value={o.title_en || ''} onChange={e => set('title_en', e.target.value)} /></Row>
         <FmtCtl label="Formato título" value={fmt['equipo.title']} onChange={v => setFmt('equipo.title', v)} />
         <Row label="Sub EN"><input value={o.sub_en || ''} onChange={e => set('sub_en', e.target.value)} /></Row>
         <FmtCtl label="Formato texto" value={fmt['equipo.p']} onChange={v => setFmt('equipo.p', v)} />
+        <Row label="Blue suffix EN"><input value={o.suffix_en ?? ''} placeholder="· SEMIT teacher and missionary" onChange={e => set('suffix_en', e.target.value)} /></Row>
+        <FmtCtl label="Formato sufijo azul" value={fmt['equipo.suffix']} onChange={v => setFmt('equipo.suffix', v)} />
       </>)}
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
       <div className="adm-detail">
         <div className="adm-note">🌎 Países del filtro — busca por nombre o código, añade, y luego elígelos en cada miembro.</div>
         <PaisesManager paises={paises} onChange={(v) => {
-          const next = { ...o, paises: v, members: items.map((m) => (v.some((p) => p.id === aliasPaisId(m.p)) ? m : { ...m, p: v[0]?.id || m.p })) }
+          const vIds = v.map((p) => p.id)
+          const next = { ...o, paises: v, members: items.map((m) => {
+            const keep = memberPaises(m).filter((id) => vIds.includes(id))
+            const finalIds = keep.length ? keep : (vIds.length ? [vIds[0]] : memberPaises(m))
+            return { ...m, p: finalIds[0], paises: finalIds }
+          }) }
           onChange(next)
         }} />
       </div>
@@ -272,7 +304,16 @@ function EquipoForm({ o, onChange, fmt, setFmt, sel, onSel }) {
       </div>
       {cur && (<>
         <Row label="Nombre"><input value={cur.n || ''} onChange={e => upd({ ...cur, n: e.target.value })} /></Row>
-        <Row label="País"><select value={aliasPaisId(cur.p)} onChange={e => upd({ ...cur, p: e.target.value })}>{paises.map((p) => <option key={p.id} value={p.id}>{flagFor(paises, p.id)} {p.name_es} · {p.id}</option>)}</select></Row>
+        <div className="adm-detail">
+          <div className="adm-note">🌎 Nacionalidades ({curPaises.length}/5): {flagNameList(paises, curPaises, 'es') || '—'} — toca para añadir/quitar (mín. 1, máx. 5).</div>
+          <div className="adm-chips">
+            {paises.map((p) => (
+              <button key={p.id} type="button" className={curPaises.includes(p.id) ? 'on' : ''} onClick={() => togglePais(p.id)}>
+                <span>{flagFor(paises, p.id)}</span><span>{p.name_es} · {p.id}{curPaises.includes(p.id) ? ' ✓' : ''}</span>
+              </button>
+            ))}
+          </div>
+        </div>
         {tab === 'es' ? (<>
           <Row label="Rol ES"><input value={cur.rol_es || ''} onChange={e => upd({ ...cur, rol_es: e.target.value })} /></Row>
           <Row label="Frase ES"><textarea rows={2} value={cur.q_es || ''} onChange={e => upd({ ...cur, q_es: e.target.value })} /></Row>
@@ -280,7 +321,7 @@ function EquipoForm({ o, onChange, fmt, setFmt, sel, onSel }) {
           <Row label="Role EN"><input value={cur.rol_en || ''} onChange={e => upd({ ...cur, rol_en: e.target.value })} /></Row>
           <Row label="Quote EN"><textarea rows={2} value={cur.q_en || ''} onChange={e => upd({ ...cur, q_en: e.target.value })} /></Row>
         </>)}
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'Miembro - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -297,6 +338,7 @@ export function NosotrosEditor({ draft, onDraft, sec, sel, onSel }) {
       {sec === 'funcs' && <FuncsForm o={draft.funcs || {}} onChange={v => set({ funcs: v })} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
       {sec === 'fe' && <FeForm o={draft.fe || {}} onChange={v => set({ fe: v })} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
       {sec === 'equipo' && <EquipoForm o={draft.equipo || {}} onChange={v => set({ equipo: v })} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
+      {sec === 'icons' && <IconsForm page="nosotros" value={draft.icons || {}} onChange={v => set({ icons: v })} />}
     </div>
   )
 }

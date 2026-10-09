@@ -6,6 +6,8 @@ import { useContent } from '../../core/cms/contentStore'
 import { resolveAsset } from '../../core/cms/assets'
 import { fmtCssKey } from '../../core/cms/fmt'
 import { DEFAULT_NIVELES } from '../../core/cms/defaultNiveles'
+import { iconOf } from '../../core/cms/icons'
+import { imgStyleOf } from '../../core/cms/imgEdit'
 import { subIntroKey, subIntroOf } from '../../core/cms/nivelesIntro'
 import { asArr } from '../../core/cms/safe'
 import { NIVEL_MODS } from './data/niveles.data'
@@ -68,6 +70,10 @@ export function NivelesPage({ preview }) {
 
   const pill = String(Lh('pill') || '').replaceAll('{n}', String(PROGS.length))
   const maeTodosImg = (PROGS.find(p => p.sub === 'maestria') || {}).img
+  const I = (k, fb) => iconOf(cms, k, fb)
+  const iSearch = I('search', '🔍')
+  const iEmpty = I('empty', '🔍')
+  const iMaeTodos = I('maeTodos', '🎓')
   const nextStep = RUTA_L[Math.min(Math.max(RUTA_L.findIndex(x => x.id === sub), 0) + 1, RUTA_L.length - 1)]
 
   // Intro del sub seleccionado (certificado/diplomado/... + artes/divinidades cuando aplica).
@@ -81,9 +87,9 @@ export function NivelesPage({ preview }) {
   }, subKey)
 
   return (
-    <div className="pg pg-cursos">
+    <div className="pg pg-niveles">
       <div className="nos-hero mid rv" style={h.bg ? { background: h.bg } : undefined}>
-        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Niveles SEMIT" loading="lazy" />
+        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Niveles SEMIT" loading="lazy" style={imgStyleOf(h)} />
         <div className="nos-hero-veil" />
         <div className="container nos-hero-in">
           <span className="pill pill-glass" style={fmtCssKey(cms, 'niv.hero.pill')}>{pill}</span>
@@ -101,7 +107,7 @@ export function NivelesPage({ preview }) {
             const n = PROGS.filter(c => c.rama === r.id).length
             return (
               <button key={r.id} className={`cat-card wide ${rama === r.id ? 'on' : ''}`} onClick={() => pickRama(r.id)}>
-                <span className="cat-media"><img src={r.img} alt={r.label} loading="lazy" /><span className="cat-emo">{r.e}</span><span className="cat-count">{n}</span></span>
+                <span className="cat-media"><img src={r.img} alt={r.label} loading="lazy" style={imgStyleOf(r)} /><span className="cat-emo">{r.e}</span><span className="cat-count">{n}</span></span>
                 <span className="cat-body"><b style={fmtCssKey(cms, 'niv.ramas.label')}>{r.label}</b><small style={fmtCssKey(cms, 'niv.ramas.d')}>{r.d}</small></span>
               </button>
             )
@@ -113,7 +119,7 @@ export function NivelesPage({ preview }) {
             const n = PROGS.filter(c => c.rama === rama && c.sub === s.id).length
             return (
               <button key={s.id} className={`cat-card ${sub === s.id ? 'on' : ''}`} onClick={() => { setSub(s.id); setMae('Todos') }}>
-                <span className="cat-media"><img src={s.img} alt={s.label} loading="lazy" /><span className="cat-emo">{s.e}</span><span className="cat-count">{n}</span></span>
+                <span className="cat-media"><img src={s.img} alt={s.label} loading="lazy" style={imgStyleOf(s)} /><span className="cat-emo">{s.e}</span><span className="cat-count">{n}</span></span>
                 <span className="cat-body"><b style={fmtCssKey(cms, 'niv.subs.label')}>{s.label}</b><small style={fmtCssKey(cms, 'niv.subs.d')}>{s.d}</small></span>
               </button>
             )
@@ -124,7 +130,7 @@ export function NivelesPage({ preview }) {
           <div className="nv-mae rv">
             {MAE_OPTS.map(m => (
               <button key={m.id} className={`cat-card ${mae === m.id ? 'on' : ''}`} onClick={() => setMae(m.id)}>
-                <span className="cat-media"><img src={m.id === 'Todos' ? maeTodosImg : (MAESTRIAS_L.find(x => x.id === m.id) || {}).img} alt={m.label} loading="lazy" /><span className="cat-emo">{m.id === 'Todos' ? '🎓' : m.e}</span></span>
+                <span className="cat-media"><img src={m.id === 'Todos' ? maeTodosImg : (MAESTRIAS_L.find(x => x.id === m.id) || {}).img} alt={m.label} loading="lazy" style={m.id === 'Todos' ? undefined : imgStyleOf(MAESTRIAS_L.find(x => x.id === m.id))} /><span className="cat-emo">{m.id === 'Todos' ? iMaeTodos : m.e}</span></span>
                 <span className="cat-body"><b style={fmtCssKey(cms, 'niv.maestrias.label')}>{m.id === 'Todos' ? t('niveles.verAmbas') : t('niveles.maestriaEn', { l: m.label })}</b><small style={fmtCssKey(cms, 'niv.maestrias.d')}>{m.id === 'Todos' ? t('niveles.artesDiv') : m.d}</small></span>
               </button>
             ))}
@@ -140,7 +146,7 @@ export function NivelesPage({ preview }) {
 
         <div className="cu-toolbar cu-toolbar-lg rv">
           <div className="cu-search nv-search">
-            <span>🔍</span>
+            <span>{iSearch}</span>
             <input value={q} onChange={e => setQ(e.target.value)} placeholder={t('niveles.ph', { s: (subInfo.label || '').toLowerCase() })} />
             {q && <button onClick={() => setQ('')}>✕</button>}
           </div>
@@ -155,7 +161,7 @@ export function NivelesPage({ preview }) {
         </div>
         {list.length === 0 && (
           <div className="cu-empty rv">
-            <span>🔍</span><h3>{t('niveles.empty.t')}</h3>
+            <span>{iEmpty}</span><h3>{t('niveles.empty.t')}</h3>
             <p>{t('niveles.empty.p', { q })}</p>
             <button className="btn btn-blue" onClick={() => { setQ(''); setMod('Todos') }}>{t('niveles.empty.btn')}</button>
           </div>

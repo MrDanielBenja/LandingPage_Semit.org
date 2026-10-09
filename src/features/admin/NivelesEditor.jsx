@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { arrOf } from '../../core/cms/safe'
-import { Row, FmtCtl, ImgPick } from './InicioEditor'
+import { Row, FmtCtl, ImgPick, IconsForm } from './InicioEditor'
+import { imgEditScaleOnly } from '../../core/cms/imgEdit'
 import { NIVELES_ASSETS } from '../../core/cms/defaultNiveles'
 import { resolveUpload } from './adminUpload'
 
@@ -45,7 +46,7 @@ function HeroForm({ draft, onDraft, fmt, setFmt }) {
         <FmtCtl label="Formato intro texto" value={fmt['niv.intro.txt']} onChange={v => setFmt('niv.intro.txt', v)} />
         <Row label="Intro text 2 EN"><textarea rows={2} value={it.txt2_en || ''} onChange={e => setI('txt2_en', e.target.value)} /></Row>
       </>)}
-      <Row label="Imagen hero"><ImgPick value={h.img} onChange={v => setH('img', v)} /></Row>
+      <Row label="Imagen hero"><ImgPick value={h.img} onChange={v => setH('img', v)} {...imgEditScaleOnly(h, (p) => onDraft({ ...draft, hero: { ...h, ...p } }), 'Niveles hero - Edición de Imagen')} /></Row>
       <Row label="Fondo hero"><input type="color" value={h.bg || '#ffffff'} onChange={e => setH('bg', e.target.value)} /></Row>
       <Row label="Fondo intro"><input type="color" value={it.bg || '#ffffff'} onChange={e => setI('bg', e.target.value)} /></Row>
     </div>
@@ -82,7 +83,7 @@ function CatItemForm({ cur, upd, fmt, setFmt, fmtT, fmtD, labelKey }) {
         <FmtCtl label="Fmt intro título" value={fmt['niv.subIntro.t']} onChange={v => setFmt('niv.subIntro.t', v)} />
         <FmtCtl label="Fmt intro texto" value={fmt['niv.subIntro.d']} onChange={v => setFmt('niv.subIntro.d', v)} />
       </>)}
-      <Row label="Imagen"><ImgPick value={cur.img} onChange={v => upd({ img: v })} /></Row>
+      <Row label="Imagen"><ImgPick value={cur.img} onChange={v => upd({ img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...p }), 'Niveles - Edición de Imagen')} /></Row>
     </div>
   )
 }
@@ -245,7 +246,7 @@ function ProgramasForm({ draft, onDraft, fmt, setFmt, sel, onSel }) {
           <Row label="Estudiantes"><input type="number" min="0" value={cur.est} onChange={e => upd({ est: Number(e.target.value) })} /></Row>
         </div>
         <Row label="Rating"><input type="number" min="0" max="5" step="0.1" value={cur.rating} onChange={e => upd({ rating: Number(e.target.value) })} /></Row>
-        <Row label="Imagen"><ImgPick value={cur.img} onChange={v => upd({ img: v })} /></Row>
+        <Row label="Imagen"><ImgPick value={cur.img} onChange={v => upd({ img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...p }), 'Programa - Edición de Imagen')} /></Row>
       </div>
     )}
   </>)
@@ -262,6 +263,7 @@ export function NivelesEditor({ draft, onDraft, sec, sel, onSel }) {
       {sec === 'maestrias' && <MaestriasForm draft={draft} onDraft={onDraft} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
       {sec === 'ruta' && <RutaForm draft={draft} onDraft={onDraft} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
       {sec === 'programas' && <ProgramasForm draft={draft} onDraft={onDraft} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
+      {sec === 'icons' && <IconsForm page="niveles" value={draft.icons || {}} onChange={v => onDraft({ ...draft, icons: v })} />}
     </div>
   )
 }

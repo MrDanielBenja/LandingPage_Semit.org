@@ -1,11 +1,35 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { arrOf } from '../../core/cms/safe'
 import { acceptFor, IMAGE_MAX_MB, isVideoUrl, VIDEO_MAX_MB } from '../../core/cms/media'
 import { DEFAULT_INICIO, INICIO_ASSETS } from '../../core/cms/defaultInicio'
-import { resolveUpload, uploadMedia } from './adminUpload'
+import { deleteUpload, listUploaded, recentUploads, resolveUpload, uploadMedia } from './adminUpload'
+import { ImageCanvasModal } from './ImageCanvasModal'
+import { imgEditFor, imgEditScaleOnly } from '../../core/cms/imgEdit'
+
+import { ICON_DEFAULTS, ICON_LABELS } from '../../core/cms/icons'
 
 export function Row({ label, children }) {
   return <div className="adm-row"><span>{label}</span>{children}</div>
+}
+
+export function IconsForm({ page, value, onChange }) {  const defs = ICON_DEFAULTS[page] || {}
+  const cur = (value && typeof value === 'object') ? value : {}
+  const set = (k, v) => onChange({ ...cur, [k]: v })
+  const keys = Object.keys(defs)
+  if (!keys.length) return <div className="adm-note">Esta página no tiene iconos configurables.</div>
+  return (
+    <div className="adm-form">
+      <div className="adm-note">🎨 Iconos — vacío = valor original. Acepta emoji o texto corto.</div>
+      <div className="adm-grid2">
+        {keys.map((k) => (
+          <Row key={k} label={ICON_LABELS[k] || k}><input value={cur[k] ?? ''} placeholder={defs[k]} onChange={e => set(k, e.target.value)} /></Row>
+        ))}
+      </div>
+      <div className="adm-listops">
+        <button type="button" className="btn btn-line" onClick={() => onChange({})}>↺ Restablecer iconos</button>
+      </div>
+    </div>
+  )
 }
 
 export function FmtCtl({ label, value, onChange }) {
@@ -62,12 +86,23 @@ function FramePreview({ s }) {
   )
 }
 
-export function ImgPick({ value, onChange, assets, kinds = 'image' }) {
+export function ImgPick({ value, onChange, assets, kinds = 'image', editCtx, editInitial, onEditSave }) {
   const [up, setUp] = useState('')
+  const [recent, setRecent] = useState(() => recentUploads(kinds))
+  const [editorOpen, setEditorOpen] = useState(false)
   const fileRef = useRef(null)
   const prev = !value ? '' : value.startsWith('data:') ? value : resolveUpload(value)
   const isVid = isVideoUrl(value)
   const list = assets || INICIO_ASSETS
+  useEffect(() => {
+    let alive = true
+    listUploaded(kinds).then(items => {
+      if (!alive) return
+      const urls = items.map(x => x.url).filter(Boolean)
+      if (urls.length) setRecent(urls)
+    }).catch(() => {})
+    return () => { alive = false }
+  }, [kinds])
   const imgHint = Number.isFinite(IMAGE_MAX_MB) ? `≤${IMAGE_MAX_MB}MB` : 'sin límite'
   const hint = kinds === 'image'
     ? `Subir imagen (JPG/PNG/WebP/GIF/AVIF ${imgHint})`
@@ -80,13 +115,57 @@ export function ImgPick({ value, onChange, assets, kinds = 'image' }) {
     try {
       const r = await uploadMedia(f, kinds)
       onChange(r.url)
+      setRecent(prev => [r.url, ...prev.filter(x => x !== r.url)].slice(0, 60))
       setUp(r.warn ? `Guardada local ✓ (${r.warn})` : `Subida ✓ ${r.kind === 'video' ? '🎬' : '🖼️'}`)
     } catch (e) {
       setUp(`Error: ${e.message}`)
     }
   }
+  const remove = async (a) => {
+    if (!window.confirm(`¿Eliminar ${a.split('/').pop()} del servidor? Se libera espacio pero las páginas que la usen quedarán sin imagen.`)) return
+    setUp('Eliminando…')
+    try {
+      await deleteUpload(a)
+      setRecent(prev => prev.filter(x => x !== a))
+      if (value === a) onChange('')
+      setUp('Eliminada ✓ espacio liberado')
+    } catch (e) {
+      setUp(`Error: ${e.message}`)
+    }
+  }
+  const inUse = (a) => value === a
+  const refresh = async () => {
+    setUp('Actualizando lista…')
+    try {
+      const items = await listUploaded(kinds)
+      const urls = items.map(x => x.url).filter(Boolean)
+      if (urls.length) setRecent(urls)
+      setUp(urls.length ? `Lista actualizada ✓ ${urls.length}` : 'Sin subidas aún en el servidor')
+    } catch {
+      setUp('No se pudo listar — revisa /api/v1/health')
+    }
+  }
   return (
     <div className="adm-imgpick">
+      {recent.length > 0 && (
+        <>
+          <div className="adm-note">🆕 Subidas ({recent.length}) <button type="button" className="link-btn" onClick={refresh}>↻ Actualizar</button></div>
+          <div className="adm-thumbs adm-thumbs-recent">
+            {recent.map(a => (
+              <span key={a} className={`adm-thumbwrap ${value === a ? 'on' : ''}`} title={a}>
+                <button type="button" className="adm-thumbbtn" onClick={() => onChange(a)}>
+                  {isVideoUrl(a)
+                    ? <video src={resolveUpload(a)} preload="metadata" muted />
+                    : <img src={resolveUpload(a)} alt="" loading="lazy" />}
+                </button>
+                <button type="button" className="adm-thumbdel" title={inUse(a) ? 'En uso aquí — al eliminar se limpia esta casilla' : 'Eliminar del servidor'} onClick={() => remove(a)}>✕</button>
+                {inUse(a) && <i className="adm-thumbedot" title="En uso en esta casilla" />}
+              </span>
+            ))}
+          </div>
+          <div className="adm-note">🖼️ Plantilla</div>
+        </>
+      )}
       <div className="adm-thumbs">
         {list.map(a => (
           <button key={a} type="button" className={value === a ? 'on' : ''} onClick={() => onChange(a)}>
@@ -95,13 +174,24 @@ export function ImgPick({ value, onChange, assets, kinds = 'image' }) {
         ))}
       </div>
       <div className="adm-imgsrc">
-        <input value={value || ''} onChange={e => onChange(e.target.value)} placeholder="assets/inicio/… o URL" />
+        <input value={value || ''} onChange={e => onChange(e.target.value)} placeholder="/assets/inicio/… o URL" />
         <button type="button" className="btn btn-line" onClick={() => fileRef.current?.click()}>{hint}</button>
         <input ref={fileRef} type="file" accept={acceptFor(kinds)} hidden onChange={e => pick(e.target.files[0])} />
       </div>
       {prev ? (isVid
         ? <video className="adm-prev" src={prev} controls preload="metadata" />
         : <img className="adm-prev" src={prev} alt="" />) : <small className="adm-note">Sin imagen</small>}
+      {!isVid && prev && onEditSave && (
+        <button type="button" className="btn btn-line imgm-editbtn" onClick={() => setEditorOpen(true)}>🎛️ Editar imagen · encuadre y posición</button>
+      )}
+      <ImageCanvasModal
+        open={editorOpen}
+        title={editCtx || 'Edición de Imagen'}
+        src={prev}
+        initial={typeof editInitial === 'function' ? editInitial() : editInitial}
+        onClose={() => setEditorOpen(false)}
+        onSave={(cfg) => { setEditorOpen(false); onEditSave && onEditSave(cfg) }}
+      />
       {up && <small className="adm-note">{up}</small>}
     </div>
   )
@@ -127,7 +217,7 @@ function SlideForm({ s, onChange }) {
         <Row label="Subtitle EN"><input value={s.s_en} onChange={e => set('s_en', e.target.value)} /></Row>
         <FmtCtl label="Formato subtítulo" value={s.fs} onChange={v => set('fs', v)} />
       </>)}
-      <Row label="Imagen o video"><ImgPick value={s.img} onChange={v => set('img', v)} kinds="both" /></Row>
+      <Row label="Imagen o video"><ImgPick value={s.img} onChange={v => set('img', v)} kinds="both" {...imgEditFor(s, (p) => set(p), 'Portada - Edición de Imagen')} /></Row>
       <FramePreview s={s} />
       <div className="adm-grid2">
         <Row label="Ajuste"><select value={s.fit} onChange={e => set('fit', e.target.value)}><option value="cover">cover</option><option value="contain">contain</option></select></Row>
@@ -161,7 +251,7 @@ function TestiForm({ x, onChange }) {
         <FmtCtl label="Formato texto" value={x.ft} onChange={v => set('ft', v)} /></>
         : <><Row label="Text EN"><textarea rows={3} value={x.t_en} onChange={e => set('t_en', e.target.value)} /></Row>
         <FmtCtl label="Formato texto" value={x.ft} onChange={v => set('ft', v)} /></>}
-      <Row label="Foto"><ImgPick value={x.img} onChange={v => set('img', v)} /></Row>
+      <Row label="Foto"><ImgPick value={x.img} onChange={v => set('img', v)} {...imgEditScaleOnly(x, (p) => set(p), 'Testimonio - Edición de Imagen')} /></Row>
       <div className="adm-grid3">
         <Row label="Tamaño px"><input type="number" min="32" max="160" value={x.size} onChange={e => set('size', Number(e.target.value))} /></Row>
         <Row label="Fondo"><input type="color" value={x.bg} onChange={e => set('bg', e.target.value)} /></Row>
@@ -191,6 +281,7 @@ function IntroForm({ it, onChange, fmt, setFmt }) {
   const [tab, setTab] = useState('es')
   const set = (k, v) => onChange({ ...it, [k]: v })
   const F = ['pill', 'h2', 'p', 'pt1t', 'pt1d', 'pt2t', 'pt2d', 'pt3t', 'pt3d']
+  const E = [['pt1e', 'Icono punto 1'], ['pt2e', 'Icono punto 2'], ['pt3e', 'Icono punto 3']]
   return (
     <div className="adm-form">
       <div className="adm-tabs">
@@ -202,8 +293,11 @@ function IntroForm({ it, onChange, fmt, setFmt }) {
           <FmtCtl label={`Fmt ${k}`} value={fmt?.[`intro.${k}`]} onChange={v => setFmt(`intro.${k}`, v)} /></div>
         : <div key={k}><Row label={`${k} EN`}><input value={it[`${k}_en`] || ''} onChange={e => set(`${k}_en`, e.target.value)} /></Row>
           <FmtCtl label={`Fmt ${k}`} value={fmt?.[`intro.${k}`]} onChange={v => setFmt(`intro.${k}`, v)} /></div>)}
+      {E.map(([k, label]) => (
+        <Row key={k} label={`${label} (emoji o vacío)`}><input value={it[k] ?? ''} placeholder="📖" onChange={e => set(k, e.target.value)} /></Row>
+      ))}
       {arrOf(it.imgs).map((im, k) => (
-        <Row key={k} label={`Imagen ${k + 1}`}><ImgPick value={im} onChange={v => set('imgs', arrOf(it.imgs).map((x, j) => (j === k ? v : x)))} /></Row>
+        <Row key={k} label={`Imagen ${k + 1}`}><ImgPick value={im} onChange={v => set('imgs', arrOf(it.imgs).map((x, j) => (j === k ? v : x)))} {...imgEditScaleOnly({ img: im, imgCfg: (it.imgCfgs || [])[k] }, (p) => set('imgCfgs', (() => { const a = [...(Array.isArray(it.imgCfgs) ? it.imgCfgs : [])]; a[k] = p.imgCfg; return a })()), `Intro imagen ${k + 1} - Edición de Imagen`)} /></Row>
       ))}
       <div className="adm-grid3">
         <Row label="Fondo"><input type="color" value={it.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
@@ -259,7 +353,8 @@ function ModsForm({ md, onChange, fmt, setFmt }) {
           <Row label="Desc EN"><input value={m.d_en || ''} onChange={e => updM({ d_en: e.target.value })} /></Row>
           <FmtCtl label="Fmt item desc" value={fmt?.['mods.itemd']} onChange={v => setFmt('mods.itemd', v)} />
         </>)}
-        <Row label="Foto modalidad"><ImgPick value={m.img} onChange={v => updM({ img: v })} /></Row>
+        <Row label="Foto modalidad"><ImgPick value={m.img} onChange={v => updM({ img: v })} {...imgEditScaleOnly(m, (p) => updM(p), 'Modalidad - Edición de Imagen')} /></Row>
+        <Row label="Icono modalidad (emoji)"><input value={m.e || ''} placeholder="🏫" onChange={e => updM({ e: e.target.value })} /></Row>
         <Row label="Hijo"><select value={hi} onChange={e => setHi(Number(e.target.value))}>{arrOf(m.hijos).map((x, k) => <option key={k} value={k}>{x.t_es || `Hijo ${k + 1}`}</option>)}</select></Row>
         {h && (<>
           {tab === 'es' ? (<>
@@ -273,7 +368,8 @@ function ModsForm({ md, onChange, fmt, setFmt }) {
             <Row label="Child desc EN"><input value={h.d_en || ''} onChange={e => updH({ d_en: e.target.value })} /></Row>
             <FmtCtl label="Fmt hijo desc" value={fmt?.['mods.hijod']} onChange={v => setFmt('mods.hijod', v)} />
           </>)}
-          <Row label="Foto hijo"><ImgPick value={h.img} onChange={v => updH({ img: v })} /></Row>
+          <Row label="Foto hijo"><ImgPick value={h.img} onChange={v => updH({ img: v })} {...imgEditScaleOnly(h, (p) => updH(p), 'Modalidad hijo - Edición de Imagen')} /></Row>
+          <Row label="Icono hijo (emoji)"><input value={h.e || ''} placeholder="📚" onChange={e => updH({ e: e.target.value })} /></Row>
         </>)}
       </>)}
     </div>
@@ -390,6 +486,7 @@ export function InicioEditor({ draft, onDraft, sec, sel, onSel }) {
         </div>
       )}
       {sec === 'teaser' && <HeadForm o={draft.teaser || {}} onChange={v => set({ teaser: v })} keys={['pill']} colors prefix="teaser" fmt={fmt} setFmt={setFmt} />}
+      {sec === 'icons' && <IconsForm page="inicio" value={draft.icons || {}} onChange={v => set({ icons: v })} />}
       {sec === 'marquee' && (
         <div className="adm-form">
           <Row label="Texto ES"><input value={draft.marquee?.text_es || ''} onChange={e => set({ marquee: { ...(draft.marquee || {}), text_es: e.target.value } })} /></Row>

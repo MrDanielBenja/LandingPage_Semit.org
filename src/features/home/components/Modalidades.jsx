@@ -5,15 +5,22 @@ import { useLang } from '../../../app/providers/LangProvider'
 import { useContent } from '../../../core/cms/contentStore'
 import { resolveAsset } from '../../../core/cms/assets'
 import { DEFAULT_INICIO } from '../../../core/cms/defaultInicio'
+import { DEFAULT_SITE } from '../../../core/cms/defaultSite'
+import { PORTAL_URL } from '../../../shared/config/site'
 import { fmtCssKey } from '../../../core/cms/fmt'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
-const AULA_URL = 'https://demo.casa-peniel.com/'
 const ORDER = ['presencial', 'semi', 'virtual']
 
-export function Modalidades({ preview }) {
+const imgStyle = (o) => imgStyleOf(o)
+
+export function Modalidades({ preview, sitePreview }) {
   const { lang, t } = useLang()
   const { data: saved } = useContent('inicio', DEFAULT_INICIO)
   const cms = preview || saved
+  const { data: siteSaved } = useContent('site', DEFAULT_SITE)
+  const site = (sitePreview || siteSaved || DEFAULT_SITE).site || {}
+  const AULA_URL = site.portalUrl || PORTAL_URL
   const md = cms.mods || DEFAULT_INICIO.mods
   const L = (k) => (lang === 'en' ? md[`${k}_en`] : md[`${k}_es`]) || t(`home.mods.${k}`)
   const MODS = asArr(md.items, []).map(m => ({ ...m, t: lang === 'en' ? m.t_en : m.t_es, d: lang === 'en' ? m.d_en : m.d_es, img: resolveAsset(m.img), hijos: asArr(m.hijos, []).map(h => ({ ...h, t: lang === 'en' ? h.t_en : h.t_es, d: lang === 'en' ? h.d_en : h.d_es, img: resolveAsset(h.img) })) }))
@@ -34,7 +41,7 @@ export function Modalidades({ preview }) {
       <div className="mod-tabs">
         {MODS.map(m => (
           <button key={m.id} className={`mod-tab ${mod === m.id ? 'on' : ''}`} onClick={() => setMod(m.id)}>
-            <span className="mod-photo"><img src={m.img} alt={m.t} loading="lazy" /><span className="mod-e">{m.e}</span></span>
+            <span className="mod-photo"><img src={m.img} alt={m.t} loading="lazy" style={imgStyle(m)} /><span className="mod-e">{m.e}</span></span>
             <b style={fmtCssKey(cms, 'mods.itemt')}>{m.t}</b>
             <small style={fmtCssKey(cms, 'mods.itemd')}>{m.d}</small>
           </button>
@@ -45,7 +52,7 @@ export function Modalidades({ preview }) {
           const toBcb = cur.id === 'presencial' && (h.t === 'Intensivo' || h.t === 'Intensive')
           const toAula = cur.id === 'virtual'
           const inner = (<>
-            <div className="mod-card-media"><img src={h.img} alt={h.t} loading="lazy" /><span className="mod-big">{h.e}</span></div>
+            <div className="mod-card-media"><img src={h.img} alt={h.t} loading="lazy" style={imgStyle(h)} /><span className="mod-big">{h.e}</span></div>
             <div className="mod-card-txt">
               <span className="k">{cur.t} · 0{k + 1}</span>
               <h3 style={fmtCssKey(cms, 'mods.hijot')}>{h.t}</h3>

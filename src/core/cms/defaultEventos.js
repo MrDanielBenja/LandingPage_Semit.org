@@ -2,6 +2,7 @@ import { EVENTOS, EV_CAT_INFO } from '../../features/eventos/data/eventos.data'
 import { LOCAL } from '../../shared/lib/images'
 import { ES } from '../../shared/i18n/dict_es'
 import { EN } from '../../shared/i18n/dict_en'
+import { iconsWithDefaults } from './icons'
 
 const H = ES.eventos
 const HE = EN.eventos
@@ -19,6 +20,8 @@ export const DEFAULT_EVENTOS = {
     s2_es: H.hero.s2, s2_en: HE.hero.s2,
     s3_es: H.hero.s3, s3_en: HE.hero.s3,
     s4_es: H.hero.s4, s4_en: HE.hero.s4,
+    s1e: '✈️', s2e: '🎤', s3e: '🛠️', s4e: '🏕️',
+    proximoIcon: '🔥',
     img: imgOf(LOCAL.inicio4),
     bg: '',
   },
@@ -136,28 +139,29 @@ export const DEFAULT_EVENTOS = {
     p3_es: H.cta.p3, p3_en: HE.cta.p3,
     btn_es: H.cta.btn, btn_en: HE.cta.btn,
   },
+  icons: iconsWithDefaults('eventos'),
   fmt: {},
 }
 
 export const EVENTOS_ASSETS = [
-  'assets/eventos/semit-4.jpg',
-  'assets/eventos/semit-10.jpg',
-  'assets/eventos/semit-22.jpg',
-  'assets/eventos/semit-23.jpg',
-  'assets/inicio/semit-7.jpg',
-  'assets/inicio/semit-13.jpg',
-  'assets/inicio/semit-14.jpg',
-  'assets/inicio/semit-16.jpg',
-  'assets/nosotros/semit-1.jpg',
-  'assets/nosotros/semit-6.jpg',
-  'assets/nosotros/semit-8.jpg',
-  'assets/nosotros/semit-9.jpg',
-  'assets/niveles/semit-11.jpg',
-  'assets/niveles/semit-3.jpg',
-  'assets/niveles/semit-5.jpg',
-  'assets/cursos/semit-15.jpg',
-  'assets/cursos/semit-19.jpg',
-  'assets/cursos/semit-21.jpg',
+  '/assets/eventos/semit-4.jpg',
+  '/assets/eventos/semit-10.jpg',
+  '/assets/eventos/semit-22.jpg',
+  '/assets/eventos/semit-23.jpg',
+  '/assets/inicio/semit-7.jpg',
+  '/assets/inicio/semit-13.jpg',
+  '/assets/inicio/semit-14.jpg',
+  '/assets/inicio/semit-16.jpg',
+  '/assets/nosotros/semit-1.jpg',
+  '/assets/nosotros/semit-6.jpg',
+  '/assets/nosotros/semit-8.jpg',
+  '/assets/nosotros/semit-9.jpg',
+  '/assets/niveles/semit-11.jpg',
+  '/assets/niveles/semit-3.jpg',
+  '/assets/niveles/semit-5.jpg',
+  '/assets/cursos/semit-15.jpg',
+  '/assets/cursos/semit-19.jpg',
+  '/assets/cursos/semit-21.jpg',
   LOCAL.eventosHero, LOCAL.eventosA, LOCAL.eventosB, LOCAL.eventosC,
   LOCAL.inicio1, LOCAL.inicio2, LOCAL.inicio3, LOCAL.inicio4,
 ].filter((v, k, a) => v && a.indexOf(v) === k)

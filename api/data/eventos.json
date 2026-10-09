@@ -8,15 +8,15 @@
   "h1b_en": "events.",
   "p_es": "No te pierdas ninguna de nuestras experiencias preparadas para ti: viajes, conferencias, talleres y campamentos.",
   "p_en": "Don’t miss any of our experiences prepared for you: trips, conferences, workshops, and camps.",
-  "s1_es": "viajes misioneros",
+  "s1_es": "Viajes Misioneros",
   "s1_en": "mission trips",
-  "s2_es": "conferencias",
+  "s2_es": "Conferencias",
   "s2_en": "conferences",
-  "s3_es": "capacitaciones",
+  "s3_es": "Capacitaciones",
   "s3_en": "training workshops",
-  "s4_es": "campamentos",
+  "s4_es": "Campamentos",
   "s4_en": "camps",
-  "img": "assets/inicio/semit-16.jpg",
+  "img": "/api/v1/uploads/1791091129464-afiche-para-web.png",
   "bg": ""
  },
  "sec1": {
@@ -59,46 +59,46 @@
    "e": "✈️",
    "d_es": "Campo real dentro y fuera del Perú",
    "d_en": "Campo real dentro y fuera del Perú",
-   "img": "assets/eventos/semit-10.jpg"
+   "img": "/api/v1/uploads/1791213198199-7a73f263-dscn2965.jpg"
   },
   {
    "id": "Conferencias",
    "e": "🎤",
    "d_es": "Voces que encienden tu llamado",
    "d_en": "Voces que encienden tu llamado",
-   "img": "assets/nosotros/semit-1.jpg"
+   "img": "/api/v1/uploads/1791213306131-2b809d48-20190215_200444-copia.jpg"
   },
   {
    "id": "Capacitaciones",
    "e": "🛠️",
    "d_es": "Talleres prácticos de un día",
    "d_en": "Talleres prácticos de un día",
-   "img": "assets/cursos/semit-21.jpg"
+   "img": "/api/v1/uploads/1791213351204-acd5f563-20200129_171533.jpg"
   },
   {
    "id": "Campamentos",
    "e": "🏕️",
    "d_es": "Días inolvidables con tu generación",
    "d_en": "Días inolvidables con tu generación",
-   "img": "assets/eventos/semit-22.jpg"
+   "img": "/api/v1/uploads/1791213757503-bda967eb-dsc09286.jpg"
   }
  ],
  "eventos": [
   {
-   "n": "Viaje Misionero · Amazonía Peruana",
+   "n": "Viaje Misionero · Costa norte del Perú",
    "cat": "Viajes Misioneros",
-   "d_es": "Selva, ríos y comunidades nativas. 15 días con equipo dirigido por misioneros de campo.",
+   "d_es": "Costa Norte, Piura, Tambo Grande, Iglesias locales y grupos de estudio bíblico en casa. ",
    "d_en": "Selva, ríos y comunidades nativas. 15 días con equipo dirigido por misioneros de campo.",
-   "fecha": "2026-10-17",
-   "hora": "05:00",
-   "lugar": "Amazonía · salida Cusco",
+   "fecha": "2026-10-06",
+   "hora": "10:00",
+   "lugar": "Costa Norte · salida Cusco",
    "mod": "Presencial",
-   "p": 450,
-   "cupos": 30,
-   "inscritos": 18,
+   "p": 500,
+   "cupos": 10,
+   "inscritos": 7,
    "rating": 5,
    "tag": "3 rutas",
-   "img": "assets/eventos/semit-4.jpg",
+   "img": "/api/v1/uploads/1791214352532-f8634d96-tambogrande.png",
    "programa_es": [
     "Día 1-3: preparación y envío en Cusco",
     "Día 4-12: servicio en comunidades",
@@ -124,7 +124,7 @@
    "inscritos": 52,
    "rating": 4.9,
    "tag": "Gratis",
-   "img": "assets/eventos/semit-10.jpg",
+   "img": "/api/v1/uploads/1791055015391-img_0744.jpg",
    "programa_es": [
     "Mañana: observa e interpreta",
     "Tarde: bosqueja y aplica",
@@ -141,16 +141,16 @@
    "cat": "Conferencias",
    "d_es": "Dos noches de alabanza, palabra y llamado con invitados de Latinoamérica.",
    "d_en": "Dos noches de alabanza, palabra y llamado con invitados de Latinoamérica.",
-   "fecha": "2026-11-07",
-   "hora": "18:30",
+   "fecha": "2026-08-03",
+   "hora": "09:00",
    "lugar": "SEMIT Cusco · auditorio",
    "mod": "Presencial",
-   "p": 25,
-   "cupos": 300,
-   "inscritos": 214,
+   "p": 40,
+   "cupos": 150,
+   "inscritos": 93,
    "rating": 5,
    "tag": "No te lo pierdas",
-   "img": "assets/eventos/semit-22.jpg",
+   "img": "/api/v1/uploads/1791214982511-4e4aa089-dsc09383.jpg",
    "programa_es": [
     "Noche 1: avivamiento personal",
     "Noche 2: llamado y envío",
@@ -176,7 +176,7 @@
    "inscritos": 77,
    "rating": 4.9,
    "tag": "Cupos limitados",
-   "img": "assets/eventos/semit-23.jpg",
+   "img": "/api/v1/uploads/1791235690714-71337386-20260804_184155.jpg",
    "programa_es": [
     "Día 1: llegada y fogata",
     "Día 2: talleres + deporte",
@@ -346,7 +346,7 @@
   }
  ],
  "bcb": {
-  "pill_es": "🔥 Intensivo e Integral · 10 Ene — 8 Feb",
+  "pill_es": "🔥 Intensivo e Integral · 9 Ene — 24 Feb",
   "pill_en": "🔥 Intensive & Integral · Jan 10 — Feb 8",
   "h2_es": "BCB Transcultural",
   "h2_en": "BCB Transcultural",
@@ -354,13 +354,13 @@
   "p_en": "Missionary Training Program in Base, Field, and Bi-vocational. Two phases that shape your calling.",
   "f0_es": "Base en Cusco",
   "f0_en": "Base in Cusco",
-  "f0sub_es": "10 Ene — 8 Feb · 4 sem",
+  "f0sub_es": "09 Ene — 7 Feb · 4 sem",
   "f0sub_en": "Jan 10 — Feb 8 · 4 wks",
-  "f1_es": "Campo transcultural",
+  "f1_es": "Campo Transcultural",
   "f1_en": "Transcultural field",
   "f1sub_es": "15-20 días · 3 rutas",
   "f1sub_en": "15–20 days · 3 routes",
-  "k0_es": "1° FASE · 10 ENE — 8 FEB · 4 SEMANAS",
+  "k0_es": "1° FASE · 09 ENE — 07 FEB · 4 SEMANAS",
   "k0_en": "1ST PHASE · JAN 10 — FEB 8 · 4 WEEKS",
   "k0t_es": "Entrenamiento en Base",
   "k0t_en": "Base Training",
@@ -447,7 +447,7 @@
     "t_en": "Misiones",
     "d_es": "Llamado, estrategia y campo transcultural.",
     "d_en": "Llamado, estrategia y campo transcultural.",
-    "img": "assets/nosotros/semit-6.jpg"
+    "img": "/api/v1/uploads/1791217557426-cc179667-20260117_165204.jpg.jpeg"
    },
    {
     "e": "✝️",
@@ -455,7 +455,7 @@
     "t_en": "Biblia",
     "d_es": "Panorama y estudio inductivo aplicado.",
     "d_en": "Panorama y estudio inductivo aplicado.",
-    "img": "assets/cursos/semit-19.jpg"
+    "img": "/api/v1/uploads/1791217632173-fec46477-10352979_459219790919495_7739934634535538426_n.jpg"
    },
    {
     "e": "⛪",
@@ -463,7 +463,7 @@
     "t_en": "Teología",
     "d_es": "Doctrina sólida para enseñar a otros.",
     "d_en": "Doctrina sólida para enseñar a otros.",
-    "img": "assets/nosotros/semit-1.jpg"
+    "img": "/api/v1/uploads/1791218323545-3952bae5-chatgpt-image-23-sept-2026-10_32_57-p.m.png"
    },
    {
     "e": "🛠️",
@@ -471,7 +471,7 @@
     "t_en": "Bi-vocacional",
     "d_es": "Oficio técnico para sostener tu ministerio.",
     "d_en": "Oficio técnico para sostener tu ministerio.",
-    "img": "assets/cursos/semit-21.jpg"
+    "img": "/api/v1/uploads/1791218406133-22579f65-img-20260114-wa0005.jpg.jpeg"
    }
   ],
   "oficios": [
@@ -481,7 +481,7 @@
     "t_en": "Carpintería",
     "d_es": "Melamina y madera.",
     "d_en": "Melamina y madera.",
-    "img": "assets/cursos/semit-21.jpg"
+    "img": "/api/v1/uploads/1791218519330-ac1ad16f-20200114_210129-0-copia.jpg"
    },
    {
     "e": "🍳",
@@ -489,7 +489,7 @@
     "t_en": "Gastronomía",
     "d_es": "Alta cocina práctica.",
     "d_en": "Alta cocina práctica.",
-    "img": "assets/inicio/semit-14.jpg"
+    "img": "/api/v1/uploads/1791218544235-f1700628-16174494_394946054187811_490396299321916352_n.jpg"
    },
    {
     "e": "💈",
@@ -497,7 +497,7 @@
     "t_en": "Peluquería",
     "d_es": "Profesional y rentable.",
     "d_en": "Profesional y rentable.",
-    "img": "assets/nosotros/semit-8.jpg"
+    "img": "/api/v1/uploads/1791218834279-e12dfeb1-whatsapp-image-2025-12-09-at-8.46.58-pm-1.jpeg"
    },
    {
     "e": "🔥",
@@ -505,7 +505,7 @@
     "t_en": "Soldadura",
     "d_es": "Estructuras metálicas.",
     "d_en": "Estructuras metálicas.",
-    "img": "assets/cursos/semit-15.jpg"
+    "img": "/api/v1/uploads/1791218854734-6c12baab-3029a4a2-4ffc-496c-8633-0bee2e2cb68a-scaled-2.jpeg"
    }
   ],
   "incluye": [
@@ -515,7 +515,7 @@
     "t_en": "Hospedaje",
     "d_es": "En lugar tranquilo.",
     "d_en": "En lugar tranquilo.",
-    "img": "assets/nosotros/semit-9.jpg"
+    "img": "/api/v1/uploads/1791218971944-218b42d7-20181113_143828.jpg"
    },
    {
     "e": "🍲",
@@ -523,7 +523,7 @@
     "t_en": "Alimentación",
     "d_es": "Adecuada y balanceada.",
     "d_en": "Adecuada y balanceada.",
-    "img": "assets/inicio/semit-16.jpg"
+    "img": "/api/v1/uploads/1791219029354-6cb2d116-20260206_134513.jpg.jpeg"
    },
    {
     "e": "📚",
@@ -531,7 +531,7 @@
     "t_en": "Materiales y libros",
     "d_es": "Todo lo necesario.",
     "d_en": "Todo lo necesario.",
-    "img": "assets/niveles/semit-3.jpg"
+    "img": "assets/nosotros/semit-8.jpg"
    },
    {
     "e": "✈️",
@@ -539,7 +539,7 @@
     "t_en": "Viajes misioneros",
     "d_es": "Salidas semanales.",
     "d_en": "Salidas semanales.",
-    "img": "assets/eventos/semit-10.jpg"
+    "img": "/api/v1/uploads/1791219177804-0f655bd9-20250723_085623.jpg"
    }
   ],
   "campos": [
@@ -548,14 +548,14 @@
     "t_en": "Amazonía Peruana",
     "d_es": "Selva, ríos y comunidades nativas.",
     "d_en": "Selva, ríos y comunidades nativas.",
-    "img": "assets/eventos/semit-10.jpg"
+    "img": "/api/v1/uploads/1791219247849-beb0789e-img00002.jpg"
    },
    {
     "t_es": "Norte Perú + Ecuador",
     "t_en": "Norte Perú + Ecuador",
     "d_es": "Costa, sierra y frontera misionera.",
     "d_en": "Costa, sierra y frontera misionera.",
-    "img": "assets/eventos/semit-22.jpg"
+    "img": "/api/v1/uploads/1791214352532-f8634d96-tambogrande.png"
    },
    {
     "t_es": "Chile + Argentina",
@@ -568,25 +568,25 @@
   "costos": [
    {
     "tag": "Oct",
-    "p": "S/.750",
+    "p": "S/.800",
     "n_es": "Promoción Octubre. Inscríbete en octubre.",
     "n_en": "Promoción Octubre. Inscríbete en octubre."
    },
    {
     "tag": "Nov",
-    "p": "S/.800",
+    "p": "S/.850",
     "n_es": "Promoción Noviembre. Inscríbete en noviembre.",
     "n_en": "Promoción Noviembre. Inscríbete en noviembre."
    },
    {
     "tag": "Dic",
-    "p": "S/.850",
+    "p": "S/.900",
     "n_es": "Promoción Diciembre. Inscríbete en diciembre.",
     "n_en": "Promoción Diciembre. Inscríbete en diciembre."
    },
    {
     "tag": "Ene",
-    "p": "S/.880",
+    "p": "S/.950",
     "n_es": "Costo Regular. Hasta el 10 de enero 2026.",
     "n_en": "Costo Regular. Hasta el 10 de enero 2026."
    },

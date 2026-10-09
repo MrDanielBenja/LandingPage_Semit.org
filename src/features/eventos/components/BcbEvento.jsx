@@ -8,6 +8,8 @@ import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
 import { DEFAULT_EVENTOS } from '../../../core/cms/defaultEventos'
 import { SITE } from '../../../shared/config/site'
+import { iconOf } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 export function BcbEvento({ preview }) {
   const { lang } = useLang()
@@ -30,6 +32,7 @@ export function BcbEvento({ preview }) {
   const [campo, setCampo] = useState(0)
   const [verMas, setVerMas] = useState(false)
   const curCampo = CAMPOS[campo] || CAMPOS[0] || {}
+  const iPin = iconOf(cms, 'bcbPin', '📍')
   return (
     <div className="bcb-sec rv" id="bcb" style={{ paddingLeft: 0, paddingRight: 0 }}>
       <div className="hsec"><span className="pill">{L('pill')}</span><h2 style={fmtCssKey(cms, 'ev.bcb.h2')}>{L('h2')}</h2>
@@ -42,20 +45,20 @@ export function BcbEvento({ preview }) {
 
       {fase === 0 ? (
         <div key="f0" className="bcb-page">
-          <div className="bcb-hero"><img src={resolveAsset(o.img_base)} alt={L('k0t')} loading="lazy" />
+          <div className="bcb-hero"><span className="bcb-hero-mask"><img src={resolveAsset(o.img_base)} alt={L('k0t')} loading="lazy" style={imgStyleOf({ imgCfg: o.imgCfgBase })} /></span>
             <div><span className="k">{L('k0')}</span><h3>{L('k0t')}</h3>
               <p>{L('k0p1')}</p>
               <p style={{ marginTop: 8 }}>{L('k0p2')}</p></div></div>
 
           <h4 className="bcb-h4">{L('hAreas')}</h4>
-          <div className="bcb-cards4">{AREAS.map(a => <div key={a.t} className="bcb-mini bcb-photo"><img src={a.img} alt={a.t} loading="lazy" /><span className="bcb-emo">{a.e}</span><b>{a.t}</b><small>{a.d}</small></div>)}</div>
+          <div className="bcb-cards4">{AREAS.map(a => <div key={a.t} className="bcb-mini bcb-photo"><img src={a.img} alt={a.t} loading="lazy" style={imgStyleOf(a)} /><span className="bcb-emo">{a.e}</span><b>{a.t}</b><small>{a.d}</small></div>)}</div>
 
           <h4 className="bcb-h4">{L('hOficios')}</h4>
-          <div className="bcb-cards4">{OFICIOS.map(x => <div key={x.t} className="bcb-mini bcb-photo"><img src={x.img} alt={x.t} loading="lazy" /><span className="bcb-emo">{x.e}</span><b>{x.t}</b><small>{x.d}</small></div>)}</div>
+          <div className="bcb-cards4">{OFICIOS.map(x => <div key={x.t} className="bcb-mini bcb-photo"><img src={x.img} alt={x.t} loading="lazy" style={imgStyleOf(x)} /><span className="bcb-emo">{x.e}</span><b>{x.t}</b><small>{x.d}</small></div>)}</div>
           <div className="note">{L('nota1')}</div>
 
           <h4 className="bcb-h4">{L('hIncluye')}</h4>
-          <div className="bcb-cards4">{INCLUYE.map(x => <div key={x.t} className="bcb-mini bcb-photo"><img src={x.img} alt={x.t} loading="lazy" /><span className="bcb-emo">{x.e}</span><b>{x.t}</b><small>{x.d}</small></div>)}</div>
+          <div className="bcb-cards4">{INCLUYE.map(x => <div key={x.t} className="bcb-mini bcb-photo"><img src={x.img} alt={x.t} loading="lazy" style={imgStyleOf(x)} /><span className="bcb-emo">{x.e}</span><b>{x.t}</b><small>{x.d}</small></div>)}</div>
           <div className="bcb-duo">
             <div className="mini-card"><span>{L('fechaT')}</span><strong style={{ fontSize: 15 }}>{L('fechaV')}</strong></div>
             <div className="mini-card"><span>{L('lugarT')}</span><strong style={{ fontSize: 15 }}>{L('lugarV')}</strong></div>
@@ -74,7 +77,7 @@ export function BcbEvento({ preview }) {
         </div>
       ) : (
         <div key="f1" className="bcb-page">
-          <div className="bcb-hero"><img src={curCampo.img} alt={curCampo.t} loading="lazy" />
+          <div className="bcb-hero"><span className="bcb-hero-mask"><img src={curCampo.img} alt={curCampo.t} loading="lazy" style={imgStyleOf(curCampo)} /></span>
             <div><span className="k">{L('k1')}</span><h3>{L('k1t')}</h3>
               <p>{L('k1p1')}</p>
               <p style={{ marginTop: 8 }}>{L('k1p2')}</p></div></div>
@@ -82,9 +85,9 @@ export function BcbEvento({ preview }) {
           <h4 className="bcb-h4">{L('hRuta')}</h4>
           <div className="route-grid">{CAMPOS.map((x, k) => (
             <button key={x.t} className={`route-card ${k === campo ? 'on' : ''}`} onClick={() => setCampo(k)}>
-              <img src={x.img} alt={x.t} loading="lazy" /><b>{L('opc')} {k + 1} · {x.t}</b><span>{x.d}</span>
+              <span className="route-mask"><img src={x.img} alt={x.t} loading="lazy" style={imgStyleOf(x)} /></span><b>{L('opc')} {k + 1} · {x.t}</b><span>{x.d}</span>
             </button>))}</div>
-          <div className="note" key={campo}>📍 <b>{curCampo.t}:</b> {curCampo.d} — {L('viajas')}</div>
+          <div className="note" key={campo}>{iPin} <b>{curCampo.t}:</b> {curCampo.d} — {L('viajas')}</div>
 
           <h4 className="bcb-h4">{L('hCubre')}</h4>
           <div className="bcb-cards4">{CUBRE.map(x => <div key={x} className="bcb-mini chk-mini">{x}</div>)}</div>

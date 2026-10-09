@@ -11,6 +11,8 @@ delete process.env.MYSQL_PUBLIC_URL
 delete process.env.ADMIN_PIN
 delete process.env.ADMIN_PASS
 delete process.env.SYNC_TOKEN
+process.env.NODE_ENV = 'test'
+process.env.ALLOW_OPEN_DEV = '1'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const DATA = join(here, '..', 'data')

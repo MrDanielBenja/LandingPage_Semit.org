@@ -4,15 +4,15 @@
   "pill_en": "📶 Academic path · {n} programs",
   "h1a_es": "Tu ruta.",
   "h1a_en": "Your path.",
-  "h1b_es": "De cero a maestría.",
+  "h1b_es": "De cero a maestría",
   "h1b_en": "From zero to a master’s.",
-  "img": "assets/niveles/semit-3.jpg",
+  "img": "assets/niveles/semit-11.jpg",
   "bg": ""
  },
  "intro": {
-  "sub_es": "Pregrado para empezar, Postgrado para profundizar. Elige tu rama y avanza paso a paso.",
+  "sub_es": "Pregrado para empezar, Postgrado para profundizar. Elige tu rama: Biblia, Teología o Misiones y avanza paso a paso.",
   "sub_en": "Undergraduate to start, graduate to go deeper. Choose your track and move forward step by step.",
-  "txt1_es": "No importa dónde estés hoy: si recién conoces la Palabra o si ya predicas y enseñas, aquí hay un escalón con tu nombre. Cada nivel te prepara para el siguiente — del primer certificado hasta la maestría — con clases claras, práctica real y acompañamiento de docentes y misioneros.",
+  "txt1_es": "No importa dónde estés hoy: si recién conoces la Palabra o si ya predicas y enseñas, aquí hay un escalón con tu nombre. Cada nivel te prepara para el siguiente, desde el primer certificado hasta la maestría, con clases claras, práctica real y acompañamiento de docentes y misioneros.",
   "txt1_en": "No matter where you are today — whether you are just getting to know the Word or already preaching and teaching — there is a step here with your name on it. Each level prepares you for the next — from your first certificate to your master’s — with clear classes, real practice, and support from teachers and missionaries.",
   "txt2_es": "Empieza donde estás, termina donde Dios te quiere llevar.",
   "txt2_en": "Start where you are; finish where God wants to take you.",
@@ -23,19 +23,19 @@
    "id": "pre",
    "label_es": "Pregrado",
    "label_en": "Undergraduate",
-   "d_es": "Empieza desde cero: certificado, diplomado y bachillerato.",
+   "d_es": "Empieza desde cero: Certificado, Diplomado y Bachillerato.",
    "d_en": "Start from zero: certificate, diploma, and bachelor’s.",
    "e": "🎓",
-   "img": "assets/niveles/semit-3.jpg"
+   "img": "/api/v1/uploads/1791174644399-6c1c1ea2-cc379bfa-f592-455e-8d96-a39ed824be00.jpg.jpeg"
   },
   {
    "id": "post",
    "label_es": "Postgrado",
    "label_en": "Graduate",
-   "d_es": "Profundiza tu llamado: licenciatura y maestría.",
+   "d_es": "Profundiza tu llamado, amplía tu vocación ministerial: Licenciatura y Maestría.",
    "d_en": "Go deeper in your calling: licentiate and master’s.",
    "e": "🏛️",
-   "img": "assets/niveles/semit-11.jpg"
+   "img": "/api/v1/uploads/1791175179306-77ae473c-20190921_131402-copia-2-.jpg"
   }
  ],
  "subs": {
@@ -44,10 +44,10 @@
     "id": "certificado",
     "label_es": "Certificado Especializado",
     "label_en": "Specialized Certificate",
-    "d_es": "4–6 meses · base bíblica y oficio",
+    "d_es": "6 meses a 1 año: distintas especializaciones.",
     "d_en": "4–6 months · biblical base + trade",
     "e": "📜",
-    "img": "assets/niveles/semit-5.jpg",
+    "img": "assets/cursos/semit-19.jpg",
     "intro_t_es": "",
     "intro_t_en": "",
     "intro_d_es": "",
@@ -57,10 +57,10 @@
     "id": "diplomado",
     "label_es": "Diplomado",
     "label_en": "Diploma",
-    "d_es": "1 año · teología y ministerio",
+    "d_es": "1 - 2años: Una completa gama de Diplomados en Biblia, Teología o Misiones.",
     "d_en": "1 year · theology and ministry",
     "e": "📚",
-    "img": "assets/cursos/semit-19.jpg",
+    "img": "assets/niveles/semit-5.jpg",
     "intro_t_es": "",
     "intro_t_en": "",
     "intro_d_es": "",
@@ -70,10 +70,10 @@
     "id": "bachillerato",
     "label_es": "Bachillerato",
     "label_en": "Bachelor’s",
-    "d_es": "3 años · formación integral",
+    "d_es": "3 - 4 años: formación integral con pasantías interculturales en el continente.",
     "d_en": "3 years · complete formation",
     "e": "🎓",
-    "img": "assets/cursos/semit-21.jpg",
+    "img": "/api/v1/uploads/1791174644399-6c1c1ea2-cc379bfa-f592-455e-8d96-a39ed824be00.jpg.jpeg",
     "intro_t_es": "",
     "intro_t_en": "",
     "intro_d_es": "",
@@ -85,10 +85,10 @@
     "id": "licenciatura",
     "label_es": "Licenciatura",
     "label_en": "Licentiate",
-    "d_es": "1 año post-bachiller · investiga y enseña",
+    "d_es": "1 año post-bachiller:  profesionalízate, investiga y enseña.",
     "d_en": "1 post-bachelor year · research and teach",
     "e": "⚖️",
-    "img": "assets/niveles/semit-11.jpg",
+    "img": "assets/nosotros/semit-1.jpg",
     "intro_t_es": "",
     "intro_t_en": "",
     "intro_d_es": "",
@@ -98,10 +98,10 @@
     "id": "maestria",
     "label_es": "Maestría",
     "label_en": "Master’s",
-    "d_es": "2 años · artes o divinidades",
+    "d_es": "2 años · Artes o Divinidades",
     "d_en": "2 years · arts or divinity",
     "e": "👑",
-    "img": "assets/niveles/semit-3.jpg",
+    "img": "/api/v1/uploads/1791352500136-4c51cc5d-gemini_generated_image_ortzg4ortzg4ortz.png",
     "intro_t_es": "",
     "intro_t_en": "",
     "intro_d_es": "",
@@ -114,10 +114,10 @@
    "id": "artes",
    "label_es": "Artes",
    "label_en": "Arts",
-   "d_es": "M.A. · Liderazgo y adoración",
+   "d_es": "M.A. Liderazgo y Ministerio,\nM.A. Nuevo Testamento,\nM.A. Estudios Bíblicos, M.A. Estudios Ministeriales",
    "d_en": "M.A. · Leadership and worship",
-   "e": "🎨",
-   "img": "assets/niveles/semit-5.jpg",
+   "e": "",
+   "img": "assets/nosotros/semit-1.jpg",
    "intro_t_es": "",
    "intro_t_en": "",
    "intro_d_es": "",
@@ -127,10 +127,10 @@
    "id": "divinidades",
    "label_es": "Divinidades",
    "label_en": "Divinity",
-   "d_es": "M.Div. · Pastoral y misiones",
+   "d_es": "M.Div.  Un Programa completo y profesional.",
    "d_en": "M.Div. · Pastoral and missions",
    "e": "✝️",
-   "img": "assets/cursos/semit-19.jpg",
+   "img": "/api/v1/uploads/1791352630049-449c5d2b-gemini_generated_image_ortzg4ortzg4ortz.png",
    "intro_t_es": "",
    "intro_t_en": "",
    "intro_d_es": "",
@@ -143,14 +143,14 @@
    "t_es": "Certificado",
    "t_en": "Certificate",
    "e": "📜",
-   "img": "assets/niveles/semit-5.jpg"
+   "img": "assets/cursos/semit-19.jpg"
   },
   {
    "id": "diplomado",
    "t_es": "Diplomado",
    "t_en": "Diploma",
    "e": "📚",
-   "img": "assets/cursos/semit-19.jpg"
+   "img": "assets/niveles/semit-5.jpg"
   },
   {
    "id": "bachillerato",
@@ -255,7 +255,7 @@
    "lecciones": 40,
    "rating": 4.8,
    "est": 268,
-   "img": "assets/cursos/semit-19.jpg"
+   "img": "/api/v1/uploads/1791234711074-2a525fb1-20190205_203347.jpg"
   },
   {
    "n": "Diplomado en Teología y Biblia",
@@ -296,7 +296,7 @@
    "lecciones": 72,
    "rating": 4.9,
    "est": 324,
-   "img": "assets/cursos/semit-21.jpg"
+   "img": "/api/v1/uploads/1791234370044-9c318993-16427720_1570607252951291_9103624572678330510_n.jpg"
   },
   {
    "n": "Diplomado en Misiones Transculturales",
@@ -337,7 +337,7 @@
    "lecciones": 64,
    "rating": 5,
    "est": 198,
-   "img": "assets/eventos/semit-10.jpg"
+   "img": "/api/v1/uploads/1791048746431-img_0040-copia-copia.jpg"
   },
   {
    "n": "Bachillerato en Teología",
@@ -378,7 +378,7 @@
    "lecciones": 180,
    "rating": 4.9,
    "est": 156,
-   "img": "assets/niveles/semit-3.jpg"
+   "img": "assets/niveles/semit-11.jpg"
   },
   {
    "n": "Bachillerato en Misiones",
@@ -419,7 +419,7 @@
    "lecciones": 176,
    "rating": 4.9,
    "est": 132,
-   "img": "assets/eventos/semit-22.jpg"
+   "img": "assets/nosotros/semit-8.jpg"
   },
   {
    "n": "Licenciatura en Teología",
@@ -501,7 +501,7 @@
    "lecciones": 46,
    "rating": 4.8,
    "est": 74,
-   "img": "assets/cursos/semit-21.jpg"
+   "img": "assets/nosotros/semit-1.jpg"
   },
   {
    "n": "Maestría en Artes · Liderazgo Cristiano",
@@ -542,7 +542,7 @@
    "lecciones": 72,
    "rating": 5,
    "est": 61,
-   "img": "assets/cursos/semit-19.jpg"
+   "img": "/api/v1/uploads/1791048618299-20190921_131341.jpg"
   },
   {
    "n": "Maestría en Divinidades · M.Div",
@@ -583,7 +583,7 @@
    "lecciones": 84,
    "rating": 5,
    "est": 57,
-   "img": "assets/niveles/semit-3.jpg"
+   "img": "/api/v1/uploads/1791048518149-gemini_generated_image_ortzg4ortzg4ortz.png"
   }
  ],
  "fmt": {}

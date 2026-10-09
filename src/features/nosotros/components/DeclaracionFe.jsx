@@ -4,6 +4,7 @@ import { useLang } from '../../../app/providers/LangProvider'
 import { useContent } from '../../../core/cms/contentStore'
 import { fmtCssKey } from '../../../core/cms/fmt'
 import { DEFAULT_NOSOTROS } from '../../../core/cms/defaultNosotros'
+import { iconOf } from '../../../core/cms/icons'
 
 const FILTROS_ES = ['Todas', 'Dios', 'Cristo', 'Espíritu', 'Iglesia']
 const FILTROS_EN = ['All', 'God', 'Christ', 'Spirit', 'Church']
@@ -37,12 +38,13 @@ export function DeclaracionFe({ preview }) {
     .map((x, k) => ({ ...x, k, g: grupo(x.t, lang) }))
     .filter(x => (f === ALL || x.g === f) && (x.t + x.d).toLowerCase().includes(q.toLowerCase()))
   const open = list.findIndex(x => x.k === fe)
+  const iSearch = iconOf(cms, 'search', '🔍')
   return (
     <section className="rv fe-sec" style={o.bg ? { background: o.bg } : undefined}>
       <div className="hsec"><span className="pill">{L('pill')} · {DATA.length}</span><h2 style={fmtCssKey(cms, 'fe.h2')}>{L('h2')}</h2>
         <p style={fmtCssKey(cms, 'fe.p')}>{L('sub')}</p></div>
       <div className="fe-tools">
-        <div className="cu-search fe-search"><span>🔍</span><input value={q} onChange={e => setQ(e.target.value)} placeholder={t('nosotros.fe.ph')} />{q && <button onClick={() => setQ('')}>✕</button>}</div>
+        <div className="cu-search fe-search"><span>{iSearch}</span><input value={q} onChange={e => setQ(e.target.value)} placeholder={t('nosotros.fe.ph')} />{q && <button onClick={() => setQ('')}>✕</button>}</div>
         <div className="fe-chips">{FILTROS.map(x => <button key={x} className={f === x ? 'on' : ''} onClick={() => { setF(x); setFe(-1) }}>{x}</button>)}</div>
       </div>
       <div className="fe-timeline">

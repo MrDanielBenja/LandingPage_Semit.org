@@ -2,6 +2,7 @@ import { CANALES, CANALES_EN, ASUNTOS, ASUNTOS_EN, FAQS, FAQS_EN, HORARIO, HORAR
 import { IMGS, LOCAL } from '../../shared/lib/images'
 import { ES } from '../../shared/i18n/dict_es'
 import { EN } from '../../shared/i18n/dict_en'
+import { iconsWithDefaults } from './icons'
 
 const H = ES.contacto
 const HE = EN.contacto
@@ -20,6 +21,7 @@ export const DEFAULT_CONTACTO = {
     h1a_es: H.hero.h1a, h1a_en: HE.hero.h1a,
     h1b_es: H.hero.h1b, h1b_en: HE.hero.h1b,
     p_es: H.hero.p, p_en: HE.hero.p,
+    waIcon: '💚', sedeIcon: '📍', mailIcon: '✉️',
     img: imgOf(IMGS.manos),
     bg: '',
   },
@@ -50,18 +52,19 @@ export const DEFAULT_CONTACTO = {
     img: imgOf(LOCAL.contactoB),
   },
   form,
+  icons: iconsWithDefaults('contacto'),
   fmt: {},
 }
 
 export const CONTACTO_ASSETS = [
-  'assets/contacto/semit-12.jpg',
-  'assets/contacto/semit-20.jpg',
-  'assets/contacto/semit-24.jpg',
-  'assets/inicio/semit-7.jpg',
-  'assets/inicio/semit-13.jpg',
-  'assets/nosotros/semit-1.jpg',
-  'assets/nosotros/semit-6.jpg',
-  'assets/niveles/semit-11.jpg',
-  'assets/cursos/semit-15.jpg',
+  '/assets/contacto/semit-12.jpg',
+  '/assets/contacto/semit-20.jpg',
+  '/assets/contacto/semit-24.jpg',
+  '/assets/inicio/semit-7.jpg',
+  '/assets/inicio/semit-13.jpg',
+  '/assets/nosotros/semit-1.jpg',
+  '/assets/nosotros/semit-6.jpg',
+  '/assets/niveles/semit-11.jpg',
+  '/assets/cursos/semit-15.jpg',
   LOCAL.contactoHero, LOCAL.contactoA, LOCAL.contactoB,
 ].filter((v, k, a) => v && a.indexOf(v) === k)

@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useSwipe } from '../../../shared/hooks/useSwipe'
 import { asArr } from '../../../core/cms/safe'
 import { useLang } from '../../../app/providers/LangProvider'
 import { useContent } from '../../../core/cms/contentStore'
 import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
 import { DEFAULT_NOSOTROS } from '../../../core/cms/defaultNosotros'
+import { iconOf } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 export function Funciones({ preview, forceIndex }) {
   const { lang, t } = useLang()
@@ -24,6 +27,9 @@ export function Funciones({ preview, forceIndex }) {
     return () => clearInterval(tm)
   }, [pause, preview, DATA.length, forceIndex])
   const cur = DATA[Math.min(ft, DATA.length - 1)]
+  const swipe = useSwipe(next, prev)
+  const iPrev = iconOf(cms, 'prev', '‹')
+  const iNext = iconOf(cms, 'next', '›')
   if (!cur) return null
   return (
     <section className="rv func-sec" style={o.bg ? { background: o.bg } : undefined} onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)}>
@@ -32,14 +38,14 @@ export function Funciones({ preview, forceIndex }) {
       <div className="func-rail">
         {DATA.map((f, k) => (
           <button key={f.t} className={`func-chip ${k === ft ? 'on' : ''}`} onClick={() => setFt(k)}>
-            <img src={f.img} alt="" loading="lazy" /><span>{f.e}</span><b>{f.t}</b>
+            <span className="func-thumb"><img src={f.img} alt="" loading="lazy" style={imgStyleOf(f)} /></span><span>{f.e}</span><b>{f.t}</b>
           </button>
         ))}
       </div>
-      <div className="func-stage" key={ft}>
-        <button className="func-arrow" aria-label={t('nosotros.funcs.prev')} onClick={prev}>‹</button>
+      <div className="func-stage" key={ft} {...swipe}>
+        <button className="func-arrow" aria-label={t('nosotros.funcs.prev')} onClick={prev}>{iPrev}</button>
         <div className="func-main">
-          <div className="func-media"><img src={cur.img} alt={cur.t} loading="lazy" /><span className="func-big-e">{cur.e}</span></div>
+          <div className="func-media"><img src={cur.img} alt={cur.t} loading="lazy" style={imgStyleOf(cur)} /><span className="func-big-e">{cur.e}</span></div>
           <div className="func-txt">
             <span className="func-count">{String(ft + 1).padStart(2, '0')} / {String(DATA.length).padStart(2, '0')}</span>
             <h3>{cur.t}</h3>
@@ -47,7 +53,7 @@ export function Funciones({ preview, forceIndex }) {
             <div className="dots">{DATA.map((_, k) => <button key={k} aria-label={'func ' + k} className={`dot ${k === ft ? 'on' : ''}`} onClick={() => setFt(k)} />)}</div>
           </div>
         </div>
-        <button className="func-arrow" aria-label={t('nosotros.funcs.next')} onClick={next}>›</button>
+        <button className="func-arrow" aria-label={t('nosotros.funcs.next')} onClick={next}>{iNext}</button>
       </div>
     </section>
   )

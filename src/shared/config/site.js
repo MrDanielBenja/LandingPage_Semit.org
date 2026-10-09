@@ -19,3 +19,14 @@ export const NAV_LINKS = [
   { to: '/eventos', label: 'Eventos' },
   { to: '/contacto', label: 'Contacto' },
 ]
+
+const envPortal = (() => {
+  try {
+    const v = import.meta?.env?.VITE_PORTAL_URL
+    return typeof v === 'string' ? v.trim().replace(/\/$/, '') : ''
+  } catch {
+    return ''
+  }
+})()
+
+export const PORTAL_URL = envPortal || 'https://demo.casa-peniel.com'

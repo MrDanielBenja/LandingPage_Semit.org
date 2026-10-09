@@ -17,13 +17,23 @@ PASOS
 4. Copia .env.example a .env y ajústalo:
      PORT=4000
      CORS_ORIGIN=https://semit.org,https://www.semit.org
+     NODE_ENV=production
+     ALLOW_OPEN_DEV=0
+     ALLOW_LEGACY_HASH=0
      SYNC_ON_BOOT=0
      ADMIN_USER=admin
-     ADMIN_PIN=tu-clave-larga
+     ADMIN_PIN=tu-clave-larga-nueva (no reuses la de desarrollo)
+     # SYNC_TOKEN=solo-si-lo-usas (autoriza writes, cuídalo como password)
      # MYSQL_URL=mysql://usuario:clave@localhost:3306/semit  (si usas BD)
-     UPLOAD_IMAGE_MAX_MB=0
-     UPLOAD_VIDEO_MAX_MB=500
-     UPLOAD_JSON_MAX_MB=70
+     # Base del portal para sync de cursos (sin barra final)
+     PORTAL_API_URL=https://aula-del-portal-real
+     UPLOAD_IMAGE_MAX_MB=12
+     UPLOAD_VIDEO_MAX_MB=100
+     UPLOAD_JSON_MAX_MB=10
+     SESSION_TTL_HOURS=72
+   Si el aula virtual vive en otro dominio, ajusta también
+   VITE_PORTAL_URL en el frontend antes del build (ver .env.production),
+   o edítalo en /DirAdmin → Nav+Pie → Datos → Portal URL.
 5. Reinicia la app (Restart) y abre https://semit.org/api/v1/health → {"ok":true}
 
 SI LAS IMÁGENES DAN 500
@@ -45,6 +55,10 @@ los archivos estáticos. En este orden:
 - Imagen inexistente ahora da 404 (antes caía al index.html).
 - El aviso [Intervention] de Edge sobre lazy-load es solo informativo,
   no causa el 500.
+
+NO BORRES uploads/
+- Al re-subir el zip, NO pises ni borres uploads/cms/ uploads/videos/ uploads/covers/ api/uploads/cms/ api/uploads/videos/ api/uploads/covers/: ahí viven las fotos/videos subidos desde el CMS.
+- Sube solo: app.js, src/, data/*.json nuevos, public/ (frontend), sql/ si cambió.
 
 NOTAS
 - El frontend va servido por la misma app Node (public/index.html).

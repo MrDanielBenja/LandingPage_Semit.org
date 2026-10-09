@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node app.js",
-    "test": "node --test --test-concurrency=1 tests/backup.integration.test.js tests/niveles.intro.integration.test.js tests/media.integration.test.js tests/paises.integration.test.js"
+    "test": "node --test --test-concurrency=1 tests/backup.integration.test.js tests/niveles.intro.integration.test.js tests/media.integration.test.js tests/paises.integration.test.js tests/security.failclosed.test.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

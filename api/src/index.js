@@ -14,9 +14,26 @@ import { ensureAdminSeed } from './auth.js'
 const here = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
+app.disable('x-powered-by')
 const CORS_LIST = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean)
-app.use(cors({ origin: CORS_LIST.length ? CORS_LIST : true }))
-const json15 = express.json({ limit: '15mb' })
+const isProd = String(process.env.NODE_ENV || '').toLowerCase() === 'production'
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true)
+    if (CORS_LIST.includes(origin)) return cb(null, true)
+    if (!isProd && !CORS_LIST.length) return cb(null, true)
+    return cb(null, false)
+  },
+}))
+app.use((_, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff')
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  res.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+  res.set('X-Frame-Options', 'SAMEORIGIN')
+  if (isProd) res.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains')
+  next()
+})
+const json15 = express.json({ limit: '12mb' })
 app.use((req, res, next) => {
   if (req.path === '/api/v1/uploads' || req.path.startsWith('/api/v1/uploads/')) return next()
   return json15(req, res, next)
@@ -50,10 +67,12 @@ function dirInfo(p) {
 
 console.log(`[static] public=${PUB} assets=${JSON.stringify(dirInfo(ASSETS))} covers=${JSON.stringify(dirInfo(COVERS))} cms=${JSON.stringify(dirInfo(CMS_UP))} videos=${JSON.stringify(dirInfo(VIDEOS))}`)
 
-app.get('/api/v1/diag', (_, res) => {
+app.get('/api/v1/diag', async (req, res) => {
+  const t = req.headers['x-admin-token']
+  const { checkToken } = await import('./auth.js')
+  if (!(t && (await checkToken(t)))) return res.status(401).json({ ok: false, error: 'unauthorized' })
   res.json({
     ok: true,
-    public: PUB,
     index: dirInfo(PUB).ok,
     assets: dirInfo(ASSETS),
     covers: dirInfo(COVERS),
@@ -78,7 +97,10 @@ app.get('*', (req, res, next) => {
 app.use((err, req, res, _next) => {
   console.error(`[ERR] ${req.method} ${req.path}:`, err?.message || err)
   if (res.headersSent) return
-  res.status(500).json({ ok: false, error: 'internal', path: req.path })
+  const s = err?.status || err?.statusCode
+  if (s === 413 || err?.type === 'entity.too.large') return res.status(413).json({ ok: false, error: 'too_large' })
+  if (s === 400 || err?.type === 'entity.parse.failed') return res.status(400).json({ ok: false, error: 'bad_request' })
+  res.status(500).json({ ok: false, error: 'internal' })
 })
 
 const port = process.env.PORT || 4000

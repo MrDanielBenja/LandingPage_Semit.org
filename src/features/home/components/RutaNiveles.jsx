@@ -8,6 +8,7 @@ import { DEFAULT_NIVELES } from '../../../core/cms/defaultNiveles'
 import { asArr } from '../../../core/cms/safe'
 import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 const META_ES = {
   certificado: { rama: 'Pregrado', dur: '6 meses' },
@@ -24,7 +25,7 @@ const META_EN = {
   maestria: { rama: 'Graduate', dur: '2 years' },
 }
 
-export function RutaNiveles({ preview }) {
+export function RutaNiveles({ preview, previewNiveles }) {
   const { lang, t } = useLang()
   const { data: saved } = useContent('inicio', DEFAULT_INICIO)
   const cms = preview || saved
@@ -32,11 +33,22 @@ export function RutaNiveles({ preview }) {
   const L = (k) => (lang === 'en' ? rt[`${k}_en`] : rt[`${k}_es`]) || t(`home.ruta.${k}`)
   const META = lang === 'en' ? META_EN : META_ES
   const { data: nivSaved } = useContent('niveles', DEFAULT_NIVELES)
-  const niv = nivSaved || DEFAULT_NIVELES
-  const RUTA_L = asArr(niv.ruta, DEFAULT_NIVELES.ruta).map(r => ({
-    ...r, t: lang === 'en' ? (r.t_en || r.t_es) : (r.t_es || r.t_en), img: resolveAsset(r.img),
-  }))
+  const niv = previewNiveles || nivSaved || DEFAULT_NIVELES
   const SUBS_ALL = [...asArr(niv.subs?.pre, []), ...asArr(niv.subs?.post, [])]
+  const SUB_MAP = Object.fromEntries(SUBS_ALL.map(s => [s.id, s]))
+  const RUTA_RAW = asArr(niv.ruta, DEFAULT_NIVELES.ruta)
+  const RUTA_ORDER = (RUTA_RAW.length ? RUTA_RAW : RUTA).map(r => r.id)
+  const RUTA_L = RUTA_ORDER.map(id => {
+    const r = RUTA_RAW.find(x => x.id === id) || {}
+    const s = SUB_MAP[id] || {}
+    return {
+      id,
+      e: s.e || r.e || '',
+      t: lang === 'en' ? (s.label_en || s.label_es || r.t_en || r.t_es) : (s.label_es || s.label_en || r.t_es || r.t_en),
+      img: resolveAsset(s.img || r.img),
+      imgCfg: s.imgCfg || r.imgCfg,
+    }
+  })
   const RAMAS_L = asArr(niv.ramas, DEFAULT_NIVELES.ramas).map(r => ({
     ...r, label: lang === 'en' ? (r.label_en || r.label_es) : (r.label_es || r.label_en),
   }))
@@ -66,8 +78,8 @@ export function RutaNiveles({ preview }) {
       <div className="rt-cards">
         {steps.map((s, k) => (
           <button key={s.id} className={`cat-card ${paso === s.id ? 'on' : ''} ${idx > k ? 'done' : ''}`} onClick={() => setPaso(s.id)}>
-            <span className="cat-media"><img src={s.img} alt={s.t} loading="lazy" /><span className="cat-emo">{s.e}</span><span className="cat-count">0{k + 1}</span></span>
-            <span className="cat-body"><b>{s.t}</b><small>{ramaOf(s.id)} · {META[s.id]?.dur || subDOf(s.id)}</small></span>
+            <span className="cat-media"><img src={s.img} alt={s.t} loading="lazy" style={imgStyleOf(s)} /><span className="cat-emo">{s.e}</span><span className="cat-count">0{k + 1}</span></span>
+            <span className="cat-body"><b>{s.t}</b><small>{ramaOf(s.id)} · {subDOf(s.id)}</small></span>
           </button>
         ))}
       </div>
@@ -76,12 +88,12 @@ export function RutaNiveles({ preview }) {
           <div><span className="k">{ramaOf(paso)} · {t('home.ruta.paso')} {idx + 1} {t('home.ruta.de')} {steps.length}</span><h3>{steps[idx]?.t}</h3></div>
           <Link className="btn btn-dark" to="/niveles">{t('home.ruta.ver')}</Link>
         </div>
-        <div className="rt-progs">{progs.map(p => (
-          <div key={p.n} className="rt-prog">
-            <img src={p.img} alt={p.n} loading="lazy" />
+        <div className="rt-progs">{progs.length ? progs.map((p, k) => (
+          <div key={`${p.n || 'prog'}-${k}`} className="rt-prog">
+            <span className="rt-thumb"><img src={p.img} alt={p.n} loading="lazy" style={imgStyleOf(p)} /></span>
             <div><b>{p.n}</b><small>{lang === 'en' ? ({ Todos: 'All', Virtual: 'Online', Híbrido: 'Hybrid', Presencial: 'On-site' }[p.mod] || p.mod) : p.mod} · {p.dur}</small></div>
-            <strong>S/.{p.p}</strong>
-          </div>))}</div>
+            <strong>S/.{p.p ?? ''}</strong>
+          </div>)) : <p className="adm-note">Sin paquetes en este paso — créalos en Niveles › Programas con este Sub.</p>}</div>
       </div>
     </div>
   )

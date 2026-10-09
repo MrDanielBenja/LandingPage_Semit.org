@@ -6,6 +6,8 @@ import { DEFAULT_INICIO } from '../../../core/cms/defaultInicio'
 import { DEFAULT_CURSOS_PAGE, applyCursosOverrides } from '../../../core/cms/defaultCursosPage'
 import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
+import { iconOf } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 export function CursosTop({ preview }) {
   const { lang, t } = useLang()
@@ -18,17 +20,20 @@ export function CursosTop({ preview }) {
   const { data: cursosCms } = useContent('cursosPage', DEFAULT_CURSOS_PAGE)
   const base = applyCursosOverrides(data, cursosCms?.overrides, lang)
   const TOP = [...base].sort((a, b) => b.est - a.est).slice(0, N)
+  const iStar = iconOf(cms, 'topStar', '⭐')
+  const iTeam = iconOf(cms, 'topTeam', '👥')
+  const iWeeks = iconOf(cms, 'topWeeks', '🕘')
   return (
     <div className="rv" style={tp.bg ? { background: tp.bg } : undefined}>
       <div className="hsec"><span className="pill" style={fmtCssKey(cms, 'top.pill')}>{L('pill')}</span><h2 style={fmtCssKey(cms, 'top.h2')}>{L('h2')}</h2>
         <p style={fmtCssKey(cms, 'top.sub')}>{L('sub')}</p></div>
       <div className="ct-grid">{TOP.map((c, k) => (
         <Link key={c.slug || c.id || `${c.n}-${k}`} to="/cursos" className="ct-card" style={{ animationDelay: `${k * 80}ms` }}>
-          <div className="ct-media"><img src={resolveAsset(c.img) || c.img} alt={c.n} loading="lazy" /><span className="cu-tag">{c.tag}</span></div>
+          <div className="ct-media"><img src={resolveAsset(c.img) || c.img} alt={c.n} loading="lazy" style={imgStyleOf(c)} /><span className="cu-tag">{c.tag}</span></div>
           <div className="ct-body">
             <span className="cu-area">{c.a} · {c.nivel}</span>
             <h3>{c.n}</h3>
-            <div className="ct-meta"><span>⭐ {c.rating.toFixed(1)}</span><span>👥 {c.est}</span><span>🕘 {c.semanas} {t('home.top.sem')}</span></div>
+            <div className="ct-meta"><span>{iStar} {c.rating.toFixed(1)}</span><span>{iTeam} {c.est}</span><span>{iWeeks} {c.semanas} {t('home.top.sem')}</span></div>
             <div className="cu-foot"><div className="cu-price"><small>$40</small><b>${c.p}</b></div><span className="cu-go">{t('home.top.ver')}</span></div>
           </div>
         </Link>))}</div>

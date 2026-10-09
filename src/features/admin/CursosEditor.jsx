@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Row, FmtCtl, ImgPick } from './InicioEditor'
+import { Row, FmtCtl, ImgPick, IconsForm } from './InicioEditor'
+import { imgEditScaleOnly } from '../../core/cms/imgEdit'
 import { useCursos } from '../cursos/hooks/useCursos'
 import { resolveUpload } from './adminUpload'
 
@@ -37,7 +38,7 @@ function HeroForm({ o, onChange, fmt, setFmt }) {
         <FmtCtl label="Formato párrafo" value={fmt['cur.hero.p']} onChange={v => setFmt('cur.hero.p', v)} />
         <Row label="Search EN"><input value={o.ph_en || ''} onChange={e => set('ph_en', e.target.value)} /></Row>
       </>)}
-      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} /></Row>
+      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, ...p }), 'Cursos hero - Edición de Imagen')} /></Row>
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
       <div className="adm-note">Pill usa {'{n}'} = nº cursos. Solo labels de stats editables; inscritos se calcula.</div>
     </div>
@@ -75,7 +76,7 @@ function TracksForm({ arr, onChange, fmt, setFmt }) {
           ? <Row label="Desc ES"><input value={cur.d_es || ''} onChange={e => upd({ ...cur, d_es: e.target.value })} /></Row>
           : <Row label="Desc EN"><input value={cur.d_en || ''} onChange={e => upd({ ...cur, d_en: e.target.value })} /></Row>}
         <FmtCtl label="Formato desc" value={fmt[`cur.track.${cur.id}`]} onChange={v => setFmt(`cur.track.${cur.id}`, v)} />
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'Track - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -134,6 +135,7 @@ function ApiForm({ o, onChange }) {
                     : <label>Tag EN <input value={cur.tag_en || ''} placeholder={c.tag} onChange={e => setOv(c.slug, { tag_en: e.target.value })} /></label>}
                 </div>
                 {on && <label className="adm-imgline">Imagen <input value={cur.img || ''} placeholder="(del catálogo)" onChange={e => setOv(c.slug, { img: e.target.value })} /></label>}
+                {on && <ImgPick value={cur.img || c.img} onChange={v => setOv(c.slug, { img: v })} {...imgEditScaleOnly({ img: cur.img || c.img, imgCfg: cur.imgCfg }, (p) => setOv(c.slug, { imgCfg: p.imgCfg }), `Curso ${c.n} - Edición de Imagen`)} />}
               </div>
               <button type="button" className={`adm-switch ${on ? 'on' : ''}`} onClick={() => setOv(c.slug, { activo: !on })} title={on ? 'Activo — clic para desactivar' : 'Desactivado — clic para activar'}>
                 <i />{on ? 'ON' : 'OFF'}
@@ -143,27 +145,6 @@ function ApiForm({ o, onChange }) {
         })}
         {!list.length && !loading && <small className="adm-note">Sin cursos para “{q}”.</small>}
       </div>
-    </div>
-  )
-}
-
-function OverridesForm({ o, onChange }) {
-  const [tab, setTab] = useState('es')
-  const [sel, setSel] = useState(Object.keys(o || {})[0] || '')
-  const slugs = Object.keys(o || {})
-  const cur = (o || {})[sel] || {}
-  const set = (patch) => onChange({ ...(o || {}), [sel]: { ...(cur.activo === undefined ? { activo: true } : {}), ...cur, ...patch } })
-  return (
-    <div className="adm-form">
-      <div className="adm-note">El sync del portal NO pisa estos campos: precio, tag, activo, imagen.</div>
-      <Row label="Curso"><select value={sel} onChange={e => setSel(e.target.value)}>{slugs.length ? slugs.map(s => <option key={s} value={s}>{s}</option>) : <option value="">(usa la pestaña API)</option>}</select></Row>
-      <LangTabs tab={tab} setTab={setTab} />
-      <Row label="Precio $"><input type="number" min="0" value={cur.p ?? ''} placeholder="(del catálogo)" onChange={e => set({ p: e.target.value === '' ? undefined : Number(e.target.value) })} /></Row>
-      {tab === 'es'
-        ? <Row label="Tag ES"><input value={cur.tag_es || ''} placeholder="(del catálogo)" onChange={e => set({ tag_es: e.target.value })} /></Row>
-        : <Row label="Tag EN"><input value={cur.tag_en || ''} placeholder="(del catálogo)" onChange={e => set({ tag_en: e.target.value })} /></Row>}
-      <Row label="Activo"><input type="checkbox" checked={cur.activo !== false} onChange={e => set({ activo: e.target.checked })} /></Row>
-      <Row label="Imagen"><ImgPick value={cur.img} onChange={v => set({ img: v })} /></Row>
     </div>
   )
 }
@@ -183,6 +164,7 @@ export function CursosEditor({ draft, onDraft, sec }) {
       {sec === 'toolbar' && <HeadEsEn o={draft.toolbar || {}} onChange={v => set({ toolbar: v })} keys={['modLabel', 'ordLabel']} prefix="cur.toolbar" fmt={fmt} setFmt={setFmt} area={false} />}
       {sec === 'empty' && <HeadEsEn o={draft.empty || {}} onChange={v => set({ empty: v })} keys={['t', 'p', 'btn']} prefix="cur.empty" fmt={fmt} setFmt={setFmt} />}
       {sec === 'cta' && <HeadEsEn o={draft.cta || {}} onChange={v => set({ cta: v })} keys={['t', 'p1', 'p2', 'btn']} prefix="cur.cta" fmt={fmt} setFmt={setFmt} />}
+      {sec === 'icons' && <IconsForm page="cursosPage" value={draft.icons || {}} onChange={v => set({ icons: v })} />}
     </div>
   )
 }

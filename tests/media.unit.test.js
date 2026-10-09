@@ -44,11 +44,12 @@ describe('media - validateFile', () => {
     assert.equal(validateFile({ name: 'a.mp4', size: 10 }, 'image').ok, false)
     assert.equal(validateFile({ name: 'a.jpg', size: 10 }, 'video').ok, false)
   })
-  it('imagen sin limite / video max 500MB', () => {
-    assert.equal(IMAGE_MAX_MB, Infinity)
-    assert.equal(VIDEO_MAX_MB, 500)
-    assert.equal(validateFile({ name: 'a.jpg', size: 200 * 1024 * 1024 }).ok, true)
-    assert.equal(validateFile({ name: 'a.mp4', size: 501 * 1024 * 1024 }).ok, false)
+  it('imagen max 12MB / video max 100MB', () => {
+    assert.equal(IMAGE_MAX_MB, 12)
+    assert.equal(VIDEO_MAX_MB, 100)
+    assert.equal(validateFile({ name: 'a.jpg', size: 11 * 1024 * 1024 }).ok, true)
+    assert.equal(validateFile({ name: 'a.jpg', size: 13 * 1024 * 1024 }).ok, false)
+    assert.equal(validateFile({ name: 'a.mp4', size: 101 * 1024 * 1024 }).ok, false)
     assert.equal(validateFile({ name: 'a.mp4', size: 100 * 1024 * 1024 }).ok, true)
   })
 })

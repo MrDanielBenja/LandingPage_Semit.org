@@ -2,6 +2,7 @@ import { SLIDES, SLIDES_EN, TESTIMONIOS, TESTIMONIOS_EN } from '../../features/h
 import { IMGS, LOCAL } from '../../shared/lib/images'
 import { ES } from '../../shared/i18n/dict_es'
 import { EN } from '../../shared/i18n/dict_en'
+import { iconsWithDefaults } from './icons'
 
 const H = ES.home
 const HE = EN.home
@@ -38,6 +39,7 @@ export const DEFAULT_INICIO = {
     pt2d_es: H.intro.pt2d, pt2d_en: HE.intro.pt2d,
     pt3t_es: H.intro.pt3t, pt3t_en: HE.intro.pt3t,
     pt3d_es: H.intro.pt3d, pt3d_en: HE.intro.pt3d,
+    pt1e: '📖', pt2e: '🔥', pt3e: '🌱',
     imgs: [imgOf(IMGS.aula), imgOf(IMGS.estudiantes), imgOf(IMGS.biblioteca)],
     bg: '', headingColor: '', textColor: '',
   },
@@ -67,22 +69,23 @@ export const DEFAULT_INICIO = {
   ruta: { pill_es: H.ruta.pill, pill_en: HE.ruta.pill, h2_es: H.ruta.h2, h2_en: HE.ruta.h2, sub_es: H.ruta.sub, sub_en: HE.ruta.sub, bg: '' },
   top: { pill_es: H.top.pill, pill_en: HE.top.pill, h2_es: H.top.h2, h2_en: HE.top.h2, sub_es: H.top.sub, sub_en: HE.top.sub, count: 4, bg: '' },
   teaser: { pill_es: H.teaser.pill, pill_en: HE.teaser.pill, bg: '' },
+  icons: iconsWithDefaults('inicio'),
 }
 
 export const INICIO_ASSETS = [
-  'assets/inicio/semit-7.jpg',
-  'assets/inicio/semit-13.jpg',
-  'assets/inicio/semit-14.jpg',
-  'assets/inicio/semit-16.jpg',
-  'assets/nosotros/semit-1.jpg',
-  'assets/nosotros/semit-6.jpg',
-  'assets/nosotros/semit-8.jpg',
-  'assets/nosotros/semit-9.jpg',
-  'assets/niveles/semit-11.jpg',
-  'assets/niveles/semit-3.jpg',
-  'assets/niveles/semit-5.jpg',
-  'assets/cursos/semit-15.jpg',
-  'assets/cursos/semit-19.jpg',
-  'assets/cursos/semit-21.jpg',
+  '/assets/inicio/semit-7.jpg',
+  '/assets/inicio/semit-13.jpg',
+  '/assets/inicio/semit-14.jpg',
+  '/assets/inicio/semit-16.jpg',
+  '/assets/nosotros/semit-1.jpg',
+  '/assets/nosotros/semit-6.jpg',
+  '/assets/nosotros/semit-8.jpg',
+  '/assets/nosotros/semit-9.jpg',
+  '/assets/niveles/semit-11.jpg',
+  '/assets/niveles/semit-3.jpg',
+  '/assets/niveles/semit-5.jpg',
+  '/assets/cursos/semit-15.jpg',
+  '/assets/cursos/semit-19.jpg',
+  '/assets/cursos/semit-21.jpg',
   LOCAL.inicio1, LOCAL.inicio2, LOCAL.inicio3, LOCAL.inicio4,
 ].filter((v, k, a) => v && a.indexOf(v) === k)

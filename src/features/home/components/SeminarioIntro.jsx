@@ -5,6 +5,7 @@ import { useContent } from '../../../core/cms/contentStore'
 import { resolveAsset } from '../../../core/cms/assets'
 import { DEFAULT_INICIO } from '../../../core/cms/defaultInicio'
 import { fmtCssKey } from '../../../core/cms/fmt'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 export function SeminarioIntro({ preview }) {
   const { lang, t } = useLang()
@@ -14,20 +15,21 @@ export function SeminarioIntro({ preview }) {
   const L = (k) => (lang === 'en' ? it[`${k}_en`] : it[`${k}_es`]) || t(`home.intro.${k}`)
   const H2 = (lang === 'en' ? it.h2_en : it.h2_es) || [L('h2a'), L('h2b')].filter(Boolean).join(' ')
   const imgs = (Array.isArray(it.imgs) && it.imgs.length ? it.imgs : DEFAULT_INICIO.intro.imgs).map(resolveAsset)
+  const cfgs = Array.isArray(it.imgCfgs) ? it.imgCfgs : []
   return (
     <div className="sem-free rv" style={it.bg ? { background: it.bg } : undefined}>
       <span className="pill" style={fmtCssKey(cms, 'intro.pill')}>{L('pill')}</span>
       <h2 style={{ ...(it.headingColor ? { color: it.headingColor } : null), ...fmtCssKey(cms, 'intro.h2') }}>{H2}</h2>
       <p style={{ ...(it.textColor ? { color: it.textColor } : null), ...fmtCssKey(cms, 'intro.p') }}>{L('p')}</p>
       <div className="sem-free-imgs">
-        <img src={imgs[0]} alt="Aula Seminario" loading="lazy" />
-        <img src={imgs[1]} alt="Estudiantes" loading="lazy" className="up" />
-        <img src={imgs[2]} alt="Biblioteca" loading="lazy" />
+        <span className="semi-frame"><img src={imgs[0]} alt="Aula Seminario" loading="lazy" style={imgStyleOf({ imgCfg: cfgs[0] })} /></span>
+        <span className="semi-frame up"><img src={imgs[1]} alt="Estudiantes" loading="lazy" style={imgStyleOf({ imgCfg: cfgs[1] })} /></span>
+        <span className="semi-frame"><img src={imgs[2]} alt="Biblioteca" loading="lazy" style={imgStyleOf({ imgCfg: cfgs[2] })} /></span>
       </div>
       <div className="sem-points free">
-        <div><span>📖</span><b style={fmtCssKey(cms, 'intro.pt1t')}>{L('pt1t')}</b><small style={fmtCssKey(cms, 'intro.pt1d')}>{L('pt1d')}</small></div>
-        <div><span>🔥</span><b style={fmtCssKey(cms, 'intro.pt2t')}>{L('pt2t')}</b><small style={fmtCssKey(cms, 'intro.pt2d')}>{L('pt2d')}</small></div>
-        <div><span>🌱</span><b style={fmtCssKey(cms, 'intro.pt3t')}>{L('pt3t')}</b><small style={fmtCssKey(cms, 'intro.pt3d')}>{L('pt3d')}</small></div>
+        <div><span>{it.pt1e ?? '📖'}</span><b style={fmtCssKey(cms, 'intro.pt1t')}>{L('pt1t')}</b><small style={fmtCssKey(cms, 'intro.pt1d')}>{L('pt1d')}</small></div>
+        <div><span>{it.pt2e ?? '🔥'}</span><b style={fmtCssKey(cms, 'intro.pt2t')}>{L('pt2t')}</b><small style={fmtCssKey(cms, 'intro.pt2d')}>{L('pt2d')}</small></div>
+        <div><span>{it.pt3e ?? '🌱'}</span><b style={fmtCssKey(cms, 'intro.pt3t')}>{L('pt3t')}</b><small style={fmtCssKey(cms, 'intro.pt3d')}>{L('pt3d')}</small></div>
       </div>
       <div className="cta">
         <Link className="btn btn-blue" to="/niveles">{t('home.intro.cta1')}</Link>

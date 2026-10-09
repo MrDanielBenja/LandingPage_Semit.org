@@ -11,6 +11,8 @@ delete process.env.MYSQL_PUBLIC_URL
 delete process.env.ADMIN_PIN
 delete process.env.ADMIN_PASS
 delete process.env.SYNC_TOKEN
+process.env.NODE_ENV = 'test'
+process.env.ALLOW_OPEN_DEV = '1'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const CMS_DIR = join(here, '..', 'uploads', 'cms')
@@ -136,6 +138,36 @@ describe('media backend - POST /api/v1/uploads/binary', () => {
       body: JSON.stringify({ name: 'clip.mp4', dataUrl: `data:video/mp4;base64,${b64}`, kind: 'image' }),
     })
     assert.equal(r.status, 400)
+  })
+
+  it('DELETE elimina archivo subido y 404 si no existe', async () => {
+    const r = await fetch(`${base}/api/v1/uploads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'borrame.png', dataUrl: `data:image/png;base64,${PNG_1PX}` }),
+    })
+    assert.equal(r.status, 200)
+    const j = await r.json()
+    assert.equal(j.ok, true)
+    const del = await fetch(`${base}/api/v1/uploads`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: j.url }),
+    })
+    assert.equal(del.status, 200)
+    assert.equal((await del.json()).ok, true)
+    const again = await fetch(`${base}/api/v1/uploads`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: j.url }),
+    })
+    assert.equal(again.status, 404)
+    const evil = await fetch(`${base}/api/v1/uploads`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: '/api/v1/uploads/../../etc/passwd' }),
+    })
+    assert.equal(evil.status, 400)
   })
 
   it('requiere auth cuando hay ADMIN_PIN', async () => {

@@ -37,6 +37,16 @@ function HashCompat() {
   return null
 }
 
+function NotFound() {
+  return (
+    <div className="container sec" style={{ padding: '4rem 1rem', textAlign: 'center' }}>
+      <h1>404 — Página no encontrada</h1>
+      <p>La ruta solicitada no existe. Usa la navegación para volver al sitio.</p>
+      <a className="btn btn-blue" href="/">Volver al inicio</a>
+    </div>
+  )
+}
+
 export default function App() {
   const { pathname } = useLocation()
   useAdminShortcut()
@@ -54,7 +64,7 @@ export default function App() {
           <Route path="/eventos" element={<EventosPage />} />
           <Route path="/contacto" element={<ContactoPage />} />
           <Route path="/bcb" element={<EventosPage />} />
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

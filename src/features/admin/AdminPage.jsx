@@ -63,6 +63,7 @@ const SECS = {
     { id: 'news', label: '📩 Newsletter' },
     { id: 'marquee', label: '✦ Marquesina' },
     { id: 'hero', label: '🎨 Hero' },
+    { id: 'icons', label: '🎨 Iconos' },
   ],
   nosotros: [
     { id: 'hero', label: '🎨 Hero' },
@@ -70,6 +71,7 @@ const SECS = {
     { id: 'funcs', label: '⚙️ Funciones' },
     { id: 'fe', label: '✝️ Fe' },
     { id: 'equipo', label: '👥 Equipo' },
+    { id: 'icons', label: '🎨 Iconos' },
   ],
   niveles: [
     { id: 'hero', label: '🎨 Hero' },
@@ -78,26 +80,35 @@ const SECS = {
     { id: 'maestrias', label: '👑 Maestrías' },
     { id: 'ruta', label: '🛤️ Ruta (home)' },
     { id: 'programas', label: '📖 Programas' },
+    { id: 'icons', label: '🎨 Iconos' },
   ],
   cursos: [
     { id: 'hero', label: '🎨 Hero' },
     { id: 'tracks', label: '🗂️ Áreas' },
     { id: 'api', label: '🔌 API' },
+    { id: 'toolbar', label: '🔧 Barra' },
+    { id: 'empty', label: '🈳 Vacío' },
     { id: 'cta', label: '📣 CTA' },
+    { id: 'icons', label: '🎨 Iconos' },
   ],
   eventos: [
     { id: 'hero', label: '🎨 Hero' },
     { id: 'secs', label: '🗂️ Secciones' },
+    { id: 'cats', label: '🏷️ Categorías' },
     { id: 'eventos', label: '🎉 Eventos' },
     { id: 'bcb', label: '🔥 BCB' },
     { id: 'cta', label: '📣 CTA' },
+    { id: 'icons', label: '🎨 Iconos' },
   ],
   contacto: [
     { id: 'hero', label: '🎨 Hero' },
     { id: 'canales', label: '🗂️ Canales' },
     { id: 'asuntos', label: '🎯 Asuntos' },
     { id: 'faqs', label: '❓ FAQs' },
+    { id: 'horario', label: '🕒 Horario' },
     { id: 'sede', label: '📍 Sede' },
+    { id: 'form', label: '📝 Formulario' },
+    { id: 'icons', label: '🎨 Iconos' },
   ],
   site: [
     { id: 'site', label: '🧭 Datos' },
@@ -112,7 +123,7 @@ const SECS = {
 const DEFAULTS = { inicio: DEFAULT_INICIO, nosotros: DEFAULT_NOSOTROS, niveles: DEFAULT_NIVELES, cursos: DEFAULT_CURSOS_PAGE, eventos: DEFAULT_EVENTOS, contacto: DEFAULT_CONTACTO, site: DEFAULT_SITE, backup: DEFAULT_SITE }
 const FIRST_SEC = { inicio: 'slides', nosotros: 'hero', niveles: 'hero', cursos: 'hero', eventos: 'hero', contacto: 'hero', site: 'site', backup: 'todo' }
 
-function usePageContent(page) {
+function useAllContents() {
   const inicio = useContent('inicio', DEFAULT_INICIO)
   const nosotros = useContent('nosotros', DEFAULT_NOSOTROS)
   const niveles = useContent('niveles', DEFAULT_NIVELES)
@@ -121,7 +132,11 @@ function usePageContent(page) {
   const contacto = useContent('contacto', DEFAULT_CONTACTO)
   const site = useContent('site', DEFAULT_SITE)
   const map = { inicio, nosotros, niveles, cursos, eventos, contacto, site }
-  return map[page] || inicio
+  return map
+}
+
+function usePageContent(page, all) {
+  return (all && all[page]) || all.inicio
 }
 
 export function AdminPage() {
@@ -133,7 +148,8 @@ export function AdminPage() {
   const [msg, setMsg] = useState('')
   const nav = useNavigate()
   const { lang, setLang } = useLang()
-  const { data, source, saving, save, reset } = usePageContent(page)
+  const allContents = useAllContents()
+  const { data, source, saving, save, reset } = usePageContent(page, allContents)
   const DEF = DEFAULTS[page] || DEFAULT_INICIO
   const [draft, setDraft] = useState(data)
   const baseRef = useRef(JSON.stringify(data))
@@ -164,6 +180,7 @@ export function AdminPage() {
   }
   const publish = async () => {
     const r = await save(draft)
+    if (!r.ok) { setMsg(`No se publicó: ${r.warn || 'error'}`); return }
     setMsg(r.warn ? `Publicado local (${r.warn})` : `Publicado ✓ ${r.source}`)
   }
   const discard = () => { setDraft(data); setMsg('Cambios descartados') }
@@ -219,12 +236,13 @@ export function AdminPage() {
                 {(sec === 'slides' || sec === 'hero') && <div className="adm-canvas adm-canvas-full"><Portada preview={draft} forceIndex={sec === 'slides' ? sel : undefined} /></div>}
                 {sec === 'intro' && <div className="adm-canvas"><div className="container hero"><SeminarioIntro preview={draft} /></div></div>}
                 {sec === 'mods' && <div className="adm-canvas"><div className="container home-sec"><Modalidades preview={draft} /></div></div>}
-                {sec === 'ruta' && <div className="adm-canvas"><div className="container home-sec"><RutaNiveles preview={draft} /></div></div>}
+                {sec === 'ruta' && <div className="adm-canvas"><div className="container home-sec"><RutaNiveles preview={draft} previewNiveles={allContents.niveles.data} /></div></div>}
                 {sec === 'top' && <div className="adm-canvas"><div className="container home-sec"><CursosTop preview={draft} /></div></div>}
-                {sec === 'teaser' && <div className="adm-canvas"><div className="container home-sec"><EventoTeaser preview={draft} /></div></div>}
+                {sec === 'teaser' && <div className="adm-canvas"><div className="container home-sec"><EventoTeaser preview={draft} previewEventos={allContents.eventos.data} /></div></div>}
                 {sec === 'testis' && <div className="adm-canvas adm-canvas-full"><Testimonios preview={draft} forceIndex={sel} /></div>}
                 {sec === 'news' && <div className="adm-canvas adm-canvas-full"><Newsletter preview={draft} /></div>}
                 {sec === 'marquee' && <div className="adm-canvas"><HomePage preview={draft} marqueeOnly /></div>}
+                {sec === 'icons' && <div className="adm-canvas adm-canvas-full"><HomePage preview={draft} previewNiveles={allContents.niveles.data} previewEventos={allContents.eventos.data} /></div>}
               </>)}
               {page === 'nosotros' && draft && (<>
                 {sec === 'hero' && <div className="adm-canvas adm-canvas-full"><NosotrosPage preview={draft} /></div>}
@@ -232,10 +250,11 @@ export function AdminPage() {
                 {sec === 'funcs' && <div className="adm-canvas"><div className="container sec"><Funciones preview={draft} forceIndex={sel} /></div></div>}
                 {sec === 'fe' && <div className="adm-canvas"><div className="container sec"><DeclaracionFe preview={draft} /></div></div>}
                 {sec === 'equipo' && <div className="adm-canvas"><div className="container sec"><Equipo preview={draft} forceIndex={sel} /></div></div>}
+                {sec === 'icons' && <div className="adm-canvas adm-canvas-full"><NosotrosPage preview={draft} /></div>}
               </>)}
-              {page === 'niveles' && draft && <div className="adm-canvas adm-canvas-full"><NivelesPage preview={draft} /></div>}
+              {page === 'niveles' && draft && <div className="adm-canvas adm-canvas-full"><NivelesPage preview={draft} />{(sec === 'ruta' || sec === 'programas' || sec === 'subs' || sec === 'ramas') && <div className="container home-sec"><p className="adm-note">Vista Ruta del Home con estos cambios ({(draft.programas || []).length} paquetes):</p><RutaNiveles preview={allContents.inicio.data} previewNiveles={draft} /></div>}{sec === 'icons' && <div className="container home-sec"><p className="adm-note">Vista Ruta del Home con estos iconos:</p><RutaNiveles preview={allContents.inicio.data} previewNiveles={draft} /></div>}</div>}
               {page === 'cursos' && draft && <div className="adm-canvas adm-canvas-full"><CursosPage preview={draft} /></div>}
-              {page === 'eventos' && draft && <div className="adm-canvas adm-canvas-full"><EventosPage preview={draft} /></div>}
+              {page === 'eventos' && draft && <div className="adm-canvas adm-canvas-full"><EventosPage preview={draft} />{(sec === 'eventos' || sec === 'hero' || sec === 'icons') && <div className="container home-sec"><p className="adm-note">Vista Teaser del Home con estos cambios ({(draft.eventos || []).length} eventos):</p><EventoTeaser preview={allContents.inicio.data} previewEventos={draft} /></div>}</div>}
               {page === 'contacto' && draft && <div className="adm-canvas adm-canvas-full"><ContactoPage preview={draft} /></div>}
               {page === 'site' && draft && <div className="adm-canvas"><div className="adm-siteprev"><Nav preview={draft} /><Footer preview={draft} /></div></div>}
               {page === 'backup' && <div className="adm-canvas"><div className="adm-siteprev"><p className="adm-note">💾 Respaldo total del CMS — usa el panel derecho.</p></div></div>}

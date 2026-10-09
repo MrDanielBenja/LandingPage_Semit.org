@@ -1,11 +1,24 @@
 import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto'
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, chmodSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { isMysql, pool } from './db.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const MEM_FILE = join(here, '..', 'data', '.sessions.json')
+
+const SESSION_TTL_MS = (() => {
+  const h = Number(process.env.SESSION_TTL_HOURS || 168)
+  const safe = Number.isFinite(h) && h > 0 ? Math.min(h, 24 * 30) : 168
+  return safe * 3600 * 1000
+})()
+const SESSION_TTL_HOURS = Math.round(SESSION_TTL_MS / 3600000)
+
+function expiredAt(at) {
+  const t = Number(at)
+  if (!Number.isFinite(t) || t <= 0) return true
+  return Date.now() - t > SESSION_TTL_MS
+}
 
 const MEM = new Map()
 const MEM_USERS = new Map()
@@ -15,15 +28,15 @@ function persistMem() {
     mkdirSync(dirname(MEM_FILE), { recursive: true })
     const tokens = [...MEM.entries()].map(([token, v]) => ({ token, username: v?.username, at: v?.at }))
     const users = [...MEM_USERS.entries()].map(([u, p]) => ({ u, p }))
-    writeFileSync(MEM_FILE, JSON.stringify({ tokens, users }))
+    writeFileSync(MEM_FILE, JSON.stringify({ tokens, users }), { mode: 0o600 })
+    try { chmodSync(MEM_FILE, 0o600) } catch {}
   } catch {}
 }
 
 try {
   const raw = JSON.parse(readFileSync(MEM_FILE, 'utf-8'))
-  const week = 7 * 24 * 3600 * 1000
   for (const { token, username, at } of raw.tokens || []) {
-    if (token && username && Date.now() - (at || 0) < week) MEM.set(token, { username, at })
+    if (token && username && !expiredAt(at)) MEM.set(token, { username, at })
   }
   for (const { u, p } of raw.users || []) {
     if (u && p) MEM_USERS.set(u, p)
@@ -106,9 +119,24 @@ function verify(stored, pass) {
       const b = Buffer.from(hashPass(pass, salt), 'hex')
       return a.length === b.length && timingSafeEqual(a, b)
     }
+    if (process.env.ALLOW_LEGACY_HASH === '0') return false
     const a = createHash('sha256').update('semit::' + pass).digest('hex')
-    return a === stored
+    const ok = a === stored
+    if (ok) console.log('[auth] aviso: hash legacy aceptado, se migrara a scrypt')
+    return ok
   } catch { return false }
+}
+
+function isLegacyHash(stored) {
+  return typeof stored === 'string' && !stored.startsWith('s1$')
+}
+
+function pruneMem() {
+  let changed = false
+  for (const [tk, v] of MEM) {
+    if (!v || expiredAt(v.at)) { MEM.delete(tk); changed = true }
+  }
+  if (changed) persistMem()
 }
 
 const normUser = (u) => String(u || '').trim().toLowerCase().slice(0, 60)
@@ -131,11 +159,15 @@ export async function ensureAdminSeed() {
 export async function loginAdmin(user, pass) {
   const u = normUser(user)
   if (!u || !pass) return null
+  pruneMem()
   try {
     if (await tryTable()) {
       const { rows } = await q('SELECT username, pass_hash FROM admin_users WHERE username = $1', [u])
       const row = rows[0]
       if (row && verify(row.pass_hash, pass)) {
+        if (isLegacyHash(row.pass_hash)) {
+          try { await q('UPDATE admin_users SET pass_hash = $1 WHERE username = $2', [newHash(String(pass)), u]) } catch {}
+        }
         const token = randomBytes(32).toString('hex')
         await q('DELETE FROM admin_sessions WHERE username = $1', [u])
         await q('INSERT INTO admin_sessions (token, username) VALUES ($1, $2)', [token, u])
@@ -160,25 +192,35 @@ export async function loginAdminLegacy(pin) {
 }
 
 export async function checkToken(token) {
-  if (!token) return false
+  if (!token || typeof token !== 'string' || !/^[0-9a-f]{64}$/i.test(token)) return false
+  pruneMem()
   try {
     if (await tryTable()) {
+      try {
+        if (isMysql()) await q(`DELETE FROM admin_sessions WHERE created_at < (NOW() - INTERVAL ${SESSION_TTL_HOURS} HOUR)`, [])
+        else await q(`DELETE FROM admin_sessions WHERE created_at < (NOW() - INTERVAL '${SESSION_TTL_HOURS} hours')`, [])
+      } catch {}
       const { rows } = await q('SELECT token FROM admin_sessions WHERE token = $1', [token])
       if (rows.length) return true
     }
   } catch {}
-  return MEM.has(token)
+  const v = MEM.get(token)
+  if (!v || expiredAt(v.at)) { if (v) { MEM.delete(token); persistMem() } return false }
+  return true
 }
 
 export async function tokenUser(token) {
   if (!token) return null
+  pruneMem()
   try {
     if (await tryTable()) {
       const { rows } = await q('SELECT username FROM admin_sessions WHERE token = $1', [token])
       if (rows[0]?.username) return rows[0].username
     }
   } catch {}
-  return MEM.get(token)?.username || null
+  const v = MEM.get(token)
+  if (!v || expiredAt(v.at)) return null
+  return v.username || null
 }
 
 export async function logoutToken(token) {

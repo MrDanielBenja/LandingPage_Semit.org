@@ -1,5 +1,7 @@
 import { useLang } from '../../../app/providers/LangProvider'
 import { resolveAsset } from '../../../core/cms/assets'
+import { iconOf, ICON_DEFAULTS } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 const MESES_ES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
 
@@ -17,7 +19,7 @@ export function evDiasRestan(f) {
   return Math.round((d - hoy) / 864e5)
 }
 
-export function EventoCard({ c, i, onSelect, preview }) {
+export function EventoCard({ c, i, onSelect, preview, icons }) {
   const { t } = useLang()
   const MESES = t('eventos.mesCorto')
   const f = evFecha(c.fecha, MESES)
@@ -25,11 +27,13 @@ export function EventoCard({ c, i, onSelect, preview }) {
   const libres = c.cupos - c.inscritos
   const catMap = t('eventos.catMap')
   const catT = (catMap && catMap[c.cat]) || c.cat
+  const icms = { icons: icons || {} }
+  const I = (k, fb) => iconOf(icms, k, fb || (ICON_DEFAULTS.eventos || {})[k])
   return (
     <article className="cu-card rv" style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }} onClick={() => onSelect(c)}>
       <span className="cu-rank">{String(i + 1).padStart(2, '0')}</span>
       <div className="cu-thumb">
-        <img src={preview ? c.img : resolveAsset(c.img)} alt={c.n} loading="lazy" />
+        <img src={preview ? c.img : resolveAsset(c.img)} alt={c.n} loading="lazy" style={imgStyleOf(c)} />
         <span className="cu-tag">{c.tag}</span>
         <span className="cu-mod">{c.mod}</span>
         <span className="ev-date"><b>{f.dia}</b><small>{f.mes}</small></span>
@@ -39,9 +43,9 @@ export function EventoCard({ c, i, onSelect, preview }) {
         <h3>{c.n}</h3>
         <p>{c.d}</p>
         <div className="cu-meta">
-          <span>📅 {f.dia} {f.mes} {f.anio}</span>
-          <span>🕘 {c.hora}</span>
-          <span>📍 {c.lugar}</span>
+          <span>{I('evDate', '📅')} {f.dia} {f.mes} {f.anio}</span>
+          <span>{I('evClock', '🕘')} {c.hora}</span>
+          <span>{I('evPin', '📍')} {c.lugar}</span>
         </div>
         <div className="cu-foot">
           <div className="cu-price">

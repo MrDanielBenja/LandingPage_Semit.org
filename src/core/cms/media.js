@@ -1,8 +1,25 @@
-export const IMAGE_MAX_MB = Infinity
-export const VIDEO_MAX_MB = 500
+export let IMAGE_MAX_MB = 12
+export let VIDEO_MAX_MB = 100
 export const LOCAL_FALLBACK_MAX_MB = 2
 
-export const IMAGE_EXTS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']
+export function setServerLimits({ imageMB, videoMB } = {}) {
+  if (Number.isFinite(imageMB) && imageMB > 0) IMAGE_MAX_MB = imageMB
+  if (Number.isFinite(videoMB) && videoMB > 0) VIDEO_MAX_MB = videoMB
+}
+
+export async function syncServerLimits() {
+  try {
+    const { apiBase } = await import('./apiBase')
+    const r = await fetch(`${apiBase()}/api/v1/uploads/limits`)
+    const j = await r.json().catch(() => ({}))
+    if (r.ok && j && j.ok) {
+      if (Number.isFinite(j.imageMaxBytes) && j.imageMaxBytes > 0) IMAGE_MAX_MB = Math.round(j.imageMaxBytes / 1024 / 1024)
+      if (Number.isFinite(j.videoMaxBytes) && j.videoMaxBytes > 0) VIDEO_MAX_MB = Math.round(j.videoMaxBytes / 1024 / 1024)
+    }
+  } catch {}
+}
+
+export const IMAGE_EXTS = ['.jpg', '.jpeg', '.jfif', '.png', '.webp', '.gif', '.avif']
 export const VIDEO_EXTS = ['.mp4', '.webm', '.ogv', '.ogg']
 
 export const ACCEPT_IMAGE = 'image/jpeg,image/png,image/webp,image/gif,image/avif'

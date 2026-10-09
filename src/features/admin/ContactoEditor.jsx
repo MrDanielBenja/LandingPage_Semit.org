@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Row, FmtCtl, ImgPick } from './InicioEditor'
+import { Row, FmtCtl, ImgPick, IconsForm } from './InicioEditor'
 import { CONTACTO_ASSETS } from '../../core/cms/defaultContacto'
+import { VIDEO_MAX_MB } from '../../core/cms/media'
 import { resolveUpload } from './adminUpload'
+import { imgEditScaleOnly } from '../../core/cms/imgEdit'
 
 function LangTabs({ tab, setTab }) {
   return (
@@ -35,7 +37,12 @@ function HeroForm({ o, onChange, fmt, setFmt }) {
         <Row label="Paragraph EN"><textarea rows={2} value={o.p_en || ''} onChange={e => set('p_en', e.target.value)} /></Row>
         <FmtCtl label="Formato párrafo" value={fmt['ct.hero.p']} onChange={v => setFmt('ct.hero.p', v)} />
       </>)}
-      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} /></Row>
+      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, ...p }), 'Contacto hero - Edición de Imagen')} /></Row>
+      <div className="adm-grid3">
+        <Row label="Icono WhatsApp"><input value={o.waIcon ?? '💚'} onChange={e => set('waIcon', e.target.value)} /></Row>
+        <Row label="Icono Sede"><input value={o.sedeIcon ?? '📍'} onChange={e => set('sedeIcon', e.target.value)} /></Row>
+        <Row label="Icono Email"><input value={o.mailIcon ?? '✉️'} onChange={e => set('mailIcon', e.target.value)} /></Row>
+      </div>
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
     </div>
   )
@@ -185,8 +192,8 @@ function SedeForm({ o, onChange, fmt, setFmt }) {
         <Row label="Line1 EN"><input value={o.l1_en || ''} onChange={e => set('l1_en', e.target.value)} /></Row>
         <Row label="Line2 EN"><input value={o.l2_en || ''} onChange={e => set('l2_en', e.target.value)} /></Row>
       </>)}
-      <Row label="Imagen sede"><ImgPick value={o.img} onChange={v => set('img', v)} /></Row>
-      <div className="adm-note">Assets: {CONTACTO_ASSETS.slice(0, 3).join(' · ')} · Videos: súbelos donde la casilla lo indique (MP4/WebM/OGG ≤500MB)</div>
+      <Row label="Imagen sede"><ImgPick value={o.img} onChange={v => set('img', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, ...p }), 'Sede - Edición de Imagen')} /></Row>
+      <div className="adm-note">Assets: {CONTACTO_ASSETS.slice(0, 3).join(' · ')} · Videos: súbelos donde la casilla lo indique (MP4/WebM/OGG ≤{VIDEO_MAX_MB}MB)</div>
     </div>
   )
 }
@@ -227,6 +234,7 @@ export function ContactoEditor({ draft, onDraft, sec, sel, onSel }) {
       {sec === 'horario' && <HorarioForm arr={draft.horario || []} onChange={v => set({ horario: v })} fmt={fmt} setFmt={setFmt} sel={sel} onSel={onSel} />}
       {sec === 'sede' && <SedeForm o={draft.sede || {}} onChange={v => set({ sede: v })} fmt={fmt} setFmt={setFmt} />}
       {sec === 'form' && <FormForm o={draft.form || {}} onChange={v => set({ form: v })} fmt={fmt} setFmt={setFmt} />}
+      {sec === 'icons' && <IconsForm page="contacto" value={draft.icons || {}} onChange={v => set({ icons: v })} />}
     </div>
   )
 }

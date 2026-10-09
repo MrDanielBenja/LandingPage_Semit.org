@@ -4,10 +4,14 @@ import { waLink } from '../../../core/services/whatsapp'
 import { useLang } from '../../../app/providers/LangProvider'
 import { resolveAsset } from '../../../core/cms/assets'
 import { evDiasRestan, evFecha } from './EventoCard'
+import { iconOf, ICON_DEFAULTS } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
-export function EventoDrawer({ evento, onClose, preview }) {
+export function EventoDrawer({ evento, onClose, preview, icons }) {
   const { t } = useLang()
   const [tab, setTab] = useState('programa')
+  const icms = { icons: icons || {} }
+  const I = (k, fb) => iconOf(icms, k, fb || (ICON_DEFAULTS.eventos || {})[k])
   useEffect(() => {
     setTab('programa')
     if (!evento) return
@@ -30,7 +34,7 @@ export function EventoDrawer({ evento, onClose, preview }) {
     <div className="drawer-bg" onClick={onClose}>
       <aside className="drawer" onClick={e => e.stopPropagation()}>
         <div className="drawer-hero">
-          <img src={preview ? c.img : resolveAsset(c.img)} alt={c.n} />
+          <img src={preview ? c.img : resolveAsset(c.img)} alt={c.n} style={imgStyleOf(c)} />
           <button className="drawer-x" onClick={onClose} aria-label={t('eventos.drawer.cerrar')}>✕</button>
           <span className="cu-tag">{c.tag}</span>
         </div>
@@ -38,9 +42,9 @@ export function EventoDrawer({ evento, onClose, preview }) {
           <span className="cu-area">{catT} · {c.mod}</span>
           <h2>{c.n}</h2>
           <div className="drawer-rating">
-            <b>📅 {f.dia} {f.mes} {f.anio} · {c.hora}</b>
-            <span>· 📍 {c.lugar}</span>
-            <span>· ⭐ {c.rating.toFixed(1)}</span>
+            <b>{I('evDate', '📅')} {f.dia} {f.mes} {f.anio} · {c.hora}</b>
+            <span>· {I('evPin', '📍')} {c.lugar}</span>
+            <span>· {I('evStar', '⭐')} {c.rating.toFixed(1)}</span>
           </div>
           <p className="drawer-desc">{c.d}</p>
           <div className="ev-count-mini">

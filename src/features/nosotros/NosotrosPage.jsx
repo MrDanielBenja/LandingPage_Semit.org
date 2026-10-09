@@ -6,6 +6,7 @@ import { useContent } from '../../core/cms/contentStore'
 import { resolveAsset } from '../../core/cms/assets'
 import { fmtCssKey } from '../../core/cms/fmt'
 import { DEFAULT_NOSOTROS } from '../../core/cms/defaultNosotros'
+import { imgStyleOf } from '../../core/cms/imgEdit'
 import { QuienesSomos } from './components/QuienesSomos'
 import { Funciones } from './components/Funciones'
 import { DeclaracionFe } from './components/DeclaracionFe'
@@ -21,7 +22,7 @@ export function NosotrosPage({ preview }) {
   return (
     <div className="pg pg-nos">
       <div className="nos-hero rv" style={h.bg ? { background: h.bg } : undefined}>
-        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="SEMIT Cusco" loading="lazy" />
+        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="SEMIT Cusco" loading="lazy" style={imgStyleOf(h)} />
         <div className="nos-hero-veil" />
         <div className="container nos-hero-in">
           <span className="pill pill-glass" style={fmtCssKey(cms, 'hero.pill')}>{L('pill')}</span>

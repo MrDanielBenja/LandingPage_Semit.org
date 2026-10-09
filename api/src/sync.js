@@ -25,8 +25,8 @@ async function saveCover(slug, portalId) {
   const file = join(COVERS, `${slug}.jpg`)
   if (existsSync(file)) return true
   const urls = [
-    `https://api-developer.casa-peniel.com/api/public/course-covers/${portalId}.jpg`,
     `${PORTAL}/api/public/course-covers/${portalId}.jpg`,
+    `https://api-developer.casa-peniel.com/api/public/course-covers/${portalId}.jpg`,
   ]
   for (const u of urls) {
     try {

@@ -2,6 +2,7 @@ import { RAMAS, RAMAS_EN, SUBS, SUBS_EN, MAESTRIAS, MAESTRIAS_EN, RUTA, RUTA_EN,
 import { IMGS, LOCAL } from '../../shared/lib/images'
 import { ES } from '../../shared/i18n/dict_es'
 import { EN } from '../../shared/i18n/dict_en'
+import { iconsWithDefaults } from './icons'
 
 const H = ES.niveles
 const HE = EN.niveles
@@ -70,22 +71,23 @@ export const DEFAULT_NIVELES = {
     semanas: c.semanas, lecciones: c.lecciones, rating: c.rating, est: c.est,
     img: imgOf(c.img),
   })),
+  icons: iconsWithDefaults('niveles'),
   fmt: {},
 }
 
 export const NIVELES_ASSETS = [
-  'assets/niveles/semit-11.jpg',
-  'assets/niveles/semit-3.jpg',
-  'assets/niveles/semit-5.jpg',
-  'assets/cursos/semit-15.jpg',
-  'assets/cursos/semit-19.jpg',
-  'assets/cursos/semit-21.jpg',
-  'assets/inicio/semit-7.jpg',
-  'assets/inicio/semit-13.jpg',
-  'assets/nosotros/semit-1.jpg',
-  'assets/nosotros/semit-6.jpg',
-  'assets/eventos/semit-10.jpg',
-  'assets/eventos/semit-22.jpg',
+  '/assets/niveles/semit-11.jpg',
+  '/assets/niveles/semit-3.jpg',
+  '/assets/niveles/semit-5.jpg',
+  '/assets/cursos/semit-15.jpg',
+  '/assets/cursos/semit-19.jpg',
+  '/assets/cursos/semit-21.jpg',
+  '/assets/inicio/semit-7.jpg',
+  '/assets/inicio/semit-13.jpg',
+  '/assets/nosotros/semit-1.jpg',
+  '/assets/nosotros/semit-6.jpg',
+  '/assets/eventos/semit-10.jpg',
+  '/assets/eventos/semit-22.jpg',
   LOCAL.nivelesHero, LOCAL.nivelesA, LOCAL.nivelesB,
   LOCAL.eventosA, LOCAL.eventosB,
 ].filter((v, k, a) => v && a.indexOf(v) === k)

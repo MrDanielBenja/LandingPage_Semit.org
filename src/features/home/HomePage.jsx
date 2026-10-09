@@ -12,7 +12,7 @@ import { EventoTeaser } from './components/EventoTeaser'
 import { Testimonios } from './components/Testimonios'
 import { Newsletter } from './components/Newsletter'
 
-export function HomePage({ preview, marqueeOnly }) {
+export function HomePage({ preview, previewNiveles, previewEventos, marqueeOnly }) {
   const { lang, t } = useLang()
   const { data: saved } = useContent('inicio', DEFAULT_INICIO)
   const cms = preview || saved
@@ -25,9 +25,9 @@ export function HomePage({ preview, marqueeOnly }) {
       <Portada preview={preview} />
       <div className="container hero" id="seminario"><SeminarioIntro preview={preview} /></div>
       <div className="container home-sec"><Modalidades preview={preview} /></div>
-      <div className="container home-sec"><RutaNiveles preview={preview} /></div>
+      <div className="container home-sec"><RutaNiveles preview={preview} previewNiveles={previewNiveles} /></div>
       <div className="container home-sec"><CursosTop preview={preview} /></div>
-      <div className="container home-sec"><EventoTeaser preview={preview} /></div>
+      <div className="container home-sec"><EventoTeaser preview={preview} previewEventos={previewEventos} /></div>
       <div className="container home-sec"><Testimonios preview={preview} /></div>
       <Newsletter preview={preview} />
       <div className="marquee" style={mq.bg ? { background: mq.bg } : undefined}><div style={{ ...(mq.color ? { color: mq.color } : null), ...fmtCssKey(cms, 'marquee.text') }}>{M}&nbsp;</div></div>

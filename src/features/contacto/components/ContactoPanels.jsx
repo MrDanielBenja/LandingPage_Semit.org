@@ -7,6 +7,8 @@ import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
 import { DEFAULT_CONTACTO } from '../../../core/cms/defaultContacto'
 import { DEFAULT_SITE } from '../../../core/cms/defaultSite'
+import { iconOf } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 const tpl = (s, vars) => {
   let r = String(s || '')
@@ -42,6 +44,7 @@ export function PanelFormulario({ preview }) {
     setOk(true)
     openWa(msg, s.wa)
   }
+  const iCheck = iconOf(cms, 'check', '✓')
   if (ok) return (
     <div className="cx-card panel-pop">
       <div className="ok-box"><div className="ok-check">✓</div>
@@ -60,7 +63,7 @@ export function PanelFormulario({ preview }) {
       <div className="cx-steps">
         {steps.map((ss, k) => (
           <button key={ss} type="button" className={`cx-step ${step === k ? 'on' : ''} ${step > k ? 'done' : ''}`} onClick={() => k < step && setStep(k)}>
-            <b>{step > k ? '✓' : `0${k + 1}`}</b><span>{ss}</span>
+            <b>{step > k ? iCheck : `0${k + 1}`}</b><span>{ss}</span>
           </button>
         ))}
       </div>
@@ -151,14 +154,14 @@ export function PanelSede({ preview }) {
   return (
     <div className="cx-card panel-pop">
       <div className="sede-hero">
-        <img src={resolveAsset(o.img)} alt="Sede Cusco" loading="lazy" />
+        <img src={resolveAsset(o.img)} alt="Sede Cusco" loading="lazy" style={imgStyleOf(o)} />
         <span className="sede-badge" style={fmtCssKey(cms, 'ct.sede.badge')}>{L('badge')}</span>
       </div>
       <h3 style={fmtCssKey(cms, 'ct.sede.t')}>{o.t || t('contacto.sede.t')}</h3><p className="cx-sub" style={fmtCssKey(cms, 'ct.sede.s')}>{L('s')}</p>
       <div className="sched-grid">{HOR.map((x, k) => <div key={k} className="sched"><b style={fmtCssKey(cms, 'ct.horario.d')}>{x.d}</b><span style={fmtCssKey(cms, 'ct.horario.h')}>{x.h}</span></div>)}</div>
       <ul className="chk"><li>{L('l1')}</li><li>{L('l2')}</li></ul>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        <a className="btn btn-blue" style={{ flex: 1 }} target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}>{t('contacto.sede.maps')}</a>
+        <a className="btn btn-blue" style={{ flex: 1 }} target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(String(mapsQuery || ''))}`}>{t('contacto.sede.maps')}</a>
         <a className="btn btn-line" target="_blank" rel="noreferrer" href={waLink(t('contacto.sede.waSede'), s.wa)}>{t('contacto.sede.como')}</a>
       </div>
     </div>

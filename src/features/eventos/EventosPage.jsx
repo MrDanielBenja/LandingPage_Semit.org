@@ -7,6 +7,8 @@ import { useContent } from '../../core/cms/contentStore'
 import { resolveAsset } from '../../core/cms/assets'
 import { fmtCssKey } from '../../core/cms/fmt'
 import { DEFAULT_EVENTOS } from '../../core/cms/defaultEventos'
+import { iconOf } from '../../core/cms/icons'
+import { imgStyleOf } from '../../core/cms/imgEdit'
 import { EventoCard, evDiasRestan } from './components/EventoCard'
 import { EventoDrawer } from './components/EventoModal'
 import { BcbEvento } from './components/BcbEvento'
@@ -23,7 +25,7 @@ function monthCells(y, m) {
 
 const keyOfDay = (y, m, d) => `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
 
-function ProximoHero({ ev, onSelect }) {
+function ProximoHero({ ev, onSelect, icon }) {
   const { lang, t } = useLang()
   const cd = useCountdown(ev.fecha + 'T' + ev.hora + ':00')
   const en = lang === 'en'
@@ -32,10 +34,10 @@ function ProximoHero({ ev, onSelect }) {
   const units = en ? ['days', 'hrs', 'min', 'sec'] : ['días', 'hrs', 'min', 'seg']
   return (
     <div className="ev-hero-card rv" onClick={() => onSelect(ev)}>
-      <img src={ev.img} alt={ev.n} loading="lazy" />
+      <img src={ev.img} alt={ev.n} loading="lazy" style={imgStyleOf(ev)} />
       <div className="ev-hero-veil" />
       <div className="ev-hero-txt">
-        <span className="gold-pill">{en ? `🔥 Next event · ${catT}` : `🔥 Próximo evento · ${catT}`}</span>
+        <span className="gold-pill">{icon ?? '🔥'} {en ? `Next event · ${catT}` : `Próximo evento · ${catT}`}</span>
         <h2>{ev.n}</h2>
         <p>📍 {ev.lugar} · 🕘 {ev.hora}</p>
         <div className="ev-cd">
@@ -145,43 +147,46 @@ export function EventosPage({ preview }) {
   }, [ALL])
 
   const limpiar = () => { setQ(''); setCat('Todos'); setSoloProx(false); setMesSel(null) }
+  const I = (k, fb) => iconOf(cms, k, fb)
+  const iSearch = I('search', '🔍')
+  const iEmpty = I('empty', '📅')
   const track = catInfo(cat)
   const heroPill = (HL('pill') || '').replaceAll('{a}', anio).replaceAll('{n}', yearBase.length)
 
   return (
     <div className="pg pg-cursos">
       <div className="nos-hero rv" style={h.bg ? { background: h.bg } : undefined}>
-        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Eventos SEMIT" loading="lazy" />
+        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Eventos SEMIT" loading="lazy" style={imgStyleOf(h)} />
         <div className="nos-hero-veil" />
         <div className="container nos-hero-in">
           <span className="pill pill-glass" style={fmtCssKey(cms, 'ev.hero.pill')}>{heroPill}</span>
           <h1 style={fmtCssKey(cms, 'ev.hero.h1')}>{HL('h1a')}<br />{HL('h1b')}</h1>
           <p style={fmtCssKey(cms, 'ev.hero.p')}>{HL('p')}</p>
           <div className="nos-stats-float">
-            <div className="stat4"><b>✈️</b><span>{HL('s1')}</span></div>
-            <div className="stat4"><b>🎤</b><span>{HL('s2')}</span></div>
-            <div className="stat4"><b>🛠️</b><span>{HL('s3')}</span></div>
-            <div className="stat4"><b>🏕️</b><span>{HL('s4')}</span></div>
+            <div className="stat4"><b>{h.s1e ?? '✈️'}</b><span>{HL('s1')}</span></div>
+            <div className="stat4"><b>{h.s2e ?? '🎤'}</b><span>{HL('s2')}</span></div>
+            <div className="stat4"><b>{h.s3e ?? '🛠️'}</b><span>{HL('s3')}</span></div>
+            <div className="stat4"><b>{h.s4e ?? '🏕️'}</b><span>{HL('s4')}</span></div>
           </div>
         </div>
       </div>
 
       <div className="container sec nos-body">
         <SecHead n={s1.n} pill={S(s1, 'pill')} title={S(s1, 'title')} sub={S(s1, 'sub')} titleStyle={fmtCssKey(cms, 'ev.sec.title')} subStyle={fmtCssKey(cms, 'ev.sec.sub')} />
-        <ProximoHero ev={proximo} onSelect={setSel} />
+        <ProximoHero ev={proximo} onSelect={setSel} icon={h.proximoIcon} />
 
         <SecHead n={s2.n} pill={S(s2, 'pill')} title={S(s2, 'title')} sub={S(s2, 'sub')} titleStyle={fmtCssKey(cms, 'ev.sec.title')} subStyle={fmtCssKey(cms, 'ev.sec.sub')} />
 
         <div className="ev-panel rv">
           <div className="cu-search ev-search">
-            <span>🔍</span>
+            <span>{iSearch}</span>
             <input value={q} onChange={e => setQ(e.target.value)} placeholder={t('eventos.ph')} />
             {q && <button onClick={() => setQ('')}>✕</button>}
           </div>
           <div className="ev-cats rv">
             {CATS.map(a => (
               <button key={a.id} className={`cat-card ${cat === a.id ? 'on' : ''}`} onClick={() => setCat(a.id)}>
-                <span className="cat-media"><img src={resolveAsset(a.img)} alt={a.id} loading="lazy" /><span className="cat-emo">{a.e}</span><span className="cat-count">{a.id === 'Todos' ? yearBase.length : yearBase.filter(c => c.cat === a.id).length}</span></span>
+                <span className="cat-media"><img src={resolveAsset(a.img)} alt={a.id} loading="lazy" style={imgStyleOf(a)} /><span className="cat-emo">{a.e}</span><span className="cat-count">{a.id === 'Todos' ? yearBase.length : yearBase.filter(c => c.cat === a.id).length}</span></span>
                 <span className="cat-body"><b>{a.id === 'Todos' ? t('eventos.todo') : catT(a.id)}</b><small>{lang === 'en' ? (a.d_en || a.d_es) : (a.d_es || a.d_en)}</small></span>
               </button>
             ))}
@@ -241,11 +246,11 @@ export function EventosPage({ preview }) {
             <div className="cu-count rv">{list.length} {list.length === 1 ? t('eventos.count.uno') : t('eventos.count.muchos')} {t('eventos.count.en')} {mesSel != null ? MESES_L[mesSel - 1] : ''} {anio}{q && <> {en ? 'for' : 'para'} <b>“{q}”</b></>} · <button className="link-btn" onClick={limpiar}>{t('eventos.count.limpiar')}</button></div>
 
             <div className="cu-list" key={cat + soloProx + anio + mesSel + vista}>
-              {list.map((c, k) => <EventoCard key={`${c.fecha}-${c.n}`} c={c} i={k} onSelect={setSel} preview={preview} />)}
+              {list.map((c, k) => <EventoCard key={`${c.fecha}-${c.n}`} c={c} i={k} onSelect={setSel} preview={preview} icons={cms.icons} />)}
             </div>
             {list.length === 0 && (
               <div className="cu-empty rv">
-                <span>📅</span><h3>{t('eventos.empty.t')}</h3>
+                <span>{iEmpty}</span><h3>{t('eventos.empty.t')}</h3>
                 <p>{mesSel != null ? t('eventos.empty.pMes') : t('eventos.empty.pGen')}</p>
                 <button className="btn btn-blue" onClick={limpiar}>{t('eventos.empty.btn')}</button>
               </div>
@@ -267,7 +272,7 @@ export function EventosPage({ preview }) {
         </div>
       </div>
 
-      <EventoDrawer evento={sel} onClose={() => setSel(null)} preview={preview} />
+      <EventoDrawer evento={sel} onClose={() => setSel(null)} preview={preview} icons={cms.icons} />
     </div>
   )
 }

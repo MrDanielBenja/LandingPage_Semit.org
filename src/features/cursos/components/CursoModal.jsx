@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom'
 import { waLink } from '../../../core/services/whatsapp'
 import { useLang } from '../../../app/providers/LangProvider'
 import { resolveAsset } from '../../../core/cms/assets'
+import { iconOf, ICON_DEFAULTS } from '../../../core/cms/icons'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
-export function CursoDrawer({ curso, onClose }) {
+export function CursoDrawer({ curso, onClose, icons }) {
   const { t } = useLang()
   const [tab, setTab] = useState('temario')
+  const icms = { icons: icons || {} }
+  const I = (k, fb) => iconOf(icms, k, fb || (ICON_DEFAULTS.cursosPage || {})[k])
   useEffect(() => {
     setTab('temario')
     if (!curso) return
@@ -25,14 +29,14 @@ export function CursoDrawer({ curso, onClose }) {
     <div className="drawer-bg" onClick={onClose}>
       <aside className="drawer" onClick={e => e.stopPropagation()}>
         <div className="drawer-hero">
-          <img src={resolveAsset(c.img) || c.img} alt={c.n} />
+          <img src={resolveAsset(c.img) || c.img} alt={c.n} style={imgStyleOf(c)} />
           <button className="drawer-x" onClick={onClose} aria-label={t('cursos.drawer.cerrar')}>✕</button>
           <span className="cu-tag">{c.tag}</span>
         </div>
         <div className="drawer-body">
           <span className="cu-area">{area} · {mod} · {nivel}</span>
           <h2>{c.n}</h2>
-          <div className="drawer-rating"><b>⭐ {c.rating.toFixed(1)}</b><span>· {c.est} {t('cursos.drawer.est')}</span><span>· 🕘 {c.semanas} {t('cursos.drawer.sem')}</span><span>· 📚 {c.lecciones} {t('cursos.drawer.lec')}</span></div>
+          <div className="drawer-rating"><b>{I('star', '⭐')} {c.rating.toFixed(1)}</b><span>· {c.est} {t('cursos.drawer.est')}</span><span>· {I('sem', '🕘')} {c.semanas} {t('cursos.drawer.sem')}</span><span>· {I('lec', '📚')} {c.lecciones} {t('cursos.drawer.lec')}</span></div>
           <p className="drawer-desc">{c.d} {t('cursos.drawer.suf')}</p>
           <div className="drawer-tabs">
             {['temario', 'incluye', 'precio'].map(x => (

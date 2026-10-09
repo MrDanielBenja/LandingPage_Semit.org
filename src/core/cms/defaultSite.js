@@ -1,4 +1,4 @@
-import { SITE, NAV_LINKS } from '../../shared/config/site'
+import { SITE, NAV_LINKS, PORTAL_URL } from '../../shared/config/site'
 import { ES } from '../../shared/i18n/dict_es'
 import { EN } from '../../shared/i18n/dict_en'
 
@@ -13,8 +13,8 @@ export const DEFAULT_SITE = {
     phone: SITE.phone, phoneRaw: SITE.phoneRaw, wa: SITE.wa,
     email: SITE.email, facebook: SITE.facebook,
     mapsQuery: SITE.mapsQuery,
-    portalUrl: 'https://demo.casa-peniel.com/',
-    logo: 'assets/logo/logo.png',
+    portalUrl: PORTAL_URL,
+    logo: '/assets/logo/logo.png',
     logoSize: 132,
   },
   nav: NAV_LINKS.map(l => ({ to: l.to, label_es: l.label, label_en: EN_NAV[l.to] || l.label })),
@@ -22,4 +22,4 @@ export const DEFAULT_SITE = {
   fmt: {},
 }
 
-export const SITE_ASSETS = ['assets/logo/logo.png']
+export const SITE_ASSETS = ['/assets/logo/logo.png']

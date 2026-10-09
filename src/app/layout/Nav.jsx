@@ -4,7 +4,9 @@ import { useTheme } from '../providers/ThemeProvider'
 import { useLang } from '../providers/LangProvider'
 import { useContent } from '../../core/cms/contentStore'
 import { fmtCssKey } from '../../core/cms/fmt'
+import { safeHref, safeSrc } from '../../core/cms/sanitize'
 import { DEFAULT_SITE } from '../../core/cms/defaultSite'
+import { PORTAL_URL } from '../../shared/config/site'
 
 const TO_KEY = { '/': 'nav.inicio', '/nosotros': 'nav.nosotros', '/niveles': 'nav.niveles', '/cursos': 'nav.cursos', '/eventos': 'nav.eventos', '/contacto': 'nav.contacto' }
 
@@ -28,8 +30,8 @@ export function Nav({ preview }) {
   const LINKS = (Array.isArray(siteCms.nav) && siteCms.nav.length ? siteCms.nav : DEFAULT_SITE.nav).map(l => ({
     to: l.to, label: (lang === 'en' ? l.label_en : l.label_es) || t(TO_KEY[l.to] || 'nav.inicio'),
   }))
-  const portalUrl = s.portalUrl || 'https://demo.casa-peniel.com/'
-  const logo = s.logo || 'assets/logo/logo.png'
+  const portalUrl = safeHref(s.portalUrl || PORTAL_URL, PORTAL_URL)
+  const logo = safeSrc(s.logo || '/assets/logo/logo.png', '/assets/logo/logo.png')
   const logoSize = Number(s.logoSize) || 132
   return (
     <div className="nav"><div className="nav-in">

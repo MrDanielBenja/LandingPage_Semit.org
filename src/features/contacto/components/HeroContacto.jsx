@@ -6,6 +6,7 @@ import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
 import { DEFAULT_CONTACTO } from '../../../core/cms/defaultContacto'
 import { DEFAULT_SITE } from '../../../core/cms/defaultSite'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 export function HeroContacto({ onCanal, preview, sitePreview }) {
   const { lang, t } = useLang()
@@ -22,16 +23,16 @@ export function HeroContacto({ onCanal, preview, sitePreview }) {
   const goLayout = () => document.querySelector('.c-layout')?.scrollIntoView({ behavior: 'smooth' })
   return (
     <div className="nos-hero rv" style={h.bg ? { background: h.bg } : undefined}>
-      <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Comunidad SEMIT" loading="lazy" />
+        <img className="nos-hero-bg" src={resolveAsset(h.img)} alt="Comunidad SEMIT" loading="lazy" style={imgStyleOf(h)} />
       <div className="nos-hero-veil" />
       <div className="container nos-hero-in">
         <span className="pill pill-glass" style={fmtCssKey(cms, 'ct.hero.pill')}>{L('pill')}</span>
         <h1 style={fmtCssKey(cms, 'ct.hero.h1')}>{L('h1a')}<br />{L('h1b')}</h1>
         <p style={fmtCssKey(cms, 'ct.hero.p')}>{L('p')}</p>
         <div className="nos-stats-float cols-3">
-          <a className="stat4 stat-link" target="_blank" rel="noreferrer" href={waLink(hi, s.wa)}><b>💚 {phone}</b><span>{t('contacto.hero.waT')}</span></a>
-          <button className="stat4 stat-link" onClick={() => { onCanal('sede'); goLayout() }}><b>📍 {t('contacto.hero.sedeT')}</b><span>{t('contacto.hero.sedeS')}</span></button>
-          <button className="stat4 stat-link" onClick={() => { onCanal('form'); goLayout() }}><b>✉️ {t('contacto.hero.mailT')}</b><span>{email} →</span></button>
+          <a className="stat4 stat-link" target="_blank" rel="noreferrer" href={waLink(hi, s.wa)}><b>{h.waIcon ?? '💚'} {phone}</b><span>{t('contacto.hero.waT')}</span></a>
+          <button className="stat4 stat-link" onClick={() => { onCanal('sede'); goLayout() }}><b>{h.sedeIcon ?? '📍'} {t('contacto.hero.sedeT')}</b><span>{t('contacto.hero.sedeS')}</span></button>
+          <button className="stat4 stat-link" onClick={() => { onCanal('form'); goLayout() }}><b>{h.mailIcon ?? '✉️'} {t('contacto.hero.mailT')}</b><span>{email} →</span></button>
         </div>
       </div>
     </div>

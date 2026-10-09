@@ -1,15 +1,17 @@
 import { CURSOS } from '../data/cursos.data'
 import { asArr } from '../../../core/cms/safe'
 import { apiBase } from '../../../core/cms/apiBase'
+import { safeSrc } from '../../../core/cms/sanitize'
 
 export function resolveImg(url) {
   const BASE = apiBase()
   if (!url) return ''
-  if (/^(https?:|data:|blob:)/i.test(url)) return url
-  if (url.startsWith('/')) return `${BASE ?? ''}${url}`
-  const clean = String(url).replace(/^\.\//, '')
-  if (BASE == null) return url
-  return BASE ? `${BASE}/${clean}` : `/${clean}`
+  const raw = String(url)
+  if (/^(https?:|data:|blob:)/i.test(raw)) return safeSrc(raw, '')
+  if (raw.startsWith('/')) return safeSrc(`${BASE ?? ''}${raw}`, '')
+  const clean = raw.replace(/^\.\//, '')
+  if (BASE == null) return safeSrc(url, '')
+  return safeSrc(BASE ? `${BASE}/${clean}` : `/${clean}`, '')
 }
 
 export function mapApiCurso(r) {

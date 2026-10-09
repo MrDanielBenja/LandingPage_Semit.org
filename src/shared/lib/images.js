@@ -1,4 +1,4 @@
-const A = (p) => `assets/${p}`
+const A = (p) => `/assets/${p}`
 
 export const LOCAL = {
   inicio1: A('inicio/semit-7.jpg'),

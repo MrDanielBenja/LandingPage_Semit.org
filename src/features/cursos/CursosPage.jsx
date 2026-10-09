@@ -10,6 +10,8 @@ import { useContent } from '../../core/cms/contentStore'
 import { resolveAsset } from '../../core/cms/assets'
 import { fmtCssKey } from '../../core/cms/fmt'
 import { DEFAULT_CURSOS_PAGE, applyCursosOverrides } from '../../core/cms/defaultCursosPage'
+import { iconOf } from '../../core/cms/icons'
+import { imgStyleOf } from '../../core/cms/imgEdit'
 
 const fill = (s, vars) => {
   let r = s || ''
@@ -46,6 +48,9 @@ export function CursosPage({ preview }) {
   useReveal('/cursos')
 
   const cursos = useMemo(() => applyCursosOverrides(base, cms.overrides, lang), [base, cms.overrides, lang])
+  const I = (k, fb) => iconOf(cms, k, fb)
+  const iSearch = I('search', '🔍')
+  const iEmpty = I('empty', '🔍')
 
   const list = useMemo(() => {
     let r = cursos.filter(c =>
@@ -72,14 +77,14 @@ export function CursosPage({ preview }) {
   return (
     <div className="pg pg-cursos">
       <div className="nos-hero rv" style={hero.bg ? { background: hero.bg } : undefined}>
-        <img className="nos-hero-bg" src={resolveAsset(hero.img) || undefined} alt="Aula SEMIT" loading="lazy" />
+        <img className="nos-hero-bg" src={resolveAsset(hero.img) || undefined} alt="Aula SEMIT" loading="lazy" style={imgStyleOf(hero)} />
         <div className="nos-hero-veil" />
         <div className="container nos-hero-in">
           <span className="pill pill-glass" style={fmtCssKey(cms, 'cur.hero.pill')}>{fill(L(hero, 'pill', 'cursos.hero.pill'), { n: cursos.length })}{source === 'api' ? '' : t('cursos.hero.local')}</span>
           <h1 style={fmtCssKey(cms, 'cur.hero.h1')}>{L(hero, 'h1a', 'cursos.hero.h1a')}<br />{L(hero, 'h1b', 'cursos.hero.h1b')}</h1>
           <p style={fmtCssKey(cms, 'cur.hero.p')}>{L(hero, 'p', 'cursos.hero.p')}</p>
           <div className="cu-search nos-search">
-            <span>🔍</span>
+            <span>{iSearch}</span>
             <input value={q} onChange={e => setQ(e.target.value)} placeholder={L(hero, 'ph', 'cursos.hero.ph')} />
             {q && <button onClick={() => setQ('')}>✕</button>}
           </div>
@@ -98,7 +103,7 @@ export function CursosPage({ preview }) {
             const label = a === 'Todos' ? t('cursos.trackTodo') : (areaMap[a] || a)
             return (
               <button key={a} className={`cat-card ${area === a ? 'on' : ''}`} onClick={() => setArea(a)}>
-                <span className="cat-media"><img src={trackImg(a)} alt={label} loading="lazy" /><span className="cat-emo">{trackEmo(a)}</span><span className="cat-count">{a === 'Todos' ? `${cursos.length}` : `${cursos.filter(c => c.a === a).length}`}</span></span>
+                <span className="cat-media"><img src={trackImg(a)} alt={label} loading="lazy" style={imgStyleOf(trackMap[a])} /><span className="cat-emo">{trackEmo(a)}</span><span className="cat-count">{a === 'Todos' ? `${cursos.length}` : `${cursos.filter(c => c.a === a).length}`}</span></span>
                 <span className="cat-body"><b>{label}</b><small style={fmtCssKey(cms, `cur.track.${a}`)}>{trackDesc(a)}</small></span>
               </button>
             )
@@ -114,11 +119,11 @@ export function CursosPage({ preview }) {
         <div className="cu-count rv">{loading ? t('cursos.count.loading') : `${list.length} ${list.length === 1 ? t('cursos.count.uno') : t('cursos.count.muchos')}`}{q && <> {t('cursos.count.para')} <b>“{q}”</b></>} · <button className="link-btn" onClick={() => { setQ(''); setArea('Todos'); setMod('Todos') }}>{t('cursos.count.limpiar')}</button>{error ? t('cursos.count.err') : ''}</div>
 
         <div className="cu-list">
-          {list.map((c, k) => <CursoCard key={c.slug || c.id || `${c.n}-${k}`} c={c} i={k} onSelect={setSel} />)}
+          {list.map((c, k) => <CursoCard key={c.slug || c.id || `${c.n}-${k}`} c={c} i={k} onSelect={setSel} icons={cms.icons} />)}
         </div>
         {list.length === 0 && (
           <div className="cu-empty rv">
-            <span>🔍</span><h3 style={fmtCssKey(cms, 'cur.empty.t')}>{L(empty, 't', 'cursos.empty.t')}</h3>
+            <span>{iEmpty}</span><h3 style={fmtCssKey(cms, 'cur.empty.t')}>{L(empty, 't', 'cursos.empty.t')}</h3>
             <p style={fmtCssKey(cms, 'cur.empty.p')}>{fill(L(empty, 'p', 'cursos.empty.p'), { q })}</p>
             <button className="btn btn-blue" onClick={() => { setQ(''); setArea('Todos'); setMod('Todos') }}>{L(empty, 'btn', 'cursos.empty.btn')}</button>
           </div>
@@ -130,7 +135,7 @@ export function CursosPage({ preview }) {
         </div>
       </div>
 
-      <CursoDrawer curso={sel} onClose={() => setSel(null)} />
+      <CursoDrawer curso={sel} onClose={() => setSel(null)} icons={cms.icons} />
     </div>
   )
 }

@@ -46,7 +46,10 @@ export function useContent(page, fallback) {
       }
     } catch {}
     setData(next)
-    try { localStorage.setItem(LS + page, JSON.stringify(next)) } catch {}
+    let quotaWarn = ''
+    try { localStorage.setItem(LS + page, JSON.stringify(next)) } catch {
+      quotaWarn = 'Navegador lleno: usa fotos subidas al servidor (/api/v1/uploads/…), no pegues imágenes en base64'
+    }
     setSource('local')
     const BASE = apiBase()
     if (BASE == null) return { ok: true, source: 'local' }
@@ -58,12 +61,13 @@ export function useContent(page, fallback) {
         headers: { 'Content-Type': 'application/json', ...(t ? { 'x-admin-token': t } : {}) },
         body: JSON.stringify({ data: next }),
       })
-      if (r.status === 401) return { ok: true, source: 'local', warn: 'Sesión vencida — entra de nuevo al CMS' }
-      if (!r.ok) throw new Error(`api ${r.status}`)
+      if (r.status === 401 || r.status === 403) return { ok: false, source: 'local', warn: quotaWarn || 'Sesión vencida — entra de nuevo al CMS' }
+      if (r.status === 413) return { ok: false, source: 'local', warn: 'Contenido muy pesado (413): sube las fotos al servidor primero, no las pegues en base64' }
+      if (!r.ok) return { ok: false, source: 'local', warn: `No se guardó en el servidor (api ${r.status}) — tienes copia local` }
       setSource('api')
-      return { ok: true, source: 'api' }
+      return quotaWarn ? { ok: true, source: 'api', warn: quotaWarn } : { ok: true, source: 'api' }
     } catch {
-      return { ok: true, source: 'local', warn: 'API apagada — solo en este navegador' }
+      return { ok: false, source: 'local', warn: 'API apagada — guardado solo en este navegador' }
     } finally {
       setSaving(false)
     }

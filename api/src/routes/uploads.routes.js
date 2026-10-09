@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import express from 'express'
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, statSync, readdirSync, unlinkSync } from 'node:fs'
+import { randomBytes } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { dirname, join, extname } from 'node:path'
-import { checkToken } from '../auth.js'
+import { requireAdmin } from '../guard.js'
 import { IMAGE_EXTS, VIDEO_EXTS, IMAGE_MAX_BYTES, VIDEO_MAX_BYTES, JSON_MAX_BYTES, sniffKind, safeName } from '../media.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -12,16 +13,7 @@ const VID_DIR = join(here, '..', '..', 'uploads', 'videos')
 const r = Router()
 
 async function guard(req, res) {
-  const syncT = process.env.SYNC_TOKEN
-  const adminT = req.headers['x-admin-token']
-  const okSync = syncT && req.headers['x-sync-token'] === syncT
-  const okAdmin = adminT && (await checkToken(adminT))
-  const openDev = (!process.env.DATABASE_URL && !process.env.MYSQL_URL && !process.env.MYSQL_PUBLIC_URL) && !process.env.ADMIN_PIN && !syncT
-  if (!okSync && !okAdmin && !openDev) {
-    res.status(401).json({ ok: false, error: 'unauthorized' })
-    return false
-  }
-  return true
+  return requireAdmin(req, res)
 }
 
 function store(buf, name, kindHint) {
@@ -37,10 +29,14 @@ function store(buf, name, kindHint) {
   if (max > 0 && buf.length > max) return { error: 'too_large', status: 413 }
   const dir = sniffed.kind === 'video' ? VID_DIR : IMG_DIR
   mkdirSync(dir, { recursive: true })
-  const file = `${Date.now()}-${safeName(name)}`
-  writeFileSync(join(dir, file), buf)
+  const file = `${Date.now()}-${randomBytes(4).toString('hex')}-${safeName(name)}`
+  const dest = join(dir, file)
+  writeFileSync(dest, buf)
+  let saved = 0
+  try { saved = statSync(dest).size } catch { return { error: 'persist', status: 500 } }
+  if (saved !== buf.length) return { error: 'persist', status: 500 }
   const prefix = sniffed.kind === 'video' ? '/api/v1/videos' : '/api/v1/uploads'
-  return { url: `${prefix}/${file}`, kind: sniffed.kind, mime: sniffed.mime, bytes: buf.length }
+  return { url: `${prefix}/${file}`, kind: sniffed.kind, mime: sniffed.mime, bytes: saved }
 }
 
 r.post('/', express.json({ limit: Math.ceil(JSON_MAX_BYTES / 1024 / 1024) + 'mb' }), async (req, res) => {
@@ -79,6 +75,71 @@ r.post('/binary', express.raw({ type: 'application/octet-stream', limit: Math.ce
   } catch (e) {
     res.status(500).json({ ok: false, error: String(e.message || e) })
   }
+})
+
+r.get('/list', async (req, res) => {
+  try {
+    if (!(await guard(req, res))) return
+    const kind = String(req.query.kind || 'both')
+    const wantImg = kind !== 'video'
+    const wantVid = kind !== 'image'
+    const items = []
+    const scan = (dir, prefix, k) => {
+      let names = []
+      try { names = readdirSync(dir) } catch { return }
+      for (const n of names) {
+        if (n === '.gitkeep' || n.startsWith('.')) continue
+        const full = join(dir, n)
+        let st = null
+        try { st = statSync(full) } catch { continue }
+        if (!st.isFile()) continue
+        const ext = n.slice(n.lastIndexOf('.')).toLowerCase()
+        const allowed = k === 'video' ? VIDEO_EXTS : IMAGE_EXTS
+        if (!allowed.has(ext)) continue
+        items.push({ url: `${prefix}/${n}`, name: n, kind: k, bytes: st.size, mtime: st.mtimeMs })
+      }
+    }
+    if (wantImg) scan(IMG_DIR, '/api/v1/uploads', 'image')
+    if (wantVid) scan(VID_DIR, '/api/v1/videos', 'video')
+    items.sort((a, b) => b.mtime - a.mtime)
+    res.json({ ok: true, items: items.slice(0, 120) })
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e.message || e) })
+  }
+})
+
+r.delete('/', express.json({ limit: '1mb' }), async (req, res) => {
+  try {
+    if (!(await guard(req, res))) return
+    const raw = String((req.body || {}).url || '')
+    const clean = raw.replace(/^\.?\//, '')
+    let dir = null
+    let prefix = ''
+    if (clean.startsWith('api/v1/uploads/')) { dir = IMG_DIR; prefix = 'api/v1/uploads/' }
+    else if (clean.startsWith('api/v1/videos/')) { dir = VID_DIR; prefix = 'api/v1/videos/' }
+    else return res.status(400).json({ ok: false, error: 'bad_url' })
+    const rest = clean.slice(prefix.length)
+    if (!rest || rest.includes('/') || rest.includes('\\') || rest.includes('..')) return res.status(400).json({ ok: false, error: 'bad_name' })
+    const safe = safeName(rest)
+    if (!safe || safe !== rest.toLowerCase()) return res.status(400).json({ ok: false, error: 'bad_name' })
+    const full = join(dir, safe)
+    let st = null
+    try { st = statSync(full) } catch { return res.status(404).json({ ok: false, error: 'not_found' }) }
+    if (!st.isFile()) return res.status(404).json({ ok: false, error: 'not_found' })
+    try { unlinkSync(full) } catch { return res.status(500).json({ ok: false, error: 'persist' }) }
+    res.json({ ok: true, url: `/${prefix}${safe}` })
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e.message || e) })
+  }
+})
+
+r.get('/limits', (_, res) => {
+  res.json({
+    ok: true,
+    imageMaxBytes: IMAGE_MAX_BYTES,
+    videoMaxBytes: VIDEO_MAX_BYTES,
+    jsonMaxBytes: JSON_MAX_BYTES,
+  })
 })
 
 export default r

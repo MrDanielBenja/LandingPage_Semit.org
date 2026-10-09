@@ -1,13 +1,18 @@
-const imgMb = Number(process.env.UPLOAD_IMAGE_MAX_MB)
-export const IMAGE_MAX_BYTES = imgMb > 0 ? imgMb * 1024 * 1024 : 0
-export const VIDEO_MAX_BYTES = Math.max(1, Number(process.env.UPLOAD_VIDEO_MAX_MB || 500)) * 1024 * 1024
-export const JSON_MAX_BYTES = Math.max(1, Number(process.env.UPLOAD_JSON_MAX_MB || 70)) * 1024 * 1024
+const imgMbRaw = Number(process.env.UPLOAD_IMAGE_MAX_MB)
+const vidMbRaw = Number(process.env.UPLOAD_VIDEO_MAX_MB)
+const jsonMbRaw = Number(process.env.UPLOAD_JSON_MAX_MB)
+const imgMb = Number.isFinite(imgMbRaw) && imgMbRaw > 0 ? Math.min(imgMbRaw, 25) : 12
+const vidMb = Number.isFinite(vidMbRaw) && vidMbRaw > 0 ? Math.min(vidMbRaw, 200) : 100
+const jsonMb = Number.isFinite(jsonMbRaw) && jsonMbRaw > 0 ? Math.min(jsonMbRaw, 20) : 10
+export const IMAGE_MAX_BYTES = imgMb * 1024 * 1024
+export const VIDEO_MAX_BYTES = vidMb * 1024 * 1024
+export const JSON_MAX_BYTES = jsonMb * 1024 * 1024
 
-export const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'])
+export const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.jfif', '.png', '.webp', '.gif', '.avif'])
 export const VIDEO_EXTS = new Set(['.mp4', '.webm', '.ogv', '.ogg'])
 
 export const KIND_MIME = {
-  '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
+  '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.jfif': 'image/jpeg', '.png': 'image/png',
   '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif',
   '.mp4': 'video/mp4', '.webm': 'video/webm', '.ogv': 'video/ogg', '.ogg': 'video/ogg',
 }
@@ -22,7 +27,7 @@ export function sniffKind(buf) {
   if (buf[0] === 0x4F && buf[1] === 0x67 && buf[2] === 0x67 && buf[3] === 0x53) return { kind: 'video', mime: 'video/ogg' }
   if (buf[4] === 0x66 && buf[5] === 0x74 && buf[6] === 0x79 && buf[7] === 0x70) {
     const brand = buf.slice(8, 12).toString('ascii')
-    if (/^avif|avis/.test(brand)) return { kind: 'image', mime: 'image/avif' }
+    if (/^avif|avis|^mif1/.test(brand)) return { kind: 'image', mime: 'image/avif' }
     if (/^(isom|iso2|iso5|iso6|avc1|mp41|mp42|M4V |MSNV|mmp4)/.test(brand)) return { kind: 'video', mime: 'video/mp4' }
     return null
   }

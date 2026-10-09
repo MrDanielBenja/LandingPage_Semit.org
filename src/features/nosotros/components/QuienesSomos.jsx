@@ -5,6 +5,7 @@ import { useContent } from '../../../core/cms/contentStore'
 import { resolveAsset } from '../../../core/cms/assets'
 import { fmtCssKey } from '../../../core/cms/fmt'
 import { DEFAULT_NOSOTROS } from '../../../core/cms/defaultNosotros'
+import { imgStyleOf } from '../../../core/cms/imgEdit'
 
 export function QuienesSomos({ preview }) {
   const { lang, t } = useLang()
@@ -20,7 +21,7 @@ export function QuienesSomos({ preview }) {
       <div className="pilar-grid">
         {PILARES.map((p, k) => (
           <div key={p.t} className="pilar-card" style={{ animationDelay: `${k * 90}ms` }}>
-            <div className="pilar-media"><img src={p.img} alt={p.t} loading="lazy" /><span className="pilar-e">{p.e}</span></div>
+            <div className="pilar-media"><img src={p.img} alt={p.t} loading="lazy" style={imgStyleOf(p)} /><span className="pilar-e">{p.e}</span></div>
             <div className="pilar-body">
               <b>{String(k + 1).padStart(2, '0')} · {p.t}</b>
               <p>{p.d}</p>
@@ -29,7 +30,7 @@ export function QuienesSomos({ preview }) {
         ))}
       </div>
       <div className="dedica rv">
-        <img src={resolveAsset(o.dedicaImg)} alt="Cusco SEMIT" loading="lazy" />
+        <span className="dedica-mask"><img src={resolveAsset(o.dedicaImg)} alt="Cusco SEMIT" loading="lazy" style={imgStyleOf({ imgCfg: o.imgCfgDedica })} /></span>
         <div><span className="k">{L('dedica')}</span><p>{L('dedicap')}</p>
           <Link className="btn btn-blue" to="/contacto" style={{ marginTop: 12 }}>{L('cta')}</Link></div>
       </div>

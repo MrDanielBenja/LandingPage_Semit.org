@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Row, FmtCtl, ImgPick } from './InicioEditor'
+import { Row, FmtCtl, ImgPick, IconsForm } from './InicioEditor'
 import { EVENTOS_ASSETS } from '../../core/cms/defaultEventos'
 import { resolveUpload } from './adminUpload'
+import { imgEditScaleOnly } from '../../core/cms/imgEdit'
 
 const EV_CAT_OPTS = ['Viajes Misioneros', 'Conferencias', 'Capacitaciones', 'Campamentos']
 const EV_MOD_OPTS = ['Presencial', 'Híbrido', 'Virtual']
@@ -41,7 +42,13 @@ function HeroForm({ o, onChange, fmt, setFmt }) {
         <FmtCtl label="Formato párrafo" value={fmt['ev.hero.p']} onChange={v => setFmt('ev.hero.p', v)} />
         {S.map(k => <Row key={k} label={`Stat ${k} EN`}><input value={o[`${k}_en`] || ''} onChange={e => set(`${k}_en`, e.target.value)} /></Row>)}
       </>)}
-      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} /></Row>
+      <Row label="Imagen hero"><ImgPick value={o.img} onChange={v => set('img', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, ...p }), 'Eventos hero - Edición de Imagen')} /></Row>
+      <div className="adm-grid2">
+        {(Object.entries({ s1e: 'Icono stat 1', s2e: 'Icono stat 2', s3e: 'Icono stat 3', s4e: 'Icono stat 4' })).map(([k, label]) => (
+          <Row key={k} label={label}><input value={o[k] ?? ''} placeholder="✈️" onChange={e => set(k, e.target.value)} /></Row>
+        ))}
+      </div>
+      <Row label="Icono Próximo evento"><input value={o.proximoIcon ?? '🔥'} onChange={e => set('proximoIcon', e.target.value)} /></Row>
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
     </div>
   )
@@ -101,7 +108,7 @@ function CatsForm({ items, onChange, sel, onSel }) {
         {tab === 'es'
           ? <Row label="Desc ES"><input value={cur.d_es || ''} onChange={e => upd({ ...cur, d_es: e.target.value })} /></Row>
           : <Row label="Desc EN"><input value={cur.d_en || ''} onChange={e => upd({ ...cur, d_en: e.target.value })} /></Row>}
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'Categoría - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -161,7 +168,7 @@ function EventosForm({ items, onChange, sel, onSel }) {
           <Row label="Rating"><input type="number" min="0" max="5" step="0.1" value={cur.rating ?? 5} onChange={e => upd({ ...cur, rating: Number(e.target.value) })} /></Row>
         </div>
         <Row label="Etiqueta"><input value={cur.tag || ''} onChange={e => upd({ ...cur, tag: e.target.value })} /></Row>
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'Evento - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -183,6 +190,10 @@ function SubList({ label, items, onChange, kind }) {
   const del = () => { if (list.length > 1) { onChange(list.filter((_, k) => k !== idx)); setIdx(0) } }
   return (
     <div>
+      <div className="adm-tabs">
+        <button type="button" className={tab === 'es' ? 'on' : ''} onClick={() => setTab('es')}>🇪🇸 ES</button>
+        <button type="button" className={tab === 'en' ? 'on' : ''} onClick={() => setTab('en')}>🇬🇧 EN</button>
+      </div>
       <div className="adm-note">{label} ({list.length})</div>
       <div className="adm-chips">
         {list.map((x, k) => (
@@ -206,7 +217,7 @@ function SubList({ label, items, onChange, kind }) {
           : <Row label="Note EN"><input value={cur.n_en || ''} onChange={e => upd({ ...cur, n_en: e.target.value })} /></Row>}
       </>)}
       {cur && kind !== 'costos' && (<>
-        {kind !== 'campos' && <Row label="Emoji"><input value={cur.e || ''} onChange={e => upd({ ...cur, e: e.target.value })} /></Row>}
+        <Row label="Emoji"><input value={cur.e || ''} onChange={e => upd({ ...cur, e: e.target.value })} /></Row>
         {tab === 'es' ? (<>
           <Row label="Título ES"><input value={cur.t_es || ''} onChange={e => upd({ ...cur, t_es: e.target.value })} /></Row>
           <Row label="Desc ES"><input value={cur.d_es || ''} onChange={e => upd({ ...cur, d_es: e.target.value })} /></Row>
@@ -214,7 +225,7 @@ function SubList({ label, items, onChange, kind }) {
           <Row label="Title EN"><input value={cur.t_en || ''} onChange={e => upd({ ...cur, t_en: e.target.value })} /></Row>
           <Row label="Desc EN"><input value={cur.d_en || ''} onChange={e => upd({ ...cur, d_en: e.target.value })} /></Row>
         </>)}
-        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} /></Row>
+        <Row label="Foto"><ImgPick value={cur.img} onChange={v => upd({ ...cur, img: v })} {...imgEditScaleOnly(cur, (p) => upd({ ...cur, ...p }), 'BCB - Edición de Imagen')} /></Row>
       </>)}
     </div>
   )
@@ -250,7 +261,7 @@ function BcbForm({ o, onChange, fmt, setFmt }) {
         <Row key={n} label={`nota${n}`}><textarea rows={2} value={o[`nota${n}${sfx}`] || ''} onChange={e => set(`nota${n}${sfx}`, e.target.value)} /></Row>
       ))}
       <Row label={`Cubre (${tab}) · 1 línea = 1 ítem`}><textarea rows={4} value={(Array.isArray(tab === 'es' ? o.cubre_es : o.cubre_en) ? (tab === 'es' ? o.cubre_es : o.cubre_en) : []).join('\n')} onChange={e => set(tab === 'es' ? 'cubre_es' : 'cubre_en', e.target.value.split('\n'))} /></Row>
-      <Row label="Imagen base"><ImgPick value={o.img_base} onChange={v => set('img_base', v)} /></Row>
+      <Row label="Imagen base"><ImgPick value={o.img_base} onChange={v => set('img_base', v)} {...imgEditScaleOnly(o, (p) => onChange({ ...o, imgCfgBase: p.imgCfg }), 'BCB base - Edición de Imagen')} /></Row>
       <Row label="Fondo"><input type="color" value={o.bg || '#ffffff'} onChange={e => set('bg', e.target.value)} /></Row>
       <SubList label="Áreas" items={o.areas} onChange={v => set('areas', v)} kind="areas" />
       <SubList label="Oficios" items={o.oficios} onChange={v => set('oficios', v)} kind="oficios" />
@@ -300,6 +311,7 @@ export function EventosEditor({ draft, onDraft, sec, sel, onSel }) {
       {sec === 'eventos' && <EventosForm items={draft.eventos || []} onChange={v => set({ eventos: v })} sel={sel} onSel={onSel} />}
       {sec === 'bcb' && <BcbForm o={draft.bcb || {}} onChange={v => set({ bcb: v })} fmt={fmt} setFmt={setFmt} />}
       {sec === 'cta' && <CtaForm o={draft.cta || {}} onChange={v => set({ cta: v })} fmt={fmt} setFmt={setFmt} />}
+      {sec === 'icons' && <IconsForm page="eventos" value={draft.icons || {}} onChange={v => set({ icons: v })} />}
     </div>
   )
 }

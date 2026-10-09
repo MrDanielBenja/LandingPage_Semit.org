@@ -20,7 +20,7 @@ function SiteForm({ o, onChange, fmt, setFmt }) {
       <LangTabs tab={tab} setTab={setTab} />
       <Row label="Nombre"><input value={o.name || ''} onChange={e => set('name', e.target.value)} /></Row>
       <FmtCtl label="Fmt marca" value={fmt['site.brand']} onChange={v => setFmt('site.brand', v)} />
-      <Row label="Logo"><ImgPick value={o.logo || 'assets/logo/logo.png'} onChange={v => set('logo', v)} assets={SITE_ASSETS} kinds="image" /></Row>
+      <Row label="Logo"><ImgPick value={o.logo || '/assets/logo/logo.png'} onChange={v => set('logo', v)} assets={SITE_ASSETS} kinds="image" /></Row>
       <Row label="Ancho logo px"><input type="number" min="60" max="320" value={o.logoSize || 132} onChange={e => set('logoSize', Number(e.target.value))} /></Row>
       {ESF.map(k => tab === 'es'
         ? <Row key={k} label={`${k} ES`}><input value={o[`${k}_es`] || ''} onChange={e => set(`${k}_es`, e.target.value)} /></Row>

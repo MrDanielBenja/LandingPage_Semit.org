@@ -3,6 +3,7 @@ import { defaultPaises } from './paises'
 import { IMGS, LOCAL } from '../../shared/lib/images'
 import { ES } from '../../shared/i18n/dict_es'
 import { EN } from '../../shared/i18n/dict_en'
+import { iconsWithDefaults } from './icons'
 
 const H = ES.nosotros
 const HE = EN.nosotros
@@ -77,23 +78,24 @@ export const DEFAULT_NOSOTROS = {
       q_es: m.q, q_en: (TEAM_EN[k] || {}).q || m.q,
     })),
   },
+  icons: iconsWithDefaults('nosotros'),
   fmt: {},
 }
 
 export const NOSOTROS_ASSETS = [
-  'assets/nosotros/semit-1.jpg',
-  'assets/nosotros/semit-6.jpg',
-  'assets/nosotros/semit-8.jpg',
-  'assets/nosotros/semit-9.jpg',
-  'assets/inicio/semit-7.jpg',
-  'assets/inicio/semit-13.jpg',
-  'assets/inicio/semit-14.jpg',
-  'assets/inicio/semit-16.jpg',
-  'assets/niveles/semit-11.jpg',
-  'assets/niveles/semit-3.jpg',
-  'assets/niveles/semit-5.jpg',
-  'assets/cursos/semit-15.jpg',
-  'assets/cursos/semit-19.jpg',
-  'assets/cursos/semit-21.jpg',
+  '/assets/nosotros/semit-1.jpg',
+  '/assets/nosotros/semit-6.jpg',
+  '/assets/nosotros/semit-8.jpg',
+  '/assets/nosotros/semit-9.jpg',
+  '/assets/inicio/semit-7.jpg',
+  '/assets/inicio/semit-13.jpg',
+  '/assets/inicio/semit-14.jpg',
+  '/assets/inicio/semit-16.jpg',
+  '/assets/niveles/semit-11.jpg',
+  '/assets/niveles/semit-3.jpg',
+  '/assets/niveles/semit-5.jpg',
+  '/assets/cursos/semit-15.jpg',
+  '/assets/cursos/semit-19.jpg',
+  '/assets/cursos/semit-21.jpg',
   LOCAL.nosotrosHero, LOCAL.nosotrosA, LOCAL.nosotrosB, LOCAL.nosotrosC,
 ].filter((v, k, a) => v && a.indexOf(v) === k)

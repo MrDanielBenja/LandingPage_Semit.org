@@ -5,6 +5,7 @@ import { EN } from '../../shared/i18n/dict_en'
 import { INICIO_ASSETS } from './defaultInicio'
 import { NOSOTROS_ASSETS } from './defaultNosotros'
 import { resolveAsset } from './assets'
+import { iconsWithDefaults } from './icons'
 
 const H = ES.cursos
 const HE = EN.cursos
@@ -73,6 +74,7 @@ export const DEFAULT_CURSOS_PAGE = {
   },
   // overrides: {slug: {p, tag_es/tag_en?, activo, img}} — el sync del portal NO pisa estos campos (ya acordado).
   overrides: {},
+  icons: iconsWithDefaults('cursosPage'),
   fmt: {},
 }
 
@@ -94,6 +96,7 @@ export function applyCursosOverrides(list, overrides, lang) {
         p: o.p ?? c.p,
         tag: lang === 'en' ? (o.tag_en ?? o.tag_es ?? c.tag) : (o.tag_es ?? c.tag),
         img: o.img ? resolveAsset(o.img) || c.img : resolveAsset(c.img) || c.img,
+        imgCfg: o.imgCfg || c.imgCfg,
       }
     })
 }

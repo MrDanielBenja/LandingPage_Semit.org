@@ -11,6 +11,8 @@ delete process.env.MYSQL_PUBLIC_URL
 delete process.env.ADMIN_PIN
 delete process.env.ADMIN_PASS
 delete process.env.SYNC_TOKEN
+process.env.NODE_ENV = 'test'
+process.env.ALLOW_OPEN_DEV = '1'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const DATA = join(here, '..', 'data')
@@ -122,6 +124,40 @@ describe('CMS respaldo - POST /api/v1/backup/restore', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-sync-token': 'secreto-test' },
         body: JSON.stringify({ app: 'semit-cms', pages: { site: { a: 1 } } }),
+      })
+      assert.equal(ok.status, 200)
+    } finally {
+      delete process.env.SYNC_TOKEN
+    }
+  })
+})
+
+describe('Respaldo medios - GET /api/v1/backup/media.zip + POST restore-media', () => {
+  it('media.zip descarga un zip valido (STORE)', async () => {
+    const r = await fetch(`${base}/api/v1/backup/media.zip`)
+    assert.equal(r.status, 200)
+    assert.match(r.headers.get('content-type') || '', /application\/zip/)
+    const buf = Buffer.from(await r.arrayBuffer())
+    assert.equal(buf.readUInt32LE(0), 0x04034b50)
+  })
+
+  it('restore-media rechaza lo que no es zip', async () => {
+    const r = await fetch(`${base}/api/v1/backup/restore-media`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/octet-stream' },
+      body: Buffer.from('no-soy-un-zip'),
+    })
+    assert.equal(r.status, 400)
+    assert.equal((await r.json()).error, 'bad_zip')
+  })
+
+  it('401 sin token cuando hay SYNC_TOKEN', async () => {
+    process.env.SYNC_TOKEN = 'secreto-media-test'
+    try {
+      const denied = await fetch(`${base}/api/v1/backup/media.zip`)
+      assert.equal(denied.status, 401)
+      const ok = await fetch(`${base}/api/v1/backup/media.zip`, {
+        headers: { 'x-sync-token': 'secreto-media-test' },
       })
       assert.equal(ok.status, 200)
     } finally {
